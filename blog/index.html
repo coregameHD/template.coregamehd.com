@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Markdown File Generator</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
+        body {
+            font-family: 'Inter', sans-serif;
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        /* Custom styles for rounded corners as Tailwind classes are on elements */
+        input[type="text"], input[type="date"], textarea, select {
+            border-radius: 0.5rem; /* rounded-lg equivalent */
+        }
+        button {
+            border-radius: 0.5rem; /* rounded-lg equivalent */
+        }
+    </style>
+</head>
+<body class="min-h-screen bg-gray-100 font-sans text-gray-800 p-4">
+
+    <div class="max-w-7xl mx-auto bg-white shadow-xl rounded-xl overflow-hidden md:flex">
+        <!-- Left Pane: Input Form -->
+        <div class="md:w-1/2 p-6 md:p-8 border-r border-gray-200">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
+                Markdown Post Generator
+            </h2>
+
+            <div class="space-y-4">
+                <!-- Title Input -->
+                <div>
+                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">
+                        Title
+                    </label>
+                    <input
+                        type="text"
+                        id="title"
+                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                        placeholder="Enter post title"
+                    >
+                </div>
+
+                <!-- Featured Image Input -->
+                <div>
+                    <label for="featuredImage" class="block text-sm font-medium text-gray-700 mb-1">
+                        Featured Image URL
+                    </label>
+                    <input
+                        type="text"
+                        id="featuredImage"
+                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                        placeholder="e.g., https://example.com/image.jpg"
+                    >
+                </div>
+
+                <!-- Publish Date Input -->
+                <div>
+                    <label for="publishDate" class="block text-sm font-medium text-gray-700 mb-1">
+                        Publish Date
+                    </label>
+                    <input
+                        type="date"
+                        id="publishDate"
+                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                    >
+                </div>
+
+                <!-- Publish Checkbox -->
+                <div class="flex items-center">
+                    <input
+                        type="checkbox"
+                        id="publish"
+                        class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
+                        checked
+                    >
+                    <label for="publish" class="ml-2 block text-sm font-medium text-gray-700">
+                        Publish
+                    </label>
+                </div>
+
+                <!-- Categories Multi-Select -->
+                <div>
+                    <label for="categories" class="block text-sm font-medium text-gray-700 mb-1">
+                        Categories (select multiple)
+                    </label>
+                    <select
+                        id="categories"
+                        multiple
+                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm h-32"
+                    >
+                        <!-- Options will be dynamically added by JavaScript -->
+                    </select>
+                </div>
+
+                <!-- Slug Input -->
+                <div>
+                    <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">
+                        Slug
+                    </label>
+                    <input
+                        type="text"
+                        id="slug"
+                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                        placeholder="e.g., my-awesome-post"
+                    >
+                </div>
+
+                <!-- Content Textarea -->
+                <div>
+                    <label for="content" class="block text-sm font-medium text-gray-700 mb-1">
+                        Markdown Content
+                    </label>
+                    <textarea
+                        id="content"
+                        rows="15"
+                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
+                        placeholder="Start writing your Markdown content here..."
+                    ></textarea>
+                </div>
+
+                <!-- Generate Button -->
+                <button
+                    id="generateFileBtn"
+                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 transition duration-300 ease-in-out shadow-md"
+                >
+                    Generate .md File
+                </button>
+            </div>
+        </div>
+
+        <!-- Right Pane: Markdown Preview -->
+        <div class="md:w-1/2 p-6 md:p-8 bg-gray-50 flex flex-col">
+            <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
+                Markdown Preview
+            </h2>
+            <pre id="markdownPreview" class="flex-grow bg-gray-800 text-gray-50 p-4 rounded-lg overflow-auto text-sm leading-relaxed">
+                <code></code>
+            </pre>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            // Get references to DOM elements
+            const titleInput = document.getElementById('title');
+            const featuredImageInput = document.getElementById('featuredImage');
+            const publishDateInput = document.getElementById('publishDate');
+            const publishCheckbox = document.getElementById('publish');
+            const categoriesSelect = document.getElementById('categories');
+            const slugInput = document.getElementById('slug');
+            const contentTextarea = document.getElementById('content');
+            const generateFileBtn = document.getElementById('generateFileBtn');
+            const markdownPreviewCode = document.querySelector('#markdownPreview code');
+
+            // Defined list of available categories
+            const availableCategories = ['General', 'Language', 'Thoughts', 'Visual Novel'];
+
+            // Populate categories select dropdown and set default
+            const populateCategories = () => {
+                categoriesSelect.innerHTML = ''; // Clear existing options
+                availableCategories.forEach(cat => {
+                    const option = document.createElement('option');
+                    option.value = cat;
+                    option.textContent = cat;
+                    // Set 'General' as selected by default
+                    if (cat === 'General') {
+                        option.selected = true;
+                    }
+                    categoriesSelect.appendChild(option);
+                });
+            };
+
+            // Function to generate the Markdown string with YAML front matter
+            const generateMarkdown = () => {
+                const title = titleInput.value;
+                const featuredImage = featuredImageInput.value;
+                const publishDate = publishDateInput.value;
+                const publish = publishCheckbox.checked;
+                // Get selected categories from the multi-select dropdown
+                const selectedCategories = Array.from(categoriesSelect.selectedOptions).map(option => option.value);
+                const slug = slugInput.value;
+                const content = contentTextarea.value;
+
+                const categoriesFormatted = selectedCategories.map(cat => `"${cat}"`).join(', ');
+
+                const yamlFrontMatter = `---
+title: "${title}"
+featuredImage: "${featuredImage}"
+publishDate: "${publishDate}"
+publish: ${publish}
+categories: [${categoriesFormatted}]
+slug: "${slug}"
+---`;
+
+                // Combine YAML front matter and content
+                const fullMarkdown = `${yamlFrontMatter}\n\n${content}`;
+                markdownPreviewCode.textContent = fullMarkdown; // Update preview
+            };
+
+            // Function to handle the "Generate .md File" button click
+            const handleGenerateFile = () => {
+                const filename = `${slugInput.value || 'untitled'}.md`;
+                const blob = new Blob([markdownPreviewCode.textContent], { type: 'text/markdown' });
+                const url = URL.createObjectURL(blob);
+                const a = document.createElement('a');
+                a.href = url;
+                a.download = filename;
+                document.body.appendChild(a);
+                a.click();
+                document.body.removeChild(a);
+                URL.revokeObjectURL(url);
+            };
+
+            // Initialize categories dropdown
+            populateCategories();
+
+            // Attach event listeners to all input fields to trigger Markdown generation
+            titleInput.addEventListener('input', generateMarkdown);
+            featuredImageInput.addEventListener('input', generateMarkdown);
+            publishDateInput.addEventListener('input', generateMarkdown);
+            publishCheckbox.addEventListener('change', generateMarkdown); // 'change' for checkbox
+            categoriesSelect.addEventListener('change', generateMarkdown); // 'change' for select
+            slugInput.addEventListener('input', generateMarkdown);
+            contentTextarea.addEventListener('input', generateMarkdown);
+
+            // Attach event listener for the generate file button
+            generateFileBtn.addEventListener('click', handleGenerateFile);
+
+            // Initial generation of Markdown on page load
+            generateMarkdown();
+        });
+    </script>
+</body>
+</html>
