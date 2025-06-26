@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Japanese Form Preview and Copy</title>
+    <!-- CoreUI CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/css/coreui.min.css">
+    <!-- Tom Select CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
+    <!-- Custom styles -->
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <div class="container">
+        <div class="row">
+            <!-- Column 1 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Basic Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="japanese-text">Japanese Text:</label>
+                            <input type="text" class="form-control" id="japanese-text">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="romaji-text">Romaji Text:</label>
+                            <input type="text" class="form-control" id="romaji-text">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="thai-text">Thai Text:</label>
+                            <input type="text" class="form-control" id="thai-text">
+                        </div>
+
+                        <hr>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="hiragana">Hiragana:</label>
+                            <input type="text" class="form-control" id="hiragana">
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="description">Description:</label>
+                            <textarea class="form-control" id="description" rows="3"></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Game Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="gametitle">Game Title:</label>
+                            <input type="text" class="form-control" id="gametitle">
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 2 -->
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Options</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="mb-3">
+                            <label class="form-label" for="word-types">Word Types:</label>
+                            <select id="word-types" multiple>
+                                <option value="คำนาม">คำนาม</option>
+                                <option value="คำคุณศัพท์ な">คำคุณศัพท์ な</option>
+                                <option value="คำคุณศัพท์ い">คำคุณศัพท์ い</option>
+                                <option value="คำกริยากลุ่ม 1">คำกริยากลุ่ม 1</option>
+                                <option value="คำกริยากลุ่ม 2">คำกริยากลุ่ม 2</option>
+                                <option value="คำกริยากลุ่ม 3 (する)">คำกริยากลุ่ม 3 (する)</option>
+                                <option value="สกรรมกริยา (他動詞)">สกรรมกริยา (他動詞)</option>
+                                <option value="อกรรมกริยา (自動詞)">อกรรมกริยา (自動詞)</option>
+                                <option value="คำวิเศษณ์">คำวิเศษณ์</option>
+                                <option value="คำขยายคำหลัก (連体詞)">คำขยายคำหลัก (連体詞)</option>
+                            </select>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="n-level">คำศัพท์ระดับ:</label>
+                            <select class="form-select" id="n-level">
+                                <option value="None">None</option>
+                                <option value="N1">N1</option>
+                                <option value="N2">N2</option>
+                                <option value="N3">N3</option>
+                            </select>
+                        </div>
+
+                        <hr>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="jlpt-exam">
+                            <label class="form-check-label" for="jlpt-exam">ออกสอบ JLPT</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="jlpt-level">JLPT Level:</label>
+                            <select class="form-select" id="jlpt-level" disabled>
+                                <option value="N1">N1</option>
+                                <option value="N2">N2</option>
+                                <option value="N3">N3</option>
+                            </select>
+                        </div>
+
+                        <div class="row">
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="year">Year:</label>
+                                <input type="text" class="form-control" id="year" disabled>
+                            </div>
+                            <div class="col-md-6 mb-3">
+                                <label class="form-label" for="month">Month:</label>
+                                <input type="text" class="form-control" id="month" disabled>
+                            </div>
+                        </div>
+
+                        <hr>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="jtest-exam">
+                            <label class="form-check-label" for="jtest-exam">ออกสอบ J.TEST</label>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label" for="jtest-no">J.TEST No:</label>
+                            <input type="text" class="form-control" id="jtest-no" disabled>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+
+            <!-- Column 3 -->
+            <div class="col-md-4">
+                <div class="card h-100">
+                    <div class="card-header">
+                        <h5 class="card-title mb-0">Preview</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="preview-output mb-3" id="preview">
+                            【คำศัพท์】
+
+
+※ คำนาม / คำกริยากลุ่ม 3 (する) / สกรรมกริยา (他動詞) / อกรรมกริยา (自動詞)
+※ คำศัพท์ระดับ N1
+
+————————————
+() หมายถึง
+
+————————————
+▍ภาพจากเกม 
+                        </div>
+                        <button class="btn btn-primary" id="copyButton">
+                            <i class="cil-copy"></i> Copy
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- CoreUI JS and dependencies -->
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@coreui/coreui@4.3.0/dist/js/coreui.min.js"></script>
+    <!-- Tom Select JS -->
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+    <!-- Icons -->
+    <script src="https://unpkg.com/@coreui/icons@3.0.1/js/index.umd.min.js"></script>
+
+    <!-- Original script -->
+    <script>
+        // Initialize Tom Select
+        const wordTypesSelect = new TomSelect('#word-types', {
+            plugins: ['remove_button','clear_button'],
+            maxItems: null,
+            persist: false,
+            create: false,
+            onChange: function() {
+                updatePreview();
+            }
+        });
+
+        const japaneseTextInput = document.getElementById('japanese-text');
+        const romajiTextInput = document.getElementById('romaji-text');
+        const thaiTextInput = document.getElementById('thai-text');
+        const hiraganaInput = document.getElementById('hiragana');
+        const descriptionInput = document.getElementById('description');
+        const gameTitleInput = document.getElementById('gametitle');
+        const previewOutput = document.getElementById('preview');
+        const copyButton = document.getElementById('copyButton');
+        const nLevelSelect = document.getElementById('n-level');
+        const jlptLevelSelect = document.getElementById('jlpt-level');
+        const yearInput = document.getElementById('year');
+        const monthInput = document.getElementById('month');
+        const jlptExamCheckbox = document.getElementById('jlpt-exam');
+        const jtestExamCheckbox = document.getElementById('jtest-exam');
+        const jtestNoInput = document.getElementById('jtest-no');
+
+        // Initialize jtest-no input as disabled
+        jtestNoInput.disabled = true;
+
+        // Add N-level dependency logic
+        nLevelSelect.addEventListener('change', function() {
+            const selectedValue = this.value;
+            if (selectedValue !== 'None') {
+                // Only update JLPT level if checkbox is checked
+                if (jlptExamCheckbox.checked) {
+                    jlptLevelSelect.value = selectedValue;
+                    yearInput.value = new Date().getFullYear();
+                    monthInput.value = new Date().getMonth() + 1;
+                }
+            }
+            updatePreview();
+        });
+
+        // Add JLPT exam checkbox dependency logic
+        jlptExamCheckbox.addEventListener('change', function() {
+            jlptLevelSelect.disabled = !this.checked;
+            yearInput.disabled = !this.checked;
+            monthInput.disabled = !this.checked;
+            if (this.checked) {
+                // When checkbox is checked, set JLPT level to match N-level if one is selected
+                const nLevelValue = nLevelSelect.value;
+                if (nLevelValue !== 'None') {
+                    jlptLevelSelect.value = nLevelValue;
+                    yearInput.value = new Date().getFullYear();
+                    monthInput.value = new Date().getMonth() + 1;
+                }
+            }
+            updatePreview();
+        });
+
+        // Add JTest exam checkbox dependency logic
+        jtestExamCheckbox.addEventListener('change', function() {
+            jtestNoInput.disabled = !this.checked; // Enable/disable jtestNoInput
+            updatePreview();
+        });
+
+        function updatePreview() {
+            let japaneseText = japaneseTextInput.value;
+            let romajiText = romajiTextInput.value;
+            let thaiText = thaiTextInput.value;
+            let hiragana = hiraganaInput.value;
+            let description = descriptionInput.value;
+            let gameTitle = gameTitleInput.value;
+            let nLevel = nLevelSelect.value;
+            let selectedWordTypes = wordTypesSelect.items.map(value => wordTypesSelect.options[value].text).join(' / ');
+            let year = yearInput.value;
+            let month = monthInput.value;
+            let jlptText = "";
+            let jtestText = "";
+
+            let output = `【คำศัพท์】\n\n${japaneseText}\n${romajiText}\n${thaiText}\n\n※ ${selectedWordTypes}`;
+
+            if (nLevel !== "None") {
+                output += `\n※ คำศัพท์ระดับ ${nLevel}`;
+            }
+
+            if (jlptExamCheckbox.checked) {
+                let jlptLevel = jlptLevelSelect.value;
+                jlptText = `\nออกสอบ JLPT ${jlptLevel} (รอบ ${year}年${month}月)`;
+                output += jlptText;
+            }
+
+            if (jtestExamCheckbox.checked) {
+                jtestText = `\nออกสอบ J.TEST ระดับ A-C (第${jtestNoInput.value}回)`;
+                output += jtestText;
+            }
+
+            output += `\n\n————————————\n${japaneseText} (${hiragana}) หมายถึง\n${description}\n\n————————————\n▍ภาพจากเกม ${gameTitle}`;
+
+            previewOutput.textContent = output;
+        }
+
+        // Add event listeners
+        const inputs = [
+            japaneseTextInput, romajiTextInput, thaiTextInput, hiraganaInput,
+            descriptionInput, gameTitleInput, nLevelSelect,
+            wordTypesSelect, yearInput, monthInput, jlptExamCheckbox,
+            jtestExamCheckbox, jtestNoInput, jlptLevelSelect
+        ];
+
+        inputs.forEach(input => {
+            if (input.type === 'select-multiple') {
+                input.addEventListener('change', updatePreview);
+            } else {
+                input.addEventListener('input', updatePreview);
+            }
+        });
+
+        copyButton.addEventListener('click', function() {
+            const textToCopy = previewOutput.textContent;
+            navigator.clipboard.writeText(textToCopy)
+                .then(() => {
+                    // Create and show toast notification
+                    const toastContainer = document.createElement('div');
+                    toastContainer.style.position = 'fixed';
+                    toastContainer.style.top = '20px';
+                    toastContainer.style.right = '20px';
+                    toastContainer.style.zIndex = '1050';
+                    
+                    const toast = document.createElement('div');
+                    toast.className = 'toast show';
+                    toast.setAttribute('role', 'alert');
+                    toast.setAttribute('aria-live', 'assertive');
+                    toast.setAttribute('aria-atomic', 'true');
+                    
+                    toast.innerHTML = `
+                        <div class="toast-header">
+                            <strong class="me-auto">Success</strong>
+                            <button type="button" class="btn-close" data-coreui-dismiss="toast" aria-label="Close"></button>
+                        </div>
+                        <div class="toast-body">
+                            Text copied to clipboard!
+                        </div>
+                    `;
+                    
+                    toastContainer.appendChild(toast);
+                    document.body.appendChild(toastContainer);
+                    
+                    // Remove toast after 3 seconds
+                    setTimeout(() => {
+                        toastContainer.remove();
+                    }, 3000);
+                })
+                .catch(err => {
+                    console.error('Could not copy text: ', err);
+                });
+        });
+
+        // Initialize the preview
+        updatePreview();
+    </script>
+
+</body>
+
+</html>
