@@ -131,6 +131,14 @@
                 >
                     Generate .md File
                 </button>
+
+                <!-- Clear All Button -->
+                <button
+                    id="clearAllBtn"
+                    class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 transition duration-300 ease-in-out shadow-md mt-2"
+                >
+                    Clear All
+                </button>
             </div>
         </div>
 
@@ -157,6 +165,7 @@
             const contentTextarea = document.getElementById('content');
             const generateFileBtn = document.getElementById('generateFileBtn');
             const markdownPreviewCode = document.querySelector('#markdownPreview code');
+            const clearAllBtn = document.getElementById('clearAllBtn');
 
             // Set default publish date to today on page load
             const setTodayAsPublishDate = () => {
@@ -235,6 +244,26 @@ slug: "${slug}"
                 URL.revokeObjectURL(url);
             };
 
+            // Function to handle the "Clear All" button click
+            const handleClearAll = () => {
+                // Clear input fields
+                titleInput.value = '';
+                featuredImageInput.value = '';
+                slugInput.value = '';
+                contentTextarea.value = '';
+
+                // Reset checkbox
+                publishCheckbox.checked = true;
+
+                // Reset publish date to today
+                setTodayAsPublishDate();
+
+                // Reset categories dropdown
+                populateCategories();
+
+                generateMarkdown(); // Update preview after clearing
+            };
+
             // Initialize publish date
             setTodayAsPublishDate();
 
@@ -252,6 +281,9 @@ slug: "${slug}"
 
             // Attach event listener for the generate file button
             generateFileBtn.addEventListener('click', handleGenerateFile);
+
+            // Attach event listener for the clear all button
+            clearAllBtn.addEventListener('click', handleClearAll);
 
             // Initial generation of Markdown on page load
             generateMarkdown();
