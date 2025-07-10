@@ -1,158 +1,238 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Markdown File Generator</title>
-    <!-- Tailwind CSS CDN for styling -->
-    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Tabler Core CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@tabler/core@latest/dist/css/tabler.min.css">
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    
     <style>
-        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap');
         body {
-            font-family: 'Inter', sans-serif;
+            background-color: #f5f7fb;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .markdown-preview {
+            background-color: #1a1a1a;
+            color: #e0e0e0;
+            font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+            white-space: pre-wrap;
+            border-radius: 6px;
+            padding: 1.5rem;
+            height: 100%;
             margin: 0;
-            padding: 0;
-            box-sizing: border-box;
+            overflow: auto;
+            line-height: 1.6;
         }
-        /* Custom styles for rounded corners as Tailwind classes are on elements */
-        input[type="text"], input[type="date"], textarea, select {
-            border-radius: 0.5rem; /* rounded-lg equivalent */
+        
+        .form-card {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
         }
-        button {
-            border-radius: 0.5rem; /* rounded-lg equivalent */
+        
+        .form-content {
+            flex: 1;
+            overflow-y: auto;
+            padding-right: 0.5rem;
+        }
+        
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        
+        ::-webkit-scrollbar-track {
+            background: #f1f1f1;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb {
+            background: #888;
+            border-radius: 10px;
+        }
+        
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555;
         }
     </style>
 </head>
-<body class="min-h-screen bg-gray-100 font-sans text-gray-800 p-4">
-
-    <div class="max-w-7xl mx-auto bg-white shadow-xl rounded-xl overflow-hidden md:flex">
-        <!-- Left Pane: Input Form -->
-        <div class="md:w-1/2 p-6 md:p-8 border-r border-gray-200">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
-                Markdown Post Generator
-            </h2>
-
-            <div class="space-y-4">
-                <!-- Title Input -->
-                <div>
-                    <label for="title" class="block text-sm font-medium text-gray-700 mb-1">
-                        Title
-                    </label>
-                    <input
-                        type="text"
-                        id="title"
-                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-                        placeholder="Enter post title"
-                    >
+<body>
+    <!-- Navigation -->
+    <header class="navbar navbar-expand-md navbar-light d-print-none sticky-top" style="background-color: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);">
+        <div class="container-xl">
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
+                <span class="text-primary">Blog</span> Post Generator
+            </h1>
+            
+            <div class="navbar-nav flex-row order-md-last">
+                <div class="nav-item">
+                    <button class="btn btn-primary" id="generateFileBtn">
+                        <i class="ti ti-download me-2"></i>Generate .md File
+                    </button>
                 </div>
-
-                <!-- Featured Image Input -->
-                <div>
-                    <label for="featuredImage" class="block text-sm font-medium text-gray-700 mb-1">
-                        Featured Image URL
-                    </label>
-                    <input
-                        type="text"
-                        id="featuredImage"
-                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-                        placeholder="e.g., https://example.com/image.jpg"
-                    >
-                </div>
-
-                <!-- Publish Date Input -->
-                <div>
-                    <label for="publishDate" class="block text-sm font-medium text-gray-700 mb-1">
-                        Publish Date
-                    </label>
-                    <input
-                        type="date"
-                        id="publishDate"
-                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-                    >
-                </div>
-
-                <!-- Publish Checkbox -->
-                <div class="flex items-center">
-                    <input
-                        type="checkbox"
-                        id="publish"
-                        class="h-4 w-4 text-blue-600 border-gray-300 rounded focus:ring-blue-500"
-                        checked
-                    >
-                    <label for="publish" class="ml-2 block text-sm font-medium text-gray-700">
-                        Publish
-                    </label>
-                </div>
-
-                <!-- Categories Multi-Select -->
-                <div>
-                    <label for="categories" class="block text-sm font-medium text-gray-700 mb-1">
-                        Categories (select multiple)
-                    </label>
-                    <select
-                        id="categories"
-                        multiple
-                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm h-32"
-                    >
-                        <!-- Options will be dynamically added by JavaScript -->
-                    </select>
-                </div>
-
-                <!-- Slug Input -->
-                <div>
-                    <label for="slug" class="block text-sm font-medium text-gray-700 mb-1">
-                        Slug
-                    </label>
-                    <input
-                        type="text"
-                        id="slug"
-                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-                        placeholder="e.g., my-awesome-post"
-                    >
-                </div>
-
-                <!-- Content Textarea -->
-                <div>
-                    <label for="content" class="block text-sm font-medium text-gray-700 mb-1">
-                        Markdown Content
-                    </label>
-                    <textarea
-                        id="content"
-                        rows="15"
-                        class="w-full p-3 border border-gray-300 focus:ring-blue-500 focus:border-blue-500 shadow-sm"
-                        placeholder="Start writing your Markdown content here..."
-                    ></textarea>
-                </div>
-
-                <!-- Generate Button -->
-                <button
-                    id="generateFileBtn"
-                    class="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-3 px-4 transition duration-300 ease-in-out shadow-md"
-                >
-                    Generate .md File
-                </button>
-
-                <!-- Clear All Button -->
-                <button
-                    id="clearAllBtn"
-                    class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 transition duration-300 ease-in-out shadow-md mt-2"
-                >
-                    Clear All
-                </button>
             </div>
         </div>
+    </header>
 
-        <!-- Right Pane: Markdown Preview -->
-        <div class="md:w-1/2 p-6 md:p-8 bg-gray-50 flex flex-col">
-            <h2 class="text-3xl font-bold text-gray-900 mb-6 text-center">
-                Markdown Preview
-            </h2>
-            <pre id="markdownPreview" class="flex-grow bg-gray-800 text-gray-50 p-4 rounded-lg overflow-auto text-sm leading-relaxed">
-                <code></code>
-            </pre>
+    <div class="page-wrapper flex-grow-1" style="padding-top: 1.5rem;">
+        <div class="container-xl">
+            <div class="row g-4">
+                <!-- Left Column: All Form Cards -->
+                <div class="col-lg-8">
+                    <!-- Post Details Card -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">Post Details</h3>
+                        </div>
+                        <div class="card-body">
+                            <!-- Title Input -->
+                            <div class="mb-3">
+                                <label class="form-label required">Title</label>
+                                <input type="text" id="title" class="form-control" placeholder="Enter post title">
+                            </div>
+
+                            <!-- Featured Image Input -->
+                            <div class="mb-3">
+                                <label class="form-label">Featured Image URL</label>
+                                <div class="input-group">
+                                    <span class="input-group-text"><i class="ti ti-photo"></i></span>
+                                    <input type="text" id="featuredImage" class="form-control" placeholder="https://example.com/image.jpg">
+                                </div>
+                            </div>
+
+                            <!-- Publish Date Input -->
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <label class="form-label">Publish Date</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ti ti-calendar"></i></span>
+                                        <input type="date" id="publishDate" class="form-control">
+                                    </div>
+                                </div>
+                                <div class="col-md-6 d-flex align-items-end">
+                                    <label class="form-check form-switch">
+                                        <input type="checkbox" class="form-check-input" id="publish" checked>
+                                        <span class="form-check-label">Publish this post</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Categories & Slug Card -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">Post Settings</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <!-- Categories -->
+                                <div class="col-md-6">
+                                    <label class="form-label">Categories</label>
+                                    <select id="categories" multiple class="form-select" size="5">
+                                        <!-- Options will be dynamically added by JavaScript -->
+                                    </select>
+                                    <small class="text-muted">Hold Ctrl/Cmd to select multiple categories</small>
+                                </div>
+                                
+                                <!-- Slug -->
+                                <div class="col-md-6">
+                                    <label class="form-label">URL Slug</label>
+                                    <div class="input-group">
+                                        <span class="input-group-text"><i class="ti ti-link"></i></span>
+                                        <input type="text" id="slug" class="form-control font-monospace" placeholder="my-awesome-post">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Card -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Content</h3>
+                            <div class="card-actions">
+                                <a href="https://www.markdownguide.org/basic-syntax/" target="_blank" class="btn btn-ghost-secondary btn-sm" title="Markdown Guide">
+                                    <i class="ti ti-markdown"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <textarea
+                                id="content"
+                                class="form-control font-monospace border-0"
+                                placeholder="Start writing your Markdown content here..."
+                                style="min-height: 400px; resize: none;"
+                                spellcheck="false"
+                            ></textarea>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button id="clearAllBtn" class="btn btn-outline-danger">
+                                    <i class="ti ti-trash me-2"></i>Clear All
+                                </button>
+                                <button class="btn btn-primary" id="generateFileBtn">
+                                    <i class="ti ti-download me-2"></i>Generate .md File
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Right Column: Markdown Preview -->
+                <div class="col-lg-4">
+                    <div class="sticky-top" style="top: 1.5rem;">
+                        <div class="card h-100">
+                            <div class="card-header">
+                                <h3 class="card-title">Preview</h3>
+                                <div class="card-actions">
+                                    <button class="btn btn-ghost-secondary btn-sm" id="copyPreviewBtn" title="Copy to Clipboard">
+                                        <i class="ti ti-copy"></i>
+                                    </button>
+                                </div>
+                            </div>
+                            <div class="card-body p-0">
+                                <pre id="markdownPreview" class="markdown-preview m-0"><code></code></pre>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 
+    <!-- Footer -->
+    <footer class="footer footer-transparent d-print-none">
+        <div class="container-xl">
+            <div class="row text-center align-items-center flex-row-reverse">
+                <div class="col-12 col-lg-auto mt-3 mt-lg-0">
+                    <ul class="list-inline list-inline-dots mb-0">
+                        <li class="list-inline-item">
+                            Blog Post Generator
+                        </li>
+                        <li class="list-inline-item">
+                            v1.0.0
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Tabler Core JS -->
+    <script src="https://unpkg.com/@tabler/core@latest/dist/js/tabler.min.js"></script>
+    
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             // Get references to DOM elements
@@ -164,8 +244,23 @@
             const slugInput = document.getElementById('slug');
             const contentTextarea = document.getElementById('content');
             const generateFileBtn = document.getElementById('generateFileBtn');
+            const copyPreviewBtn = document.getElementById('copyPreviewBtn');
             const markdownPreviewCode = document.querySelector('#markdownPreview code');
             const clearAllBtn = document.getElementById('clearAllBtn');
+            
+            // Add copy preview button functionality
+            copyPreviewBtn.addEventListener('click', () => {
+                const textToCopy = markdownPreviewCode.textContent;
+                navigator.clipboard.writeText(textToCopy).then(() => {
+                    const originalTitle = copyPreviewBtn.title;
+                    copyPreviewBtn.innerHTML = '<i class="ti ti-check"></i>';
+                    copyPreviewBtn.title = 'Copied!';
+                    setTimeout(() => {
+                        copyPreviewBtn.innerHTML = '<i class="ti ti-copy"></i>';
+                        copyPreviewBtn.title = originalTitle;
+                    }, 2000);
+                });
+            });
 
             // Set default publish date to today on page load
             const setTodayAsPublishDate = () => {
@@ -174,6 +269,23 @@
                 const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
                 const day = String(today.getDate()).padStart(2, '0');
                 publishDateInput.value = `${year}-${month}-${day}`;
+                
+                // Auto-generate slug from title
+                titleInput.addEventListener('input', () => {
+                    if (!slugInput.dataset.manuallyEdited) {
+                        const slug = titleInput.value
+                            .toLowerCase()
+                            .replace(/[^\w\s-]/g, '') // Remove special chars
+                            .replace(/\s+/g, '-')      // Replace spaces with -
+                            .replace(/--+/g, '-');      // Replace multiple - with single -
+                        slugInput.value = slug;
+                    }
+                });
+                
+                // Mark slug as manually edited when user types in it
+                slugInput.addEventListener('input', function() {
+                    this.dataset.manuallyEdited = 'true';
+                });
             };
 
             // Defined list of available categories
