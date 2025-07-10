@@ -374,12 +374,12 @@
 
             if (jlptExamCheckbox.checked) {
                 let jlptLevel = jlptLevelSelect.value;
-                jlptText = `\nออกสอบ JLPT ${jlptLevel} (รอบ ${year}年${month}月)`;
+                jlptText = `\n※ ออกสอบ JLPT ${jlptLevel} (รอบ ${year}年${month}月)`;
                 output += jlptText;
             }
 
             if (jtestExamCheckbox.checked) {
-                jtestText = `\nออกสอบ J.TEST ระดับ A-C (第${jtestNoInput.value}回)`;
+                jtestText = `\n※ ออกสอบ J.TEST ระดับ A-C (第${jtestNoInput.value}回)`;
                 output += jtestText;
             }
 
@@ -388,20 +388,28 @@
             previewOutput.textContent = output;
         }
 
-        // Add event listeners
-        const inputs = [
+        // Add event listeners for all inputs
+        const textInputs = [
             japaneseTextInput, romajiTextInput, thaiTextInput, hiraganaInput,
-            descriptionInput, gameTitleInput, nLevelSelect,
-            wordTypesSelect, yearInput, monthInput, jlptExamCheckbox,
-            jtestExamCheckbox, jtestNoInput, jlptLevelSelect
+            descriptionInput, gameTitleInput, jtestNoInput, yearInput, monthInput
         ];
+        
+        const selectInputs = [nLevelSelect, jlptLevelSelect, wordTypesSelect];
+        const checkboxInputs = [jlptExamCheckbox, jtestExamCheckbox];
 
-        inputs.forEach(input => {
-            if (input.type === 'select-multiple') {
-                input.addEventListener('change', updatePreview);
-            } else {
-                input.addEventListener('input', updatePreview);
-            }
+        // Add input event listeners to text inputs
+        textInputs.forEach(input => {
+            input.addEventListener('input', updatePreview);
+        });
+
+        // Add change event listeners to select inputs
+        selectInputs.forEach(select => {
+            select.addEventListener('change', updatePreview);
+        });
+
+        // Add change event listeners to checkboxes
+        checkboxInputs.forEach(checkbox => {
+            checkbox.addEventListener('change', updatePreview);
         });
 
         copyButton.addEventListener('click', function() {
