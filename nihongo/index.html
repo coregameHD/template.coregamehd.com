@@ -423,44 +423,70 @@
             checkbox.addEventListener('change', updatePreview);
         });
 
-        copyButton.addEventListener('click', function() {
-            const textToCopy = previewOutput.textContent;
-            navigator.clipboard.writeText(textToCopy)
-                .then(() => {
-                    // Create and show toast notification
-                    const toastContainer = document.createElement('div');
-                    toastContainer.style.position = 'fixed';
-                    toastContainer.style.top = '20px';
-                    toastContainer.style.right = '20px';
-                    toastContainer.style.zIndex = '1050';
-                    
-                    const toast = document.createElement('div');
-                    toast.className = 'toast show';
-                    toast.setAttribute('role', 'alert');
-                    toast.setAttribute('aria-live', 'assertive');
-                    toast.setAttribute('aria-atomic', 'true');
-                    
-                    toast.innerHTML = `
-                        <div class="toast-header">
-                            <strong class="me-auto">Success</strong>
-                            <button type="button" class="btn-close" data-coreui-dismiss="toast" aria-label="Close"></button>
-                        </div>
-                        <div class="toast-body">
-                            Text copied to clipboard!
-                        </div>
-                    `;
-                    
-                    toastContainer.appendChild(toast);
+        // Add Bootstrap Toast CSS if not already included
+        const style = document.createElement('style');
+        style.textContent = `
+            .toast {
+                opacity: 1;
+                transition: opacity 0.3s ease-in-out;
+            }
+            .toast.hide {
+                opacity: 0;
+            }
+        `;
+        document.head.appendChild(style);
+
+        copyButton.addEventListener('click', async function() {
+            try {
+                const textToCopy = previewOutput.textContent.trim();
+                await navigator.clipboard.writeText(textToCopy);
+                
+                // Create and show toast notification
+                let toastContainer = document.querySelector('.toast-container');
+                
+                if (!toastContainer) {
+                    toastContainer = document.createElement('div');
+                    toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+                    toastContainer.style.zIndex = '1090';
                     document.body.appendChild(toastContainer);
-                    
-                    // Remove toast after 3 seconds
-                    setTimeout(() => {
+                }
+                
+                const toastId = 'toast-' + Date.now();
+                const toast = document.createElement('div');
+                toast.id = toastId;
+                toast.className = 'toast show';
+                toast.role = 'alert';
+                toast.setAttribute('aria-live', 'assertive');
+                toast.setAttribute('aria-atomic', 'true');
+                
+                toast.innerHTML = `
+                    <div class="toast-header bg-success text-white">
+                        <strong class="me-auto">Success</strong>
+                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
+                    </div>
+                    <div class="toast-body">
+                        <i class="ti ti-clipboard-check me-2"></i> Copied to clipboard!
+                    </div>
+                `;
+                
+                toastContainer.appendChild(toast);
+                
+                // Initialize Bootstrap Toast
+                const bsToast = new bootstrap.Toast(toast, { autohide: true, delay: 3000 });
+                bsToast.show();
+                
+                // Remove toast after it's hidden
+                toast.addEventListener('hidden.bs.toast', function() {
+                    toast.remove();
+                    if (toastContainer && toastContainer.children.length === 0) {
                         toastContainer.remove();
-                    }, 3000);
-                })
-                .catch(err => {
-                    console.error('Could not copy text: ', err);
+                    }
                 });
+                
+            } catch (err) {
+                console.error('Could not copy text: ', err);
+                alert('Failed to copy text. Please try again or copy manually.');
+            }
         });
 
         // Initialize the preview
