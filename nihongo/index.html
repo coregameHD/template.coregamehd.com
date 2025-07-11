@@ -101,7 +101,7 @@
 
             <div class="navbar-nav flex-row order-md-last">
                 <div class="nav-item">
-                    <button class="btn btn-primary" id="copyButton">
+                    <button class="btn btn-primary" id="copyButtonTop">
                         <i class="ti ti-copy me-2"></i>Copy to Clipboard
                     </button>
                 </div>
@@ -264,7 +264,7 @@
                                 <button id="clearAllBtn" class="btn btn-outline-danger">
                                     <i class="ti ti-trash me-2"></i>Clear All
                                 </button>
-                                <button class="btn btn-primary" id="copyButton">
+                                <button class="btn btn-primary" id="copyButtonBottom">
                                     <i class="ti ti-copy me-2"></i>Copy to Clipboard
                                 </button>
                             </div>
@@ -314,7 +314,9 @@
         const descriptionInput = document.getElementById('description');
         const gameTitleInput = document.getElementById('gametitle');
         const previewOutput = document.getElementById('preview');
-        const copyButton = document.getElementById('copyButton');
+        // Get both copy buttons
+        const copyButtonTop = document.getElementById('copyButtonTop');
+        const copyButtonBottom = document.getElementById('copyButtonBottom');
         const nLevelSelect = document.getElementById('n-level');
         const jlptLevelSelect = document.getElementById('jlpt-level');
         const yearInput = document.getElementById('year');
@@ -428,71 +430,108 @@
             if (checkbox) checkbox.addEventListener('change', updatePreview);
         });
 
-        // Add Bootstrap Toast CSS if not already included
-        const style = document.createElement('style');
-        style.textContent = `
-            .toast {
-                opacity: 1;
-                transition: opacity 0.3s ease-in-out;
+        // Custom toast notification system
+        function showToast(message, type = 'success') {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.querySelector('.toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+                toastContainer.style.zIndex = '1090';
+                document.body.appendChild(toastContainer);
             }
-            .toast.hide {
-                opacity: 0;
-            }
-        `;
-        document.head.appendChild(style);
-
-        copyButton.addEventListener('click', async function() {
-            try {
-                const textToCopy = previewOutput.textContent.trim();
-                await navigator.clipboard.writeText(textToCopy);
-                
-                // Create and show toast notification
-                let toastContainer = document.querySelector('.toast-container');
-                
-                if (!toastContainer) {
-                    toastContainer = document.createElement('div');
-                    toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
-                    toastContainer.style.zIndex = '1090';
-                    document.body.appendChild(toastContainer);
-                }
-                
-                const toastId = 'toast-' + Date.now();
-                const toast = document.createElement('div');
-                toast.id = toastId;
-                toast.className = 'toast show';
-                toast.role = 'alert';
-                toast.setAttribute('aria-live', 'assertive');
-                toast.setAttribute('aria-atomic', 'true');
-                
-                toast.innerHTML = `
-                    <div class="toast-header bg-success text-white">
-                        <strong class="me-auto">Success</strong>
-                        <button type="button" class="btn-close btn-close-white" data-bs-dismiss="toast" aria-label="Close"></button>
-                    </div>
-                    <div class="toast-body">
-                        <i class="ti ti-clipboard-check me-2"></i> Copied to clipboard!
-                    </div>
-                `;
-                
-                toastContainer.appendChild(toast);
-                
-                // Initialize Bootstrap Toast
-                const bsToast = new bootstrap.Toast(toast, { autohide: true, delay: 3000 });
-                bsToast.show();
-                
-                // Remove toast after it's hidden
-                toast.addEventListener('hidden.bs.toast', function() {
+            
+            const toastId = 'toast-' + Date.now();
+            const toast = document.createElement('div');
+            toast.id = toastId;
+            
+            // Use Tabler's alert classes
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            const iconClass = type === 'success' ? 'ti-circle-check' : 'ti-alert-circle';
+            
+            toast.className = `alert ${alertClass} alert-dismissible fade show`;
+            toast.role = 'alert';
+            
+            toast.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="ti ${iconClass} me-2"></i>
+                    <div>${message}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Auto remove toast after delay
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('fade');
+                setTimeout(() => {
                     toast.remove();
                     if (toastContainer && toastContainer.children.length === 0) {
                         toastContainer.remove();
                     }
+                }, 150);
+            }, 3000);
+            
+            // Add close button functionality
+            const closeBtn = toast.querySelector('.btn-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    toast.classList.remove('show');
+                    toast.classList.add('fade');
+                    setTimeout(() => {
+                        toast.remove();
+                        if (toastContainer && toastContainer.children.length === 0) {
+                            toastContainer.remove();
+                        }
+                    }, 150);
                 });
+            }
+        }
+
+        // Function to handle copy to clipboard
+        async function handleCopyToClipboard() {
+            const textToCopy = previewOutput.textContent.trim();
+            
+            if (!textToCopy) {
+                showToast('No content to copy!', 'error');
+                return;
+            }
+            
+            try {
+                // Try the modern clipboard API first
+                if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(textToCopy);
+                } else {
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    textarea.style.position = 'fixed';  // Prevent scrolling to bottom
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    
+                    try {
+                        const successful = document.execCommand('copy');
+                        if (!successful) {
+                            throw new Error('Copy command was unsuccessful');
+                        }
+                    } finally {
+                        document.body.removeChild(textarea);
+                    }
+                }
+                
+                showToast('Copied to clipboard!', 'success');
                 
             } catch (err) {
                 console.error('Could not copy text: ', err);
-                alert('Failed to copy text. Please try again or copy manually.');
+                showToast('Failed to copy. Please try again or copy manually.', 'error');
             }
-        });
+        }
+        
+        // Add event listeners to both copy buttons
+        if (copyButtonTop) copyButtonTop.addEventListener('click', handleCopyToClipboard);
+        if (copyButtonBottom) copyButtonBottom.addEventListener('click', handleCopyToClipboard);
 
         // Clear All button functionality
         const clearAllBtn = document.getElementById('clearAllBtn');
