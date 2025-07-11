@@ -405,22 +405,27 @@
             descriptionInput, gameTitleInput, jtestNoInput, yearInput, monthInput
         ];
         
-        const selectInputs = [nLevelSelect, jlptLevelSelect, wordTypesSelect];
+        const selectInputs = [nLevelSelect, jlptLevelSelect];
         const checkboxInputs = [jlptExamCheckbox, jtestExamCheckbox];
 
         // Add input event listeners to text inputs
         textInputs.forEach(input => {
-            input.addEventListener('input', updatePreview);
+            if (input) input.addEventListener('input', updatePreview);
         });
 
-        // Add change event listeners to select inputs
+        // Add change event listeners to select inputs (except Tom Select)
         selectInputs.forEach(select => {
-            select.addEventListener('change', updatePreview);
+            if (select) select.addEventListener('change', updatePreview);
         });
+
+        // Add change event to Tom Select
+        if (wordTypesSelect) {
+            wordTypesSelect.on('change', updatePreview);
+        }
 
         // Add change event listeners to checkboxes
         checkboxInputs.forEach(checkbox => {
-            checkbox.addEventListener('change', updatePreview);
+            if (checkbox) checkbox.addEventListener('change', updatePreview);
         });
 
         // Add Bootstrap Toast CSS if not already included
@@ -488,6 +493,46 @@
                 alert('Failed to copy text. Please try again or copy manually.');
             }
         });
+
+        // Clear All button functionality
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        if (clearAllBtn) {
+            clearAllBtn.addEventListener('click', function() {
+                // Clear text inputs
+                textInputs.forEach(input => {
+                    if (input && (input.type === 'text' || input.type === 'textarea')) {
+                        input.value = '';
+                        // Trigger input event to update preview
+                        input.dispatchEvent(new Event('input'));
+                    }
+                });
+                
+                // Clear regular select inputs
+                selectInputs.forEach(select => {
+                    if (select) {
+                        select.selectedIndex = 0;
+                        select.dispatchEvent(new Event('change'));
+                    }
+                });
+                
+                // Clear Tom Select
+                if (wordTypesSelect) {
+                    wordTypesSelect.clear(true);
+                }
+                
+                // Uncheck checkboxes
+                checkboxInputs.forEach(checkbox => {
+                    if (checkbox) {
+                        checkbox.checked = false;
+                        // Trigger change event to update dependent fields
+                        checkbox.dispatchEvent(new Event('change'));
+                    }
+                });
+                
+                // Update the preview
+                updatePreview();
+            });
+        }
 
         // Initialize the preview
         updatePreview();
