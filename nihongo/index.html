@@ -219,7 +219,10 @@
                                 </div>
                                 <div class="col-6">
                                     <label class="form-label" for="month">Month</label>
-                                    <input type="text" class="form-control" id="month" placeholder="Month" disabled>
+                                    <select class="form-select" id="month" disabled>
+                                        <option value="07">07</option>
+                                        <option value="12">12</option>
+                                    </select>
                                 </div>
                             </div>
 
@@ -387,12 +390,12 @@
 
             if (jlptExamCheckbox.checked) {
                 let jlptLevel = jlptLevelSelect.value;
-                jlptText = `\n※ ออกสอบ JLPT ${jlptLevel} (รอบ ${year}年${month}月)`;
+                jlptText = `\n⭐️ ออกสอบ JLPT ${jlptLevel} (รอบ ${year}年${month}月)`;
                 output += jlptText;
             }
 
             if (jtestExamCheckbox.checked) {
-                jtestText = `\n※ ออกสอบ J.TEST ระดับ A-C (第${jtestNoInput.value}回)`;
+                jtestText = `\n⭐️ ออกสอบ J.TEST ระดับ A-C (第${jtestNoInput.value}回)`;
                 output += jtestText;
             }
 
