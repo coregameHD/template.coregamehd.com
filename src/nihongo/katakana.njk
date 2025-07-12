@@ -1,0 +1,89 @@
+---
+layout: layouts/base.njk
+title: Katakana Practice
+pageScript: /js/katakana.js
+---
+
+<div class="container-xl py-4">
+    <div class="row g-4">
+        <!-- Column 1 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Katakana Input</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Japanese Text (Katakana)</label>
+                        <input type="text" class="form-control" id="japanese-text" placeholder="Enter katakana text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Original Language</label>
+                        <input type="text" class="form-control" id="original-language-text" placeholder="Enter original word">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Thai Translation</label>
+                        <input type="text" class="form-control" id="thai-text" placeholder="Enter Thai translation">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Word Properties</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Category</label>
+                        <select id="category" class="form-select">
+                            <option value="">-- Select Category --</option>
+                            <option value="food">Food & Drinks</option>
+                            <option value="technology">Technology</option>
+                            <option value="sports">Sports</option>
+                            <option value="fashion">Fashion</option>
+                            <option value="business">Business</option>
+                            <option value="other">Other</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Difficulty</label>
+                        <select id="difficulty" class="form-select">
+                            <option value="beginner">Beginner</option>
+                            <option value="intermediate">Intermediate</option>
+                            <option value="advanced">Advanced</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column 3 -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">Preview</h3>
+                    <button id="copy-button" class="btn btn-sm btn-outline-primary">
+                        <i class="ti ti-copy me-1"></i> Copy
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <pre id="preview-output" class="preview-output m-0">
+[Katakana Word]
+[Original Word]
+
+[Thai Translation]
+
+[Category: ]
+[Difficulty: ]
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast container for notifications -->
+<div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11"></div>

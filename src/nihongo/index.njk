@@ -1,0 +1,100 @@
+---
+layout: layouts/base.njk
+title: Japanese Tools
+pageScript: /js/nihongo.js
+---
+
+<div class="container-xl py-4">
+    <div class="row g-4">
+        <!-- Column 1 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Japanese Text</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label">Japanese Text</label>
+                        <input type="text" class="form-control" id="japanese-text" placeholder="Enter Japanese text">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Romaji</label>
+                        <input type="text" class="form-control" id="romaji-text" placeholder="Enter romaji">
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label">Thai Translation</label>
+                        <input type="text" class="form-control" id="thai-text" placeholder="Enter Thai translation">
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column 2 -->
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-header">
+                    <h3 class="card-title">Word Properties</h3>
+                </div>
+                <div class="card-body">
+                    <div class="mb-3">
+                        <label class="form-label" for="word-types">Word Types</label>
+                        <select id="word-types" class="form-select tom-select" multiple>
+                            <option value="คำนาม">คำนาม</option>
+                            <option value="คำกริยา">คำกริยา</option>
+                            <option value="คำคุณศัพท์">คำคุณศัพท์</option>
+                            <option value="คำวิเศษณ์">คำวิเศษณ์</option>
+                            <option value="คำสันธาน">คำสันธาน</option>
+                            <option value="คำบุพบท">คำบุพบท</option>
+                            <option value="คำอุทาน">คำอุทาน</option>
+                            <option value="คำลักษณนาม">คำลักษณนาม</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="verb-group">Verb Group</label>
+                        <select id="verb-group" class="form-select">
+                            <option value="">-- Select Group --</option>
+                            <option value="1">Group 1 (五段動詞)</option>
+                            <option value="2">Group 2 (一段動詞)</option>
+                            <option value="3">Group 3 (不規則動詞)</option>
+                        </select>
+                    </div>
+                    <div class="mb-3">
+                        <label class="form-label" for="verb-type">Verb Type</label>
+                        <select id="verb-type" class="form-select">
+                            <option value="">-- Select Type --</option>
+                            <option value="他動詞">他動詞 (Transitive)</option>
+                            <option value="自動詞">自動詞 (Intransitive)</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Column 3 -->
+        <div class="col-md-4">
+            <div class="card h-100">
+                <div class="card-header d-flex justify-content-between align-items-center">
+                    <h3 class="card-title mb-0">Preview</h3>
+                    <button id="copy-button" class="btn btn-sm btn-outline-primary">
+                        <i class="ti ti-copy me-1"></i> Copy
+                    </button>
+                </div>
+                <div class="card-body p-0">
+                    <pre id="preview-output" class="preview-output m-0">
+※ คำนาม / คำกริยากลุ่ม 3 (する) / สกรรมกริยา (他動詞) / อกรรมกริยา (自動詞)
+※ คำศัพท์ระดับ N1
+
+————————————
+() หมายถึง
+【】หมายถึง
+
+[Preview content will appear here]
+                    </pre>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast container for notifications -->
+<div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11"></div>

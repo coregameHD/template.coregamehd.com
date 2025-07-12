@@ -1,0 +1,50 @@
+---
+layout: layouts/base.njk
+title: Home
+---
+
+<div class="container-xl py-4">
+    <div class="row row-cards">
+        <div class="col-12">
+            <div class="card">
+                <div class="card-body p-4 text-center">
+                    <h1 class="m-0">Welcome to Japanese Learning Tools</h1>
+                    <p class="text-muted mt-2">Select a tool from the navigation menu to get started.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="row row-cards mt-4">
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Japanese Tools</h3>
+                    <p class="text-muted">General Japanese language tools and utilities.</p>
+                    <a href="/nihongo/" class="btn btn-primary">Open Tools</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Katakana</h3>
+                    <p class="text-muted">Practice and learn Katakana characters.</p>
+                    <a href="/nihongo/katakana" class="btn btn-primary">Practice Katakana</a>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="card">
+                <div class="card-body">
+                    <h3 class="card-title">Yojijukugo</h3>
+                    <p class="text-muted">Learn Japanese four-character idioms.</p>
+                    <a href="/nihongo/yojijukugo" class="btn btn-primary">Learn Yojijukugo</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Toast container for notifications -->
+<div id="toast-container" class="position-fixed bottom-0 end-0 p-3" style="z-index: 11"></div>

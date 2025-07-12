@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>{{ title }} | Japanese Learning Tools</title>
+    <!-- Tabler Core CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/@tabler/core@latest/dist/css/tabler.min.css">
+    <!-- Tom Select CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
+    <!-- Tabler Icons -->
+    <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.css">
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body class="d-flex flex-column">
+    {% include "components/header.njk" %}
+    
+    <main class="page-wrapper" style="flex: 1 0 auto;">
+        {{ content | safe }}
+    </main>
+
+    {% include "components/footer.njk" %}
+    
+    <!-- Scripts -->
+    <script src="https://unpkg.com/@tabler/core@latest/dist/js/tabler.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+    <script src="/js/main.js" type="module"></script>
+    {% if pageScript %}
+    <script src="{{ pageScript }}" type="module"></script>
+    {% endif %}
+</body>
+</html>

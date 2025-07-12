@@ -1,0 +1,16 @@
+{
+  "name": "nihongo-tools",
+  "version": "1.0.0",
+  "description": "Japanese language learning tools",
+  "scripts": {
+    "start": "eleventy --serve",
+    "build": "eleventy",
+    "watch": "eleventy --watch"
+  },
+  "dependencies": {
+    "@11ty/eleventy": "^2.0.0"
+  },
+  "devDependencies": {
+    "@11ty/eleventy-navigation": "^0.3.3"
+  }
+}
