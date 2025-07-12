@@ -153,8 +153,8 @@
                             </div>
 
                             <div class="mb-3">
-                                <label class="form-label" for="romaji-text">Romaji</label>
-                                <input type="text" class="form-control" id="romaji-text" placeholder="Enter romaji">
+                                <label class="form-label" for="original-language-text">Original Language</label>
+                                <input type="text" class="form-control" id="original-language-text" placeholder="Enter original language text">
                             </div>
 
                             <div class="mb-3">
@@ -339,7 +339,7 @@
         });
 
         const japaneseTextInput = document.getElementById('japanese-text');
-        const romajiTextInput = document.getElementById('romaji-text');
+        const originalLanguageTextInput = document.getElementById('original-language-text');
         const thaiTextInput = document.getElementById('thai-text');
         const hiraganaInput = document.getElementById('hiragana');
         const descriptionInput = document.getElementById('description');
@@ -398,7 +398,7 @@
 
         function updatePreview() {
             let japaneseText = japaneseTextInput.value;
-            let romajiText = romajiTextInput.value;
+            let originalLanguageText = originalLanguageTextInput.value;
             let thaiText = thaiTextInput.value;
             let hiragana = hiraganaInput.value;
             let description = descriptionInput.value;
@@ -410,7 +410,7 @@
             let jlptText = "";
             let jtestText = "";
 
-            let output = `【คำศัพท์】\n\n${japaneseText}\n${romajiText}\n${thaiText}\n\n※ ${selectedWordTypes}`;
+            let output = `【คำศัพท์】\n\n${japaneseText}\n${originalLanguageText}\n${thaiText}\n\n※ ${selectedWordTypes}`;
 
             if (nLevel !== "None") {
                 output += `\n※ คำศัพท์ระดับ ${nLevel}`;
@@ -434,7 +434,7 @@
 
         // Add event listeners for all inputs
         const textInputs = [
-            japaneseTextInput, romajiTextInput, thaiTextInput, hiraganaInput,
+            japaneseTextInput, originalLanguageTextInput, thaiTextInput, hiraganaInput,
             descriptionInput, gameTitleInput, jtestNoInput, yearInput, monthInput
         ];
         
