@@ -3,4 +3,30 @@ layout: layouts/base.njk
 title: Home
 ---
 
-<!-- Empty homepage -->
+<div class="container mt-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 text-center">
+            <div class="d-grid gap-3">
+                <a href="/visualnovel" class="btn btn-primary btn-lg py-3">
+                    Kagami Visual Novel
+                </a>
+                <a href="/nihongo" class="btn btn-success btn-lg py-3">
+                    Kagami Nihongo
+                </a>
+                <a href="/blog" class="btn btn-info btn-lg py-3 text-white">
+                    Kagami Blog
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+.btn {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
+</style>
