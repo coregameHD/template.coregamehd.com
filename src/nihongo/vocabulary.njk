@@ -1,33 +1,27 @@
-<!DOCTYPE html>
-<html lang="en" data-bs-theme="light">
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Japanese Form Preview and Copy</title>
-    <!-- Tabler Core CSS -->
-    <link rel="stylesheet" href="https://unpkg.com/@tabler/core@latest/dist/css/tabler.min.css">
-    <!-- Tom Select CSS -->
-    <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
-    <!-- Tabler Icons -->
-    <link rel="stylesheet" href="https://unpkg.com/@tabler/icons-webfont@latest/tabler-icons.min.css">
-    <style>
-        :root {
-            --brand-color: #FF4081;
-            --brand-light: #ff80ab;
-            --brand-dark: #c60055;
-            --brand-bg: #fff5f9;
-        }
-        
-        body {
-            background-color: var(--brand-bg);
-            background-image: url("data:image/svg+xml,%3Csvg width='84' height='48' viewBox='0 0 84 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 16.2c-2.5 0-4.7 2-4.7 4.7s2 4.7 4.7 4.7 4.7-2 4.7-4.7-2.1-4.7-4.7-4.7zm0 1.4c1.8 0 3.3 1.5 3.3 3.3s-1.5 3.3-3.3 3.3-3.3-1.5-3.3-3.3 1.5-3.3 3.3-3.3zm15-8.1c-2.6 0-4.7 2.1-4.7 4.7s2.1 4.7 4.7 4.7 4.7-2.1 4.7-4.7-2.1-4.7-4.7-4.7zm0 1.4c1.8 0 3.3 1.5 3.3 3.3s-1.5 3.3-3.3 3.3-3.3-1.5-3.3-3.3 1.5-3.3 3.3-3.3z' fill='%23ffd6e7' fill-opacity='0.3' fill-rule='evenodd'/%3E%3C/svg%3E");
-        }
-        .card {
-            border: none;
-            box-shadow: 0 1px 2px 0 rgba(255, 64, 129, 0.1);
-            margin-bottom: 1.5rem;
-            border: 1px solid rgba(255, 64, 129, 0.1);
-        }
+---
+layout: layouts/base.njk
+title: Vocabulary Practice
+pageScript: /js/vocabulary.js
+---
+
+<style>
+    :root {
+        --brand-color: #FF4081;
+        --brand-light: #ff80ab;
+        --brand-dark: #c60055;
+        --brand-bg: #fff5f9;
+    }
+    
+    body {
+        background-color: var(--brand-bg);
+        background-image: url("data:image/svg+xml,%3Csvg width='84' height='48' viewBox='0 0 84 48' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M30 16.2c-2.5 0-4.7 2-4.7 4.7s2 4.7 4.7 4.7 4.7-2 4.7-4.7-2.1-4.7-4.7-4.7zm0 1.4c1.8 0 3.3 1.5 3.3 3.3s-1.5 3.3-3.3 3.3-3.3-1.5-3.3-3.3 1.5-3.3 3.3-3.3zm15-8.1c-2.6 0-4.7 2.1-4.7 4.7s2.1 4.7 4.7 4.7 4.7-2.1 4.7-4.7-2.1-4.7-4.7-4.7zm0 1.4c1.8 0 3.3 1.5 3.3 3.3s-1.5 3.3-3.3 3.3-3.3-1.5-3.3-3.3 1.5-3.3 3.3-3.3z' fill='%23ffd6e7' fill-opacity='0.3' fill-rule='evenodd'/%3E%3C/svg%3E");
+    }
+    .card {
+        border: none;
+        box-shadow: 0 1px 2px 0 rgba(255, 64, 129, 0.1);
+        margin-bottom: 1.5rem;
+        border: 1px solid rgba(255, 64, 129, 0.1);
+    }
         .card-header {
             background-color: #fff;
             border-bottom: 1px solid rgba(255, 64, 129, 0.1);
@@ -77,67 +71,7 @@
     </style>
 </head>
 
-<body class="d-flex flex-column">
-    <header class="navbar navbar-expand-md navbar-light d-print-none sticky-top" style="background-color: #fff; box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);">
-        <div class="container-xl">
-            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar-menu">
-                <span class="navbar-toggler-icon"></span>
-            </button>
-            <h1 class="navbar-brand navbar-brand-autodark d-none-navbar-horizontal pe-0 pe-md-3">
-                <span class="text-primary">日本語</span> Form
-            </h1>
-            
-            <div class="collapse navbar-collapse" id="navbar-menu">
-                <ul class="navbar-nav">
-                    <li class="nav-item">
-                        <a class="nav-link" href="/">
-                            <i class="ti ti-home me-1"></i> Home
-                        </a>
-                    </li>
-                    <li class="nav-item dropdown">
-                        <a class="nav-link dropdown-toggle" href="#" data-bs-toggle="dropdown" data-bs-auto-close="outside" role="button" aria-expanded="false">
-                            <i class="ti ti-book me-1"></i> Vocabulary
-                        </a>
-                        <div class="dropdown-menu">
-                            <a class="dropdown-item" href="/nihongo">Word List</a>
-                            <a class="dropdown-item" href="#">Add New Word</a>
-                            <a class="dropdown-item" href="#">Practice</a>
-                        </div>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="/nihongo/katakana.html">
-                            <i class="ti ti-letter-k me-1"></i> Katakana
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="ti ti-notes me-1"></i> Grammar
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="ti ti-message-circle me-1"></i> Practice
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">
-                            <i class="ti ti-chart-bar me-1"></i> Progress
-                        </a>
-                    </li>
-                </ul>
-            </div>
-
-            <div class="navbar-nav flex-row order-md-last">
-                <div class="nav-item">
-                    <button class="btn btn-primary" id="copyButtonTop">
-                        <i class="ti ti-copy me-2"></i>Copy to Clipboard
-                    </button>
-                </div>
-            </div>
-        </div>
-    </header>
-
-    <div class="page-wrapper" style="flex: 1 0 auto;">
+<div class="page-wrapper" style="flex: 1 0 auto;">
         <div class="container-xl py-4">
             <div class="row g-4">
                 <!-- Column 1 -->
@@ -325,7 +259,6 @@
     <!-- Tom Select JS -->
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
 
-    <!-- Original script -->
     <script>
         // Initialize Tom Select
         const wordTypesSelect = new TomSelect('#word-types', {
@@ -607,7 +540,3 @@
         // Initialize the preview
         updatePreview();
     </script>
-
-</body>
-
-</html>
