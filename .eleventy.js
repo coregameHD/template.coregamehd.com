@@ -5,12 +5,16 @@ module.exports = function(eleventyConfig) {
   eleventyConfig.addPlugin(eleventyNavigationPlugin);
 
   // Copy static assets
-  eleventyConfig.addPassthroughCopy("src/css");
-  eleventyConfig.addPassthroughCopy("src/js");
-  eleventyConfig.addPassthroughCopy("src/images");
+  eleventyConfig.addPassthroughCopy({
+    "src/css": "css",
+    "src/_includes/css": "css",
+    "src/js": "js",
+    "src/images": "images"
+  });
 
   // Watch for changes in these directories
   eleventyConfig.addWatchTarget("src/css");
+  eleventyConfig.addWatchTarget("src/_includes/css");
   eleventyConfig.addWatchTarget("src/js");
 
   return {
