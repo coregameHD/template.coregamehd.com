@@ -7,8 +7,8 @@ document.addEventListener('DOMContentLoaded', function() {
     const descriptionInput = document.getElementById('description');
     const gameTitleInput = document.getElementById('game-title');
     const previewOutput = document.getElementById('preview');
-    const copyButton = document.getElementById('copy-button');
-    const clearAllBtn = document.getElementById('clear-all');
+    const copyButton = document.getElementById('copyButton');
+    const clearAllBtn = document.getElementById('clearAllBtn');
     
     // Word types select - store reference to Tom Select instance
     let wordTypesSelect = null;
@@ -161,9 +161,12 @@ document.addEventListener('DOMContentLoaded', function() {
                 if (previewOutput && previewOutput.textContent) {
                     navigator.clipboard.writeText(previewOutput.textContent)
                         .then(() => {
-                            // Show success message
-                            const toast = new bootstrap.Toast(document.getElementById('copyToast'));
-                            toast.show();
+                            // Show success message using vanilla JS
+                            const toastEl = document.getElementById('copyToast');
+                            if (toastEl) {
+                                const toast = new bootstrap.Toast(toastEl);
+                                toast.show();
+                            }
                         })
                         .catch(err => {
                             console.error('Failed to copy text: ', err);
@@ -175,8 +178,19 @@ document.addEventListener('DOMContentLoaded', function() {
         // Clear all button
         if (clearAllBtn) {
             clearAllBtn.addEventListener('click', function() {
-                const form = document.querySelector('form');
-                if (form) form.reset();
+                // Reset all input fields
+                if (japaneseTextInput) japaneseTextInput.value = '';
+                if (originalLanguageInput) originalLanguageInput.value = '';
+                if (thaiTextInput) thaiTextInput.value = '';
+                if (descriptionInput) descriptionInput.value = '';
+                if (gameTitleInput) gameTitleInput.value = '';
+                if (nLevelSelect) nLevelSelect.value = 'None';
+                if (jlptLevelSelect) jlptLevelSelect.value = 'N1';
+                if (yearInput) yearInput.value = new Date().getFullYear();
+                if (monthInput) monthInput.value = '';
+                if (jtestNoInput) jtestNoInput.value = '';
+                if (jlptExamCheckbox) jlptExamCheckbox.checked = false;
+                if (jtestExamCheckbox) jtestExamCheckbox.checked = false;
                 
                 // Clear Tom Select if it exists
                 if (wordTypesSelect) {
@@ -188,8 +202,11 @@ document.addEventListener('DOMContentLoaded', function() {
                     previewOutput.textContent = '';
                 }
                 
-                // Re-initialize form controls
+                // Re-initialize form controls to reset disabled states
                 initializeFormControls();
+                
+                // Update the preview to reflect cleared state
+                updatePreview();
             });
         }
     }
