@@ -4,86 +4,198 @@ document.addEventListener('DOMContentLoaded', function() {
     const japaneseTextInput = document.getElementById('japanese-text');
     const originalLanguageInput = document.getElementById('original-language-text');
     const thaiTextInput = document.getElementById('thai-text');
-    const categorySelect = document.getElementById('category');
-    const difficultySelect = document.getElementById('difficulty');
-    const previewOutput = document.getElementById('preview-output');
+    const descriptionInput = document.getElementById('description');
+    const gameTitleInput = document.getElementById('game-title');
+    const previewOutput = document.getElementById('preview');
     const copyButton = document.getElementById('copy-button');
+    const clearAllBtn = document.getElementById('clear-all');
+    
+    // Word types select - store reference to Tom Select instance
+    let wordTypesSelect = null;
+    const wordTypesElement = document.getElementById('word-types');
+    
+    // Only initialize Tom Select if the element exists and doesn't already have a Tom Select instance
+    if (wordTypesElement && !wordTypesElement.tomselect) {
+        wordTypesSelect = new TomSelect(wordTypesElement, {
+            plugins: ['remove_button', 'clear_button'],
+            maxItems: null,
+            create: false,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            }
+        });
+    } else if (wordTypesElement && wordTypesElement.tomselect) {
+        // If Tom Select is already initialized, get the existing instance
+        wordTypesSelect = wordTypesElement.tomselect;
+    }
+    
+    // JLPT and J.TEST related elements
+    const nLevelSelect = document.getElementById('n-level');
+    const jlptExamCheckbox = document.getElementById('jlpt-exam');
+    const jlptLevelSelect = document.getElementById('jlpt-level');
+    const jtestExamCheckbox = document.getElementById('jtest-exam');
+    const jtestNoInput = document.getElementById('jtest-no');
+    const yearInput = document.getElementById('year');
+    const monthInput = document.getElementById('month');
 
-    // Category display names
-    const categoryNames = {
-        'food': 'Food & Drinks',
-        'technology': 'Technology',
-        'sports': 'Sports',
-        'fashion': 'Fashion',
-        'business': 'Business',
-        'other': 'Other'
-    };
+    // Initialize form controls state
+    function initializeFormControls() {
+        // Disable dependent fields by default
+        if (jlptLevelSelect) jlptLevelSelect.disabled = true;
+        if (yearInput) yearInput.disabled = true;
+        if (monthInput) monthInput.disabled = true;
+        if (jtestNoInput) jtestNoInput.disabled = true;
+        
+        // Set current year as default if year input exists
+        if (yearInput && !yearInput.value) {
+            yearInput.value = new Date().getFullYear();
+        }
+    }
 
     // Update the preview
     function updatePreview() {
-        const japaneseText = japaneseTextInput.value;
-        const originalText = originalLanguageInput.value;
-        const thaiText = thaiTextInput.value;
-        const category = categorySelect.value;
-        const difficulty = difficultySelect.value;
+        if (!previewOutput) return;
         
-        let previewContent = '';
+        // Safely get values with null checks
+        const japaneseText = japaneseTextInput ? japaneseTextInput.value : '';
+        const originalText = originalLanguageInput ? originalLanguageInput.value : '';
+        const thaiText = thaiTextInput ? thaiTextInput.value : '';
+        const description = descriptionInput ? descriptionInput.value : '';
+        const gameTitle = gameTitleInput ? gameTitleInput.value : '';
+        const nLevel = nLevelSelect ? nLevelSelect.value : 'None';
         
-        // Add Japanese text if available
-        if (japaneseText) {
-            previewContent += `${japaneseText}\n`;
-        } else {
-            previewContent += '[Katakana Word]\n';
+        // Get selected word types
+        let selectedWordTypes = '';
+        if (wordTypesSelect && wordTypesSelect.items) {
+            selectedWordTypes = wordTypesSelect.items
+                .map(value => wordTypesSelect.options[value] ? wordTypesSelect.options[value].text : '')
+                .filter(Boolean)
+                .join(' / ');
         }
         
-        // Add original language text if available
-        if (originalText) {
-            previewContent += `${originalText}\n\n`;
-        } else {
-            previewContent += '[Original Word]\n\n';
+        const year = yearInput ? yearInput.value : '';
+        const month = monthInput ? monthInput.value : '';
+        let jlptText = "";
+        let jtestText = "";
+
+        let output = `【คำศัพท์】\n\n${japaneseText}\n${originalText}\n${thaiText}\n\n※ ${selectedWordTypes}`;
+
+        if (nLevel !== "None") {
+            output += `\n※ คำศัพท์ระดับ ${nLevel}`;
         }
-        
-        // Add Thai translation if available
-        if (thaiText) {
-            previewContent += `${thaiText}\n\n`;
-        } else {
-            previewContent += '[Thai Translation]\n\n';
+
+        if (jlptExamCheckbox && jlptExamCheckbox.checked && jlptLevelSelect) {
+            const jlptLevel = jlptLevelSelect.value || '';
+            if (jlptLevel && year && month) {
+                jlptText = `\n⭐️ ออกสอบ JLPT ${jlptLevel} (รอบ ${year}年${month}月)`;
+                output += jlptText;
+            }
         }
-        
-        // Add category if selected
-        if (category) {
-            previewContent += `Category: ${categoryNames[category] || category}\n`;
-        } else {
-            previewContent += 'Category: -\n';
+
+        if (jtestExamCheckbox && jtestExamCheckbox.checked && jtestNoInput && jtestNoInput.value) {
+            jtestText = `\n⭐️ ออกสอบ J.TEST ระดับ A-C (第${jtestNoInput.value}回)`;
+            output += jtestText;
         }
+
+        // Build the meaning section
+        output += '\n\n————————————\n';
+        if (japaneseText) output += japaneseText;
+        if (description) output += description;
         
-        // Add difficulty
-        previewContent += `Difficulty: ${difficulty.charAt(0).toUpperCase() + difficulty.slice(1)}\n`;
-        
-        // Update the preview
-        previewOutput.textContent = previewContent;
+        if (gameTitle) {
+            output += '\n\n————————————\n▍ภาพจากเกม ' + gameTitle;
+        }
+
+        previewOutput.textContent = output;
     }
     
-    // Add event listeners to all inputs
-    [japaneseTextInput, originalLanguageInput, thaiTextInput].forEach(input => {
-        input.addEventListener('input', updatePreview);
-    });
-    
-    [categorySelect, difficultySelect].forEach(select => {
-        select.addEventListener('change', updatePreview);
-    });
-    
-    // Copy to clipboard functionality
-    copyButton.addEventListener('click', async () => {
-        try {
-            await navigator.clipboard.writeText(previewOutput.textContent);
-            showToast('Copied to clipboard!');
-        } catch (err) {
-            console.error('Failed to copy text: ', err);
-            showToast('Failed to copy text', 'danger');
+    // Add event listeners
+    function setupEventListeners() {
+        // Input fields
+        const inputFields = [japaneseTextInput, originalLanguageInput, thaiTextInput, 
+                           descriptionInput, gameTitleInput, nLevelSelect];
+        
+        inputFields.forEach(input => {
+            if (input) {
+                input.addEventListener('input', updatePreview);
+            }
+        });
+        
+        // Word types select
+        if (wordTypesSelect) {
+            wordTypesSelect.on('change', updatePreview);
         }
-    });
+        
+        // JLPT exam checkbox
+        if (jlptExamCheckbox) {
+            jlptExamCheckbox.addEventListener('change', function() {
+                if (jlptLevelSelect) jlptLevelSelect.disabled = !this.checked;
+                if (yearInput) yearInput.disabled = !this.checked;
+                if (monthInput) monthInput.disabled = !this.checked;
+                updatePreview();
+            });
+        }
+        
+        // J.TEST exam checkbox
+        if (jtestExamCheckbox) {
+            jtestExamCheckbox.addEventListener('change', function() {
+                if (jtestNoInput) jtestNoInput.disabled = !this.checked;
+                updatePreview();
+            });
+        }
+        
+        // N-level select
+        if (nLevelSelect) {
+            nLevelSelect.addEventListener('change', function() {
+                if (jlptLevelSelect && jlptExamCheckbox && jlptExamCheckbox.checked) {
+                    jlptLevelSelect.value = this.value;
+                    updatePreview();
+                }
+            });
+        }
+        
+        // Copy button
+        if (copyButton) {
+            copyButton.addEventListener('click', function() {
+                if (previewOutput && previewOutput.textContent) {
+                    navigator.clipboard.writeText(previewOutput.textContent)
+                        .then(() => {
+                            // Show success message
+                            const toast = new bootstrap.Toast(document.getElementById('copyToast'));
+                            toast.show();
+                        })
+                        .catch(err => {
+                            console.error('Failed to copy text: ', err);
+                        });
+                }
+            });
+        }
+        
+        // Clear all button
+        if (clearAllBtn) {
+            clearAllBtn.addEventListener('click', function() {
+                const form = document.querySelector('form');
+                if (form) form.reset();
+                
+                // Clear Tom Select if it exists
+                if (wordTypesSelect) {
+                    wordTypesSelect.clear();
+                }
+                
+                // Reset preview
+                if (previewOutput) {
+                    previewOutput.textContent = '';
+                }
+                
+                // Re-initialize form controls
+                initializeFormControls();
+            });
+        }
+    }
     
-    // Initialize the preview
+    // Initialize the page
+    initializeFormControls();
+    setupEventListeners();
     updatePreview();
 });

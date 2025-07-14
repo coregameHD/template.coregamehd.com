@@ -96,11 +96,63 @@ pageScript: /js/katakana.js
                                     <label class="form-check-label" for="jlpt-exam">Appears in JLPT</label>
                                 </div>
                             </div>
-————————————
-() หมายถึง
 
-————————————
-▍ภาพจากเกม </div>
+                            <div class="mb-3">
+                                <label class="form-label" for="jlpt-level">JLPT Level</label>
+                                <select class="form-select" id="jlpt-level">
+                                    <option value="N1">N1</option>
+                                    <option value="N2">N2</option>
+                                    <option value="N3">N3</option>
+                                    <option value="N4">N4</option>
+                                    <option value="N5">N5</option>
+                                </select>
+                            </div>
+
+                            <div class="row mb-3">
+                                <div class="col">
+                                    <label class="form-label" for="year">Year</label>
+                                    <input type="number" class="form-control" id="year" placeholder="YYYY">
+                                </div>
+                                <div class="col">
+                                    <label class="form-label" for="month">Month</label>
+                                    <input type="number" class="form-control" id="month" placeholder="MM" min="1" max="12">
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <div class="form-check form-switch">
+                                    <input class="form-check-input" type="checkbox" id="jtest-exam">
+                                    <label class="form-check-label" for="jtest-exam">Appears in J.TEST</label>
+                                </div>
+                            </div>
+
+                            <div class="mb-3">
+                                <label class="form-label" for="jtest-no">J.TEST Test Number</label>
+                                <input type="text" class="form-control" id="jtest-no" placeholder="Enter test number">
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 3 -->
+                <div class="col-md-4">
+                    <div class="card nihongo-card h-100">
+                        <div class="card-header">
+                            <h3 class="card-title">Preview</h3>
+                        </div>
+                        <div class="card-body">
+                            <div id="preview" class="preview-output"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Tabler Core JS -->
+<script src="https://unpkg.com/@tabler/core@latest/dist/js/tabler.min.js"></script>
+<!-- Tom Select JS -->
                     </div>
                     <div class="card-footer">
                         <div class="d-flex justify-content-between align-items-center">
@@ -118,278 +170,25 @@ pageScript: /js/katakana.js
     </div>
 </div>
 
+<!-- Toast Container -->
+<div class="toast-container position-fixed top-0 end-0 p-3">
+    <div id="copyToast" class="toast" role="alert" aria-live="assertive" aria-atomic="true">
+        <div class="toast-header">
+            <strong class="me-auto">Success</strong>
+            <button type="button" class="btn-close" data-bs-dismiss="toast" aria-label="Close"></button>
+        </div>
+        <div class="toast-body">
+            Copied to clipboard!
+        </div>
+    </div>
+</div>
+
 <!-- Tabler Core JS -->
 <script src="https://unpkg.com/@tabler/core@latest/dist/js/tabler.min.js"></script>
 <!-- Tom Select JS -->
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
-
-<script>
-    // Initialize Tom Select
-    const wordTypesSelect = new TomSelect('#word-types', {
-        plugins: ['remove_button','clear_button'],
-        maxItems: null,
-        persist: false,
-        create: false,
-        onChange: function() {
-            updatePreview();
-        }
-    });
-
-    const japaneseTextInput = document.getElementById('japanese-text');
-    const originalLanguageTextInput = document.getElementById('original-language-text');
-    const thaiTextInput = document.getElementById('thai-text');
-    const descriptionInput = document.getElementById('description');
-    const gameTitleInput = document.getElementById('game-title');
-    const previewOutput = document.getElementById('preview');
-    const copyButton = document.getElementById('copyButton');
-    const nLevelSelect = document.getElementById('n-level');
-    const jlptLevelSelect = document.getElementById('jlpt-level');
-    const yearInput = document.getElementById('year');
-    const monthInput = document.getElementById('month');
-    const jlptExamCheckbox = document.getElementById('jlpt-exam');
-    const jtestExamCheckbox = document.getElementById('jtest-exam');
-    const jtestNoInput = document.getElementById('jtest-no');
-
-    // Initialize jtest-no input as disabled
-    jtestNoInput.disabled = true;
-
-    // Add N-level dependency logic
-    if (nLevelSelect) {
-        nLevelSelect.addEventListener('change', function() {
-            const selectedValue = this.value;
-            if (selectedValue !== 'None' && jlptExamCheckbox && jlptExamCheckbox.checked) {
-                if (jlptLevelSelect) jlptLevelSelect.value = selectedValue;
-                if (yearInput) yearInput.value = new Date().getFullYear();
-                if (monthInput) monthInput.value = new Date().getMonth() + 1;
-            }
-            updatePreview();
-        });
-    }
-
-    // Add JLPT exam checkbox dependency logic
-    if (jlptExamCheckbox) {
-        jlptExamCheckbox.addEventListener('change', function() {
-            if (jlptLevelSelect) jlptLevelSelect.disabled = !this.checked;
-            if (yearInput) yearInput.disabled = !this.checked;
-            if (monthInput) monthInput.disabled = !this.checked;
-            if (this.checked) {
-                const nLevelValue = nLevelSelect ? nLevelSelect.value : 'None';
-                if (nLevelValue !== 'None') {
-                    if (jlptLevelSelect) jlptLevelSelect.value = nLevelValue;
-                    if (yearInput) yearInput.value = new Date().getFullYear();
-                    if (monthInput) monthInput.value = new Date().getMonth() + 1;
-                }
-            }
-            updatePreview();
-        });
-    }
-
-    // Add JTest exam checkbox dependency logic
-    if (jtestExamCheckbox && jtestNoInput) {
-        jtestExamCheckbox.addEventListener('change', function() {
-            jtestNoInput.disabled = !this.checked;
-            updatePreview();
-        });
-    }
-
-    function updatePreview() {
-        if (!previewOutput) return;
-        
-        // Safely get values with null checks
-        let japaneseText = japaneseTextInput ? japaneseTextInput.value : '';
-        let originalLanguageText = originalLanguageTextInput ? originalLanguageTextInput.value : '';
-        let thaiText = thaiTextInput ? thaiTextInput.value : '';
-        let description = descriptionInput ? descriptionInput.value : '';
-        let gameTitle = gameTitleInput ? gameTitleInput.value : '';
-        let nLevel = nLevelSelect ? nLevelSelect.value : 'None';
-        
-        // Safely get selected word types
-        let selectedWordTypes = '';
-        if (wordTypesSelect && wordTypesSelect.items) {
-            selectedWordTypes = wordTypesSelect.items
-                .map(value => wordTypesSelect.options[value] ? wordTypesSelect.options[value].text : '')
-                .filter(Boolean)
-                .join(' / ');
-        }
-        
-        let year = yearInput ? yearInput.value : '';
-        let month = monthInput ? monthInput.value : '';
-        let jlptText = "";
-        let jtestText = "";
-
-        let output = `【คำศัพท์】\n\n${japaneseText}\n${originalLanguageText}\n${thaiText}\n\n※ ${selectedWordTypes}`;
-
-        if (nLevel !== "None") {
-            output += `\n※ คำศัพท์ระดับ ${nLevel}`;
-        }
-
-        if (jlptExamCheckbox && jlptExamCheckbox.checked && jlptLevelSelect) {
-            let jlptLevel = jlptLevelSelect.value || '';
-            if (jlptLevel && year && month) {
-                jlptText = `\n⭐️ ออกสอบ JLPT ${jlptLevel} (รอบ ${year}年${month}月)`;
-                output += jlptText;
-            }
-        }
-
-        if (jtestExamCheckbox && jtestExamCheckbox.checked && jtestNoInput && jtestNoInput.value) {
-            jtestText = `\n⭐️ ออกสอบ J.TEST ระดับ A-C (第${jtestNoInput.value}回)`;
-            output += jtestText;
-        }
-
-        // Build the meaning section
-        output += '\n\n————————————\n';
-        if (japaneseText) output += japaneseText + '\n';
-        if (description) output += description;
-        
-        // Add game title if available
-        if (gameTitle) {
-            output += '\n\n————————————\n▍ภาพจากเกม ' + gameTitle;
-        }
-
-        previewOutput.textContent = output;
-    }
-
-    // Add event listeners for all inputs
-    const textInputs = [
-        japaneseTextInput, originalLanguageTextInput, thaiTextInput, 
-        descriptionInput, gameTitleInput, jtestNoInput, 
-        yearInput, monthInput
-    ].filter(Boolean); // Remove any null/undefined values
-    
-    const selectInputs = [nLevelSelect, jlptLevelSelect].filter(Boolean);
-    const checkboxInputs = [jlptExamCheckbox, jtestExamCheckbox].filter(Boolean);
-
-    // Add input event listeners to text inputs
-    textInputs.forEach(input => {
-        input.addEventListener('input', updatePreview);
-    });
-
-    // Add change event listeners to select inputs
-    selectInputs.forEach(select => {
-        select.addEventListener('change', updatePreview);
-    });
-
-    // Add change event to Tom Select
-    if (wordTypesSelect) {
-        wordTypesSelect.on('change', updatePreview);
-    }
-
-    // Add change event listeners to checkboxes
-    checkboxInputs.forEach(checkbox => {
-        checkbox.addEventListener('change', updatePreview);
-    });
-
-    // Initial preview update
-    updatePreview();
-
-    // Add click event to copy button
-    if (copyButton) {
-        copyButton.addEventListener('click', async function() {
-            const textToCopy = previewOutput ? previewOutput.textContent.trim() : '';
-            
-            if (!textToCopy) {
-                showToast('No content to copy!', 'error');
-                return;
-            }
-            
-            try {
-                await navigator.clipboard.writeText(textToCopy);
-                showToast('Copied to clipboard!', 'success');
-            } catch (err) {
-                console.error('Failed to copy text: ', err);
-                showToast('Failed to copy. Please try again.', 'error');
-            }
-        });
-    }
-
-    // Add click event to clear all button
-    if (clearAllBtn) {
-        clearAllBtn.addEventListener('click', function() {
-            // Clear all input fields
-            const form = document.querySelector('form');
-            if (form) form.reset();
-            
-            // Clear Tom Select
-            if (wordTypesSelect) {
-                wordTypesSelect.clear();
-            }
-            
-            // Reset disabled states
-            if (jtestNoInput) jtestNoInput.disabled = true;
-            if (jlptLevelSelect) jlptLevelSelect.disabled = true;
-            if (yearInput) yearInput.disabled = true;
-            if (monthInput) monthInput.disabled = true;
-            
-            // Update preview
-            updatePreview();
-            
-            // Show success message
-            showToast('All fields have been cleared!', 'success');
-        });
-    }
-    // Toast notification function
-    function showToast(message, type = 'success') {
-        // Create toast container if it doesn't exist
-        let toastContainer = document.querySelector('.toast-container');
-        if (!toastContainer) {
-            toastContainer = document.createElement('div');
-            toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
-            toastContainer.style.zIndex = '1090';
-            document.body.appendChild(toastContainer);
-        }
-        
-        const toastId = 'toast-' + Date.now();
-        const toast = document.createElement('div');
-        toast.id = toastId;
-        
-        // Use Tabler's alert classes
-        const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
-        const iconClass = type === 'success' ? 'ti-circle-check' : 'ti-alert-circle';
-        
-        toast.className = `alert ${alertClass} alert-dismissible fade show`;
-        toast.role = 'alert';
-        
-        toast.innerHTML = `
-            <div class="d-flex align-items-center">
-                <i class="ti ${iconClass} me-2"></i>
-                <div>${message}</div>
-                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-            </div>
-        `;
-        
-        toastContainer.appendChild(toast);
-        
-        // Auto remove toast after delay
-        setTimeout(() => {
-            toast.classList.remove('show');
-            toast.classList.add('fade');
-            setTimeout(() => {
-                toast.remove();
-                if (toastContainer && toastContainer.children.length === 0) {
-                    toastContainer.remove();
-                }
-            }, 150);
-        }, 3000);
-        
-        // Add close button functionality
-        const closeBtn = toast.querySelector('.btn-close');
-        if (closeBtn) {
-            closeBtn.addEventListener('click', () => {
-                toast.classList.remove('show');
-                toast.classList.add('fade');
-                setTimeout(() => {
-                    toast.remove();
-                    if (toastContainer && toastContainer.children.length === 0) {
-                        toastContainer.remove();
-                    }
-                }, 150);
-            });
-        }
-    }
-
-    // Initialize form state
-    updatePreview();
-</script>
+<!-- Custom JS -->
+<script src="/js/katakana.js"></script>
 
 </body>
 </html>
