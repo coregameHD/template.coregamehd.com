@@ -97,11 +97,6 @@ pageScript: /js/katakana.js
 
                             <div class="dropdown-divider my-3"></div>
 
-                            <div class="mb-3">
-                                <label class="form-label" for="hiragana">Hiragana</label>
-                                <input type="text" class="form-control" id="hiragana" placeholder="Enter hiragana">
-                            </div>
-
                             <div class="mb-0">
                                 <label class="form-label" for="description">Description</label>
                                 <textarea class="form-control" id="description" rows="8" placeholder="Enter description"></textarea>
@@ -183,8 +178,8 @@ pageScript: /js/katakana.js
                                 <label class="form-label" for="month">Month</label>
                                 <select class="form-select" id="month" disabled>
                                     <option value="">--</option>
-                                    <option value="7">July</option>
-                                    <option value="12">December</option>
+                                    <option value="07">07</option>
+                                    <option value="12">12</option>
                                 </select>
                             </div>
                         </div>
@@ -261,7 +256,6 @@ pageScript: /js/katakana.js
     const japaneseTextInput = document.getElementById('japanese-text');
     const originalLanguageTextInput = document.getElementById('original-language-text');
     const thaiTextInput = document.getElementById('thai-text');
-    const hiraganaInput = document.getElementById('hiragana');
     const descriptionInput = document.getElementById('description');
     const gameTitleInput = document.getElementById('game-title');
     const previewOutput = document.getElementById('preview');
@@ -323,7 +317,6 @@ pageScript: /js/katakana.js
         let japaneseText = japaneseTextInput ? japaneseTextInput.value : '';
         let originalLanguageText = originalLanguageTextInput ? originalLanguageTextInput.value : '';
         let thaiText = thaiTextInput ? thaiTextInput.value : '';
-        let hiragana = hiraganaInput ? hiraganaInput.value : '';
         let description = descriptionInput ? descriptionInput.value : '';
         let gameTitle = gameTitleInput ? gameTitleInput.value : '';
         let nLevel = nLevelSelect ? nLevelSelect.value : 'None';
@@ -363,9 +356,7 @@ pageScript: /js/katakana.js
 
         // Build the meaning section
         output += '\n\n————————————\n';
-        if (japaneseText) output += japaneseText;
-        if (hiragana) output += ` (${hiragana})`;
-        if (japaneseText || hiragana) output += ' หมายถึง\n';
+        if (japaneseText) output += japaneseText + '\n';
         if (description) output += description;
         
         // Add game title if available
@@ -379,8 +370,8 @@ pageScript: /js/katakana.js
     // Add event listeners for all inputs
     const textInputs = [
         japaneseTextInput, originalLanguageTextInput, thaiTextInput, 
-        hiraganaInput, descriptionInput, gameTitleInput, 
-        jtestNoInput, yearInput, monthInput
+        descriptionInput, gameTitleInput, jtestNoInput, 
+        yearInput, monthInput
     ].filter(Boolean); // Remove any null/undefined values
     
     const selectInputs = [nLevelSelect, jlptLevelSelect].filter(Boolean);
