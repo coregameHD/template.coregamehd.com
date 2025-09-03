@@ -1,0 +1,136 @@
+:root {
+  --tblr-primary: #5c2d8c;
+  --tblr-primary-rgb: 92, 45, 140;
+  --tblr-link-color: #5c2d8c;
+  --tblr-link-hover-color: #4a2470;
+  --tblr-btn-active-bg: #4a2470;
+  --tblr-btn-active-border-color: #4a2470;
+}
+
+body {
+  background-color: #faf7ff;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
+
+.btn-primary, .btn-primary:focus {
+  background-color: var(--tblr-primary);
+  border-color: var(--tblr-primary);
+}
+
+.btn-primary:hover {
+  background-color: #4a2470;
+  border-color: #4a2470;
+}
+
+.btn-primary:active, .btn-primary.active {
+  background-color: #3d1c5c !important;
+  border-color: #3d1c5c !important;
+}
+
+.form-control:focus, .form-select:focus {
+  border-color: #5c2d8c;
+  box-shadow: 0 0 0 0.25rem rgba(92, 45, 140, 0.25);
+}
+
+.form-check-input:checked {
+  background-color: #5c2d8c;
+  border-color: #5c2d8c;
+}
+
+.card-header {
+  background-color: #f0e6ff;
+  color: #5c2d8c;
+  border-bottom: 1px solid #e0ccff;
+}
+
+.card-header .card-title {
+  color: #5c2d8c;
+  margin-bottom: 0;
+}
+
+.card-header .btn-ghost-secondary {
+  color: rgba(92, 45, 140, 0.7);
+}
+
+.card-header .btn-ghost-secondary:hover {
+  color: #5c2d8c;
+  background-color: rgba(92, 45, 140, 0.1);
+}
+
+.markdown-preview {
+  background-color: #1a1a1a;
+  color: #e0e0e0;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, monospace;
+  white-space: pre-wrap;
+  border-radius: 6px;
+  padding: 1.5rem;
+  height: 100%;
+  margin: 0;
+  overflow: auto;
+  line-height: 1.6;
+}
+
+.form-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-content {
+  flex: 1;
+  overflow-y: auto;
+  padding-right: 0.5rem;
+}
+
+
+/* Custom Tom Select styles */
+.ts-control {
+    border: 1px solid #5c2d8c;
+    border-radius: 6px;
+    padding: 0.375rem 0.75rem;
+    min-height: 42px;
+}
+.ts-dropdown {
+    border: 1px solid #d4d7dd;
+    border-radius: 6px;
+    margin-top: 4px;
+}
+.ts-dropdown .active {
+    background-color: #f3f6ff;
+    color: #5c2d8c;
+}
+.ts-dropdown .selected {
+    background-color: #f3f6ff;
+}
+.ts-wrapper.multi .ts-control > div {
+    background: #5c2d8c;
+    color: white;
+    border-radius: 4px;
+    padding: 2px 8px;
+    margin: 2px 4px 2px 0;
+}
+.ts-wrapper.multi .ts-control > div.active {
+    background: #5c2d8c;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #888;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #555;
+}

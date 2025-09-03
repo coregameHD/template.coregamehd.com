@@ -1,0 +1,409 @@
+<%- include('../partials/head', { title:"Kagami Nihongo Post Generator", cssFile:"nihongo" }) %>
+<%- include('../partials/navbar_nihongo') %>
+<body class="d-flex flex-column">
+    <div class="page-wrapper" style="flex: 1 0 auto;">
+        <div class="container-xl py-4">
+            <div class="row g-4">
+                <!-- Column 1 -->
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Basic Information</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-4">
+                                    <label class="form-label d-block mb-2">ระดับ JLPT</label>
+                                    <div class="d-flex flex-column gap-1">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="jlpt-exam-level" id="n1-level" value="【ข้อสอบ JLPT N1】" checked>
+                                            <label class="form-check-label" for="n1-level">JLPT N1</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="jlpt-exam-level" id="n2-level" value="【ข้อสอบ JLPT N2】">
+                                            <label class="form-check-label" for="n2-level">JLPT N2</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="jlpt-exam-level" id="n3-level" value="【ข้อสอบ JLPT N3】">
+                                            <label class="form-check-label" for="n3-level">JLPT N3</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label d-block mb-2">ประเภทข้อสอบ</label>
+                                    <div class="d-flex flex-column gap-1">
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="jlpt-type" id="read-type" value="คำถาม : การอ่านอักษรคันจิ
+                                            (XXXX年XX月) จงเลือกคำตอบที่ตรงกับเสียงอ่านของคำที่ขีดเส้นใต้จากข้อ 1・2・3・4" checked>
+                                            <label class="form-check-label" for="read-type">การอ่านอักษรคันจิ</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="jlpt-type" id="write-type" value="คำถาม : การเขียนอักษรคันจิ
+                                            (XXXX年XX月) จงเลือกคำตอบที่เขียนตัวอักษรคันจิตรงกับคำที่ขีดเส้นใต้จากข้อ 1・2・3・4">
+                                            <label class="form-check-label" for="write-type">การเขียนอักษรคันจิ</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="jlpt-type" id="context-type" value="คำถาม : บริบท
+                                            (XXXX年XX月) จงเลือกคำตอบที่ถูกต้องจากข้อ 1・2・3・4 เติมลงในช่องว่าง">
+                                            <label class="form-check-label" for="context-type">บริบท</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="jlpt-type" id="similar-type" value="คำถาม : ความหมายคล้ายกัน
+                                            (XXXX年XX月) จงเลือกคำตอบที่มีความหมายใกล้เคียงกับคำที่ขีดเส้นใต้จากข้อ 1・2・3・4">
+                                            <label class="form-check-label" for="similar-type">ความหมายคล้ายกัน</label>
+                                        </div>
+                                        <div class="form-check">
+                                            <input class="form-check-input" type="radio" name="jlpt-type" id="usage-type" value="คำถาม : วิธีใช้
+                                            (XXXX年XX月) จงเลือกคำตอบที่เป็นวิธีใช้ที่เหมาะสมที่สุดของคำต่อไปนี้จากข้อ 1・2・3・4">
+                                            <label class="form-check-label" for="usage-type">วิธีใช้</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label d-block">วัน/เวลาสอบ</label>
+                                    <label class="form-label" for="year">Year</label>
+                                    <input type="text" class="form-control" id="year">
+                                    <label class="form-label" for="month">Month</label>
+                                    <select class="form-select" id="month">
+                                        <option value="07">07</option>
+                                        <option value="12">12</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grammar Usage block -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h3 class="card-title">Question</h3>
+                            <div class="card-actions">
+                                <button class="btn btn-ghost-secondary btn-sm" id="insertDefaultGrammarBtn">
+                                    <i class="fas fa-magic me-1"></i> Insert Default Value
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <textarea 
+                                id="jlpt-question" 
+                                class="form-control border-0" 
+                                placeholder="Enter exam question"
+                                style="min-height: 200px; resize: true;"
+                                spellcheck="false"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <!-- answer block -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h3 class="card-title">Answer</h3>
+                        </div>
+                        <div class="card-body p-0">
+                                <textarea 
+                                    id="answer" 
+                                    class="form-control border-0" 
+                                    placeholder="Enter exam answer link"
+                                    style="min-height: 60px; resize: true;"
+                                    spellcheck="false"
+                                ></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Example Sentence block -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h3 class="card-title">Answer (Details)</h3>
+                            <div class="card-actions">
+                                <button class="btn btn-ghost-secondary btn-sm" id="insertFrameBtn">
+                                    <i class="fas fa-square-plus me-1"></i> Insert Frame
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <textarea 
+                                id="answer-explaination" 
+                                class="form-control border-0" 
+                                placeholder="Enter detailed explaination"
+                                style="min-height: 200px; resize: true;"
+                                spellcheck="false"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 (Preview) -->
+                <div class="col-md-4">
+                    <div class="sticky-top" style="top: 5rem; margin-bottom: 2rem;">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h3 class="card-title">Preview</h3>
+                            <div class="card-actions">
+                                <button class="btn btn-ghost-secondary btn-sm" id="exampleButton"><i class="fas fa-lightbulb me-2"></i>Example</button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0 d-flex flex-column">
+                            <div class="preview-output flex-grow-1" id="preview"></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button id="clearAllBtn" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash-alt me-2"></i>Clear All
+                                </button>
+                                <button class="btn btn-primary" id="copyButtonBottom">
+                                    <i class="fas fa-copy me-2"></i>Copy to Clipboard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %> 
+
+    <!-- Original script -->
+    <script>
+        // Initialize form elements
+        const answerInput = document.getElementById('answer');
+        const jlptQuestionInput = document.getElementById('jlpt-question');
+        const answerExplainationInput = document.getElementById('answer-explaination');
+        const monthSelect = document.getElementById('month');
+        const yearInput = document.getElementById('year');
+        const previewOutput = document.getElementById('preview');
+        // Get buttons
+        const copyButtonBottom = document.getElementById('copyButtonBottom');
+        const exampleButton = document.getElementById('exampleButton');
+        const insertFrameBtn = document.getElementById('insertFrameBtn');
+        const insertDefaultGrammarBtn = document.getElementById('insertDefaultGrammarBtn');
+
+        // Initialize the preview
+        function updatePreview() {
+            let answer = answerInput.value;
+            // Get the selected JLPT level from radio buttons
+            let jlptExamLevel = document.querySelector('input[name="jlpt-exam-level"]:checked').value;
+            let examType = document.querySelector('input[name="jlpt-type"]:checked').value;
+            let jlptQuestion = jlptQuestionInput.value;
+            let answerExplaination = answerExplainationInput.value;
+            let month = monthSelect.value;
+            let year = yearInput.value;
+            
+            // Format the output
+            let output = `${jlptExamLevel}\n\n`;
+            
+            // Add exam type if it exists
+            if (examType) {
+                // Replace XXXX年XX月 with the actual year and month
+                examType = examType.replace('XXXX年XX月', `${year}年${month}月`);
+                output += `${examType}`;
+            }
+
+            output += `\n\n————————————\n➡️ โจทย์\n\n${jlptQuestion}`;
+
+            output += `\n\n————————————\n➡️ เฉลย (答え)\n\n${answer}`;
+
+            output += `\n\n————————————\n➡️ คำอธิบายเฉลย\n\n${answerExplaination}`;
+
+            previewOutput.textContent = output;
+        }
+
+        // Add event listeners for all inputs
+        const textInputs = [
+            answerInput, 
+            jlptQuestionInput, 
+            answerExplainationInput,
+            monthSelect,
+            yearInput
+        ];
+        
+        // Add input event listeners to text inputs
+        textInputs.forEach(input => {
+            if (input) input.addEventListener('input', updatePreview);
+        });
+
+        // Add event listener for JLPT level and type radio buttons
+        document.querySelectorAll('input[type="radio"][name^="jlpt-"]').forEach(radio => {
+            radio.addEventListener('change', updatePreview);
+        });
+
+        // Custom toast notification system
+        function showToast(message, type = 'success') {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.querySelector('.toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+                toastContainer.style.zIndex = '1090';
+                document.body.appendChild(toastContainer);
+            }
+            
+            const toastId = 'toast-' + Date.now();
+            const toast = document.createElement('div');
+            toast.id = toastId;
+            
+            // Use Tabler's alert classes
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            const iconClass = type === 'success' ? 'fas fa-circle-check' : 'fas fa-exclamation-circle';
+            
+            toast.className = `alert ${alertClass} alert-dismissible fade show`;
+            toast.role = 'alert';
+            
+            toast.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="${iconClass} me-2"></i>
+                    <div>${message}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Auto remove toast after delay
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('fade');
+                setTimeout(() => {
+                    toast.remove();
+                    if (toastContainer && toastContainer.children.length === 0) {
+                        toastContainer.remove();
+                    }
+                }, 150);
+            }, 3000);
+            
+            // Add close button functionality
+            const closeBtn = toast.querySelector('.btn-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    toast.classList.remove('show');
+                    toast.classList.add('fade');
+                    setTimeout(() => {
+                        toast.remove();
+                        if (toastContainer && toastContainer.children.length === 0) {
+                            toastContainer.remove();
+                        }
+                    }, 150);
+                });
+            }
+        }
+
+        // Function to handle copy to clipboard
+        async function handleCopyToClipboard() {
+            const textToCopy = previewOutput.textContent.trim();
+            
+            if (!textToCopy) {
+                showToast('No content to copy!', 'error');
+                return;
+            }
+            
+            try {
+                // Try the modern clipboard API first
+                if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(textToCopy);
+                } else {
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    textarea.style.position = 'fixed';  // Prevent scrolling to bottom
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    
+                    try {
+                        const successful = document.execCommand('copy');
+                        if (!successful) {
+                            throw new Error('Copy command was unsuccessful');
+                        }
+                    } finally {
+                        document.body.removeChild(textarea);
+                    }
+                }
+                
+                showToast('Copied to clipboard!', 'success');
+                
+            } catch (err) {
+                console.error('Could not copy text: ', err);
+                showToast('Failed to copy. Please try again or copy manually.', 'error');
+            }
+        }
+        
+        // Add event listeners to both copy buttons
+        if (copyButtonBottom) copyButtonBottom.addEventListener('click', handleCopyToClipboard);
+
+        // Clear All button functionality
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        if (clearAllBtn) {
+            clearAllBtn.addEventListener('click', function() {
+                // Clear text inputs
+                textInputs.forEach(input => {
+                    if (input && (input.type === 'text' || input.type === 'textarea')) {
+                        input.value = '';
+                        // Trigger input event to update preview
+                        input.dispatchEvent(new Event('input'));
+                    }
+                });
+                
+                // Update the preview
+                updatePreview();
+            });
+        }
+
+        // Example button handler to set preview text
+        if (exampleButton) {
+            exampleButton.addEventListener('click', () => {
+                const exampleText = `【สุภาษิต - สำนวนญี่ปุ่น】
+
+青天の霹靂
+seiten no hekireki
+ฟ้าผ่าในวันฟ้าใส
+
+————————————
+➡️ คำอธิบาย
+
+青天の霹靂 (せいてんのへきれき) แปลตรงตัวว่าเกิดเหตุฟ้าผ่าในวันที่ท้องฟ้าปลอดโปร่ง ซึ่งเปรียบเปรยเหมือนกับเรื่องที่ไม่คาดคิด
+
+ใช้เพื่อบ่งบอกว่าเป็นเหตุการณ์ที่เกิดขึ้นอย่างกะทันหันโดยไม่ทันตั้งตัว อยู่ดีๆ ก็เกิดขึ้นโดยที่ไม่มีวี่แววมาก่อน
+
+————————————
+📝 การใช้ไวยากรณ์
+
+ตัวอย่างการใช้ไวยากรณ์ การใช้ไวยากรณ์ การใช้ไวยากรณ์
+
+————————————
+➡️ ตัวอย่างประโยค
+
+ตัวอย่างประโยค ตัวอย่างประโยค ตัวอย่างประโยค
+
+————————————
+▍ภาพจากเกม Hatsukoi Master Up (初恋マスターアップ)`;
+                previewOutput.textContent = exampleText;
+            });
+        }
+
+        // Insert Frame button handler
+        if (insertFrameBtn) {
+            insertFrameBtn.addEventListener('click', () => {
+                const frameText = `┌───────────┐\n\n└───────────┘\n\n`;
+                const currentText = answerExplainationInput.value;
+                answerExplainationInput.value = frameText + currentText;
+                answerExplainationInput.dispatchEvent(new Event('input'));
+            });
+        }
+
+        // Insert Default Grammar button handler
+        if (insertDefaultGrammarBtn) {
+            insertDefaultGrammarBtn.addEventListener('click', () => {
+                const defaultGrammarText = `{คำกริยารูปธรรมดา} + \n{คำคุณศัพท์ い} + \n{คำคุณศัพท์ な} + \n{คำนาม} + \n\n`;
+                const currentText = jlptQuestionInput.value;
+                jlptQuestionInput.value = defaultGrammarText + '\n\n' + currentText;
+                jlptQuestionInput.dispatchEvent(new Event('input'));
+            });
+        }
+
+        // Initialize the preview
+        updatePreview();
+    </script>
+
+</body>
+
+</html>

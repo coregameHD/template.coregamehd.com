@@ -1,0 +1,399 @@
+<%- include('../partials/head', { title:"Kagami Nihongo Post Generator", cssFile:"nihongo" }) %>
+<%- include('../partials/navbar_nihongo') %>
+<body class="d-flex flex-column">
+    <div class="page-wrapper" style="flex: 1 0 auto;">
+        <div class="container-xl py-4">
+            <div class="row g-4">
+                <!-- Column 1 -->
+                <div class="col-md-8">
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">Basic Information</h3>
+                            <div class="card-actions">
+                                <a href="https://jisho.org" target="_blank" class="btn btn-ghost-secondary btn-sm" title="Markdown Guide">
+                                    <i class="fas fa-book-atlas me-2"></i>
+                                    Jisho
+                                </a>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-4">
+                                    <label class="form-label" for="japanese-text">Japanese Text</label>
+                                    <input type="text" class="form-control" id="japanese-text">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label" for="romaji-text">Romaji</label>
+                                    <input type="text" class="form-control" id="romaji-text">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label" for="thai-text">Thai Translation</label>
+                                    <input type="text" class="form-control" id="thai-text">
+                                </div>
+                            </div>
+                            <div class="row g-3 mb-3">
+                                <div class="col-md-8">
+                                    <label class="form-label" for="gametitle">Game Title</label>
+                                    <input type="text" class="form-control" id="gametitle">
+                                </div>
+                                <div class="col-md-4">
+                                    <label class="form-label" for="grammar-level">Grammar Level</label>
+                                    <select class="form-select" id="grammar-level">
+                                        <option value="📒【ไวยากรณ์ N1】">JLPT N1</option>
+                                        <option value="📘【ไวยากรณ์ N2】">JLPT N2</option>
+                                        <option value="📕【ไวยากรณ์ N3】">JLPT N3</option>
+                                        <option value="📓【ไวยากรณ์ N0】 ※ นอกขอบเขต JLPT">นอกขอบเขต JLPT</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Grammar Usage block -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h3 class="card-title">วิธีเชื่อมประโยค</h3>
+                            <div class="card-actions">
+                                <button class="btn btn-ghost-secondary btn-sm" id="insertDefaultGrammarBtn">
+                                    <i class="fas fa-magic me-1"></i> Insert Default Value
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <textarea 
+                                id="grammar-usage" 
+                                class="form-control border-0" 
+                                placeholder="Enter grammar usage examples"
+                                style="min-height: 120px; resize: true;"
+                                spellcheck="false"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Description block -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h3 class="card-title">คำอธิบาย</h3>
+                        </div>
+                        <div class="card-body p-0">
+                                <textarea 
+                                    id="description" 
+                                    class="form-control border-0" 
+                                    placeholder="Enter description"
+                                    style="min-height: 200px; resize: true;"
+                                    spellcheck="false"
+                                ></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Example Sentence block -->
+                    <div class="card mb-3">
+                        <div class="card-header">
+                            <h3 class="card-title">ประโยคตัวอย่าง</h3>
+                            <div class="card-actions">
+                                <button class="btn btn-ghost-secondary btn-sm" id="insertFrameBtn">
+                                    <i class="fas fa-square-plus me-1"></i> Insert Frame
+                                </button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0">
+                            <textarea 
+                                id="example-sentence" 
+                                class="form-control border-0" 
+                                placeholder="Enter example sentences"
+                                style="min-height: 200px; resize: true;"
+                                spellcheck="false"
+                            ></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Additional Note block -->
+                    <div class="card">
+                        <div class="card-header">
+                            <h3 class="card-title">หมายเหตุเพิ่มเติม (Optional)</h3>
+                        </div>
+                        <div class="card-body p-0">
+                            <textarea 
+                                id="additional-note" 
+                                class="form-control border-0" 
+                                placeholder="Enter additional notes"
+                                style="min-height: 120px; resize: true;"
+                                spellcheck="false"
+                            ></textarea>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Column 2 (Preview) -->
+                <div class="col-md-4">
+                    <div class="sticky-top" style="top: 5rem; margin-bottom: 2rem;">
+                    <div class="card h-100">
+                        <div class="card-header">
+                            <h3 class="card-title">Preview</h3>
+                            <div class="card-actions">
+                                <button class="btn btn-ghost-secondary btn-sm" id="exampleButton"><i class="fas fa-lightbulb me-2"></i>Example</button>
+                            </div>
+                        </div>
+                        <div class="card-body p-0 d-flex flex-column">
+                            <div class="preview-output flex-grow-1" id="preview"></div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button id="clearAllBtn" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash-alt me-2"></i>Clear All
+                                </button>
+                                <button class="btn btn-primary" id="copyButtonBottom">
+                                    <i class="fas fa-copy me-2"></i>Copy to Clipboard
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %> 
+
+    <!-- Original script -->
+    <script>
+        // Initialize Tom Select
+        const japaneseTextInput = document.getElementById('japanese-text');
+        const romajiTextInput = document.getElementById('romaji-text');
+        const thaiTextInput = document.getElementById('thai-text');
+        const descriptionInput = document.getElementById('description');
+        const gameTitleInput = document.getElementById('gametitle');
+        const grammarLevelInput = document.getElementById('grammar-level');
+        const grammarUsageInput = document.getElementById('grammar-usage');
+        const exampleSentenceInput = document.getElementById('example-sentence');
+        const additionalNoteInput = document.getElementById('additional-note');
+        const previewOutput = document.getElementById('preview');
+        // Get both copy buttons
+        const copyButtonTop = document.getElementById('copyButtonTop');
+        const copyButtonBottom = document.getElementById('copyButtonBottom');
+        const exampleButton = document.getElementById('exampleButton');
+        const insertFrameBtn = document.getElementById('insertFrameBtn');
+        const insertDefaultGrammarBtn = document.getElementById('insertDefaultGrammarBtn');
+
+        // Initialize the preview
+        function updatePreview() {
+            let japaneseText = japaneseTextInput.value;
+            let romajiText = romajiTextInput.value;
+            let thaiText = thaiTextInput.value;
+            let description = descriptionInput.value;
+            let gameTitle = gameTitleInput.value;
+            let grammarLevel = grammarLevelInput.value;
+            let grammarUsage = grammarUsageInput.value;
+            let exampleSentence = exampleSentenceInput.value;
+            let additionalNote = additionalNoteInput.value;
+            
+            // Start with the grammar level as the first line
+            let output = `${grammarLevel}\n\n${japaneseText}\n${romajiText}\n${thaiText}`;
+
+            output += `\n\n————————————\n➡️ วิธีเชื่อมประโยค\n\n${grammarUsage}`;
+
+            output += `\n\n————————————\n➡️ คำอธิบาย\n\n${description}`;
+
+            output += `\n\n————————————\n➡️ ประโยคตัวอย่าง\n\n${exampleSentence}`;
+
+            if (additionalNote.trim() !== '') {
+                output += `\n\n————————————\n✳️ หมายเหตุเพิ่มเติม\n\n${additionalNote}`;
+            }
+
+            output += `\n\n————————————\n▍ภาพจากเกม ${gameTitle}`;
+
+            previewOutput.textContent = output;
+        }
+
+        // Add event listeners for all inputs
+        const textInputs = [
+            japaneseTextInput, romajiTextInput, thaiTextInput,
+            descriptionInput, gameTitleInput, grammarLevelInput, grammarUsageInput, exampleSentenceInput, additionalNoteInput
+        ];
+        
+        // Add input event listeners to text inputs
+        textInputs.forEach(input => {
+            if (input) input.addEventListener('input', updatePreview);
+        });
+
+        // Custom toast notification system
+        function showToast(message, type = 'success') {
+            // Create toast container if it doesn't exist
+            let toastContainer = document.querySelector('.toast-container');
+            if (!toastContainer) {
+                toastContainer = document.createElement('div');
+                toastContainer.className = 'toast-container position-fixed top-0 end-0 p-3';
+                toastContainer.style.zIndex = '1090';
+                document.body.appendChild(toastContainer);
+            }
+            
+            const toastId = 'toast-' + Date.now();
+            const toast = document.createElement('div');
+            toast.id = toastId;
+            
+            // Use Tabler's alert classes
+            const alertClass = type === 'success' ? 'alert-success' : 'alert-danger';
+            const iconClass = type === 'success' ? 'fas fa-circle-check' : 'fas fa-exclamation-circle';
+            
+            toast.className = `alert ${alertClass} alert-dismissible fade show`;
+            toast.role = 'alert';
+            
+            toast.innerHTML = `
+                <div class="d-flex align-items-center">
+                    <i class="${iconClass} me-2"></i>
+                    <div>${message}</div>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            `;
+            
+            toastContainer.appendChild(toast);
+            
+            // Auto remove toast after delay
+            setTimeout(() => {
+                toast.classList.remove('show');
+                toast.classList.add('fade');
+                setTimeout(() => {
+                    toast.remove();
+                    if (toastContainer && toastContainer.children.length === 0) {
+                        toastContainer.remove();
+                    }
+                }, 150);
+            }, 3000);
+            
+            // Add close button functionality
+            const closeBtn = toast.querySelector('.btn-close');
+            if (closeBtn) {
+                closeBtn.addEventListener('click', () => {
+                    toast.classList.remove('show');
+                    toast.classList.add('fade');
+                    setTimeout(() => {
+                        toast.remove();
+                        if (toastContainer && toastContainer.children.length === 0) {
+                            toastContainer.remove();
+                        }
+                    }, 150);
+                });
+            }
+        }
+
+        // Function to handle copy to clipboard
+        async function handleCopyToClipboard() {
+            const textToCopy = previewOutput.textContent.trim();
+            
+            if (!textToCopy) {
+                showToast('No content to copy!', 'error');
+                return;
+            }
+            
+            try {
+                // Try the modern clipboard API first
+                if (navigator.clipboard) {
+                    await navigator.clipboard.writeText(textToCopy);
+                } else {
+                    // Fallback for older browsers
+                    const textarea = document.createElement('textarea');
+                    textarea.value = textToCopy;
+                    textarea.style.position = 'fixed';  // Prevent scrolling to bottom
+                    document.body.appendChild(textarea);
+                    textarea.select();
+                    
+                    try {
+                        const successful = document.execCommand('copy');
+                        if (!successful) {
+                            throw new Error('Copy command was unsuccessful');
+                        }
+                    } finally {
+                        document.body.removeChild(textarea);
+                    }
+                }
+                
+                showToast('Copied to clipboard!', 'success');
+                
+            } catch (err) {
+                console.error('Could not copy text: ', err);
+                showToast('Failed to copy. Please try again or copy manually.', 'error');
+            }
+        }
+        
+        // Add event listeners to both copy buttons
+        if (copyButtonTop) copyButtonTop.addEventListener('click', handleCopyToClipboard);
+        if (copyButtonBottom) copyButtonBottom.addEventListener('click', handleCopyToClipboard);
+
+        // Clear All button functionality
+        const clearAllBtn = document.getElementById('clearAllBtn');
+        if (clearAllBtn) {
+            clearAllBtn.addEventListener('click', function() {
+                // Clear text inputs
+                textInputs.forEach(input => {
+                    if (input && (input.type === 'text' || input.type === 'textarea')) {
+                        input.value = '';
+                        // Trigger input event to update preview
+                        input.dispatchEvent(new Event('input'));
+                    }
+                });
+                
+                // Update the preview
+                updatePreview();
+            });
+        }
+
+        // Example button handler to set preview text
+        if (exampleButton) {
+            exampleButton.addEventListener('click', () => {
+                const exampleText = `【สุภาษิต - สำนวนญี่ปุ่น】
+
+青天の霹靂
+seiten no hekireki
+ฟ้าผ่าในวันฟ้าใส
+
+————————————
+➡️ คำอธิบาย
+
+青天の霹靂 (せいてんのへきれき) แปลตรงตัวว่าเกิดเหตุฟ้าผ่าในวันที่ท้องฟ้าปลอดโปร่ง ซึ่งเปรียบเปรยเหมือนกับเรื่องที่ไม่คาดคิด
+
+ใช้เพื่อบ่งบอกว่าเป็นเหตุการณ์ที่เกิดขึ้นอย่างกะทันหันโดยไม่ทันตั้งตัว อยู่ดีๆ ก็เกิดขึ้นโดยที่ไม่มีวี่แววมาก่อน
+
+————————————
+📝 การใช้ไวยากรณ์
+
+ตัวอย่างการใช้ไวยากรณ์ การใช้ไวยากรณ์ การใช้ไวยากรณ์
+
+————————————
+➡️ ตัวอย่างประโยค
+
+ตัวอย่างประโยค ตัวอย่างประโยค ตัวอย่างประโยค
+
+————————————
+▍ภาพจากเกม Hatsukoi Master Up (初恋マスターアップ)`;
+                previewOutput.textContent = exampleText;
+            });
+        }
+
+        // Insert Frame button handler
+        if (insertFrameBtn) {
+            insertFrameBtn.addEventListener('click', () => {
+                const frameText = `┌───────────┐\n\n└───────────┘\n\n`;
+                const currentText = exampleSentenceInput.value;
+                exampleSentenceInput.value = frameText + currentText;
+                exampleSentenceInput.dispatchEvent(new Event('input'));
+            });
+        }
+
+        // Insert Default Grammar button handler
+        if (insertDefaultGrammarBtn) {
+            insertDefaultGrammarBtn.addEventListener('click', () => {
+                const defaultGrammarText = `{คำกริยารูปธรรมดา} + \n{คำคุณศัพท์ い} + \n{คำคุณศัพท์ な} + \n{คำนาม} + \n\n`;
+                const currentText = grammarUsageInput.value;
+                grammarUsageInput.value = defaultGrammarText + '\n\n' + currentText;
+                grammarUsageInput.dispatchEvent(new Event('input'));
+            });
+        }
+
+        // Initialize the preview
+        updatePreview();
+    </script>
+
+</body>
+
+</html>
