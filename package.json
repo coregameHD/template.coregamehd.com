@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "private": true,
   "description": "Express server to render Kagami templates website",
-  "main": "app.js",
+  "main": "index.js",
   "scripts": {
-    "start": "node app.js",
-    "dev": "NODE_ENV=development nodemon app.js"
+    "start": "node index.js",
+    "dev": "NODE_ENV=development nodemon index.js"
   },
   "dependencies": {
     "@fortawesome/fontawesome-free": "^7.0.0",
