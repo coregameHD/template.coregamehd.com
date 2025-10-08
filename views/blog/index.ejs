@@ -148,6 +148,9 @@
 
     <%- include('../partials/footer') %>
     
+    <!-- Configuration -->
+    <script src="/config.js" type="text/javascript"></script>
+    
     <!-- Cloudinary Upload Widget -->
     <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
     
@@ -350,8 +353,94 @@ slug: "${slug}"
                 }
             });
             
-            document.getElementById("uploadWidget").addEventListener("click", function() {
-                myWidget.open();
+            // Password protection for upload
+            document.getElementById("uploadWidget").addEventListener("click", function(e) {
+                e.preventDefault();
+                e.stopPropagation();
+                
+                // Create and show password modal
+                const modal = document.createElement('div');
+                modal.style.position = 'fixed';
+                modal.style.top = '0';
+                modal.style.left = '0';
+                modal.style.width = '100%';
+                modal.style.height = '100%';
+                modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
+                modal.style.display = 'flex';
+                modal.style.justifyContent = 'center';
+                modal.style.alignItems = 'center';
+                modal.style.zIndex = '9999';
+                
+                // Modal content
+                const modalContent = document.createElement('div');
+                modalContent.style.background = 'white';
+                modalContent.style.padding = '20px';
+                modalContent.style.borderRadius = '8px';
+                modalContent.style.width = '300px';
+                modalContent.style.maxWidth = '90%';
+                
+                // Password input
+                const passwordInput = document.createElement('input');
+                passwordInput.type = 'password';
+                passwordInput.className = 'form-control mb-3';
+                passwordInput.placeholder = 'Enter password';
+                passwordInput.style.width = '100%';
+                
+                // Buttons container
+                const buttonContainer = document.createElement('div');
+                buttonContainer.style.display = 'flex';
+                buttonContainer.style.justifyContent = 'flex-end';
+                buttonContainer.style.gap = '10px';
+                
+                // Cancel button
+                const cancelBtn = document.createElement('button');
+                cancelBtn.className = 'btn btn-secondary';
+                cancelBtn.textContent = 'Cancel';
+                cancelBtn.onclick = function() {
+                    document.body.removeChild(modal);
+                };
+                
+                // Submit button
+                const submitBtn = document.createElement('button');
+                submitBtn.className = 'btn btn-primary';
+                submitBtn.textContent = 'Submit';
+                submitBtn.onclick = function() {
+                    if (passwordInput.value === config.uploadPassword) {
+                        document.body.removeChild(modal);
+                        // Use a small timeout to ensure the modal is fully removed
+                        setTimeout(() => {
+                            myWidget.open();
+                        }, 50);
+                    } else {
+                        alert('Incorrect password. Please try again.');
+                        passwordInput.value = '';
+                        passwordInput.focus();
+                    }
+                };
+                
+                // Handle Enter key
+                passwordInput.addEventListener('keypress', function(e) {
+                    if (e.key === 'Enter') {
+                        submitBtn.click();
+                    }
+                });
+                
+                // Assemble modal
+                buttonContainer.appendChild(cancelBtn);
+                buttonContainer.appendChild(submitBtn);
+                
+                modalContent.innerHTML = `
+                    <h5 class="mb-3">Enter Upload Password</h5>
+                `;
+                
+                modalContent.appendChild(passwordInput);
+                modalContent.appendChild(buttonContainer);
+                modal.appendChild(modalContent);
+                
+                // Add to body and focus input
+                document.body.appendChild(modal);
+                passwordInput.focus();
+                
             }, false);
             
             // Initialize date picker
