@@ -1,4 +1,6 @@
 <%- include('../partials/head', { title:"Simple Markdown Notepad", cssFile:"blog" }) %>
+<!-- SimpleMDE Markdown Editor CSS -->
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.css">
 <%- include('../partials/navbar_blog') %>
 <body>
     <div class="page-wrapper flex-grow-1" style="padding-top: 5rem;">
@@ -58,6 +60,8 @@
 
     <%- include('../partials/footer') %>
     
+    <!-- SimpleMDE Markdown Editor JS -->
+    <script src="https://cdn.jsdelivr.net/npm/easymde/dist/easymde.min.js"></script>
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             const titleInput = document.getElementById('title');
@@ -66,11 +70,34 @@
             const pasteContentBtn = document.getElementById('pasteContentBtn');
             const saveNoteBtn = document.getElementById('saveNoteBtn');
 
+            // Initialize SimpleMDE
+            const easyMDE = new EasyMDE({
+                element: contentTextarea,
+                spellChecker: false,
+                status: false,
+                autofocus: true,
+                placeholder: 'Start writing your Markdown content here...',
+                toolbar: [
+                    'bold', 'italic', 'heading', '|',
+                    'quote', 'unordered-list', 'ordered-list', '|',
+                    'link', 'image', 'code', '|',
+                    'preview', 'side-by-side', 'fullscreen', '|',
+                    'guide'
+                ],
+                minHeight: '60vh',
+                forceSync: true
+            });
+
+            // Update the textarea value when saving
+            const updateTextareaValue = () => {
+                contentTextarea.value = easyMDE.value();
+            };
+
             // Clear all content
             clearAllBtn.addEventListener('click', () => {
                 if (confirm('Are you sure you want to clear all content?')) {
                     titleInput.value = '';
-                    contentTextarea.value = '';
+                    easyMDE.value('');
                     localStorage.removeItem('savedNote');
                 }
             });
@@ -79,7 +106,8 @@
             pasteContentBtn.addEventListener('click', async () => {
                 try {
                     const text = await navigator.clipboard.readText();
-                    contentTextarea.value += text;
+                    const cursorPosition = easyMDE.codemirror.getCursor();
+                    easyMDE.codemirror.replaceRange(text, cursorPosition);
                 } catch (err) {
                     console.error('Failed to paste:', err);
                     alert('Failed to paste content. Please make sure to allow clipboard access.');
@@ -88,6 +116,7 @@
 
             // Save note to localStorage
             saveNoteBtn.addEventListener('click', () => {
+                updateTextareaValue();
                 const note = {
                     title: titleInput.value,
                     content: contentTextarea.value,
@@ -102,18 +131,20 @@
             if (savedNote) {
                 const note = JSON.parse(savedNote);
                 titleInput.value = note.title || '';
-                contentTextarea.value = note.content || '';
+                easyMDE.value(note.content || '');
             }
 
-            // Auto-resize textarea
-            function adjustTextareaHeight() {
-                contentTextarea.style.height = 'auto';
-                contentTextarea.style.height = Math.min(contentTextarea.scrollHeight, window.innerHeight * 0.7) + 'px';
+            // Handle window resize to adjust editor height
+            function adjustEditorHeight() {
+                const editor = document.querySelector('.CodeMirror');
+                if (editor) {
+                    editor.style.height = '60vh';
+                    easyMDE.codemirror.refresh();
+                }
             }
 
-            contentTextarea.addEventListener('input', adjustTextareaHeight);
-            window.addEventListener('resize', adjustTextareaHeight);
-            adjustTextareaHeight();
+            window.addEventListener('resize', adjustEditorHeight);
+            adjustEditorHeight();
         });
     </script>
 </body>
