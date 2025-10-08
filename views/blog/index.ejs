@@ -23,10 +23,16 @@
 
                             <!-- Featured Image URL -->
                             <div class="mb-3">
-                                <label class="form-label">Featured Image URL</label>
-                                <div class="input-group">
+                                <label class="form-label">Featured Image</label>
+                                <div class="input-group mb-2">
                                     <span class="input-group-text"><i class="fas fa-image"></i></span>
                                     <input type="text" id="featuredImage" class="form-control" placeholder="https://example.com/image.jpg">
+                                    <button type="button" id="uploadWidget" class="btn btn-primary">
+                                        <i class="fas fa-cloud-upload-alt me-1"></i> Upload Image
+                                    </button>
+                                </div>
+                                <div id="uploadedImagePreview" class="mt-2" style="display: none;">
+                                    <img id="imagePreview" src="" alt="Preview" class="img-thumbnail" style="max-height: 150px;">
                                 </div>
                             </div>
 
@@ -141,6 +147,10 @@
     </div>
 
     <%- include('../partials/footer') %>
+    
+    <!-- Cloudinary Upload Widget -->
+    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
+    
     <!-- Add Tom Select JS -->
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
     <script>
@@ -289,6 +299,61 @@ slug: "${slug}"
                 });
             });
 
+            // Cloudinary Upload Widget
+            const cloudName = 'kagamiweb'; // Replace with your Cloudinary cloud name
+            const uploadPreset = 'coregamehdblog'; // Replace with your upload preset
+            
+            const myWidget = cloudinary.createUploadWidget({
+                cloudName: cloudName,
+                uploadPreset: uploadPreset,
+                sources: ['local', 'url', 'camera'],
+                multiple: false,
+                maxFiles: 1,
+                clientAllowedFormats: ['jpg', 'jpeg', 'png', 'webp'],
+                maxFileSize: 5000000, // 5MB
+                showAdvancedOptions: false,
+                styles: {
+                    palette: {
+                        window: "#FFFFFF",
+                        windowBorder: "#90A0B3",
+                        tabIcon: "#0078FF",
+                        menuIcons: "#5A616A",
+                        textDark: "#000000",
+                        textLight: "#FFFFFF",
+                        link: "#0078FF",
+                        action: "#FF620C",
+                        inactiveTabIcon: "#0E2F5A",
+                        error: "#F44235",
+                        inProgress: "#0078FF",
+                        complete: "#20B832",
+                        sourceBg: "#E4EBF1"
+                    },
+                    fonts: {
+                        default: {
+                            active: true
+                        }
+                    }
+                }
+            }, (error, result) => {
+                if (!error && result && result.event === "success") {
+                    const secureUrl = result.info.secure_url;
+                    document.getElementById('featuredImage').value = secureUrl;
+                    
+                    // Show preview
+                    const preview = document.getElementById('imagePreview');
+                    const previewContainer = document.getElementById('uploadedImagePreview');
+                    preview.src = secureUrl;
+                    previewContainer.style.display = 'block';
+                    
+                    // Update markdown preview
+                    updateMarkdownPreview();
+                }
+            });
+            
+            document.getElementById("uploadWidget").addEventListener("click", function() {
+                myWidget.open();
+            }, false);
+            
             // Initialize date picker
             flatpickr("#publishDate", {
                 dateFormat: "Y-m-d",
