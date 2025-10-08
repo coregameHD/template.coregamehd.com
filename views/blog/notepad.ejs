@@ -1,0 +1,120 @@
+<%- include('../partials/head', { title:"Simple Markdown Notepad", cssFile:"blog" }) %>
+<%- include('../partials/navbar_blog') %>
+<body>
+    <div class="page-wrapper flex-grow-1" style="padding-top: 5rem;">
+        <div class="container-xl">
+            <div class="row justify-content-center">
+                <!-- Single Column Editor -->
+                <div class="col-lg-10 col-xl-8">
+                    <!-- Title Card -->
+                    <div class="card mb-4">
+                        <div class="card-header">
+                            <h3 class="card-title">Title</h3>
+                        </div>
+                        <div class="card-body">
+                            <div class="mb-3">
+                                <input type="text" id="title" class="form-control" placeholder="Enter title here...">
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Content Card -->
+                    <div class="card">
+                        <div class="card-header d-flex justify-content-between align-items-center">
+                            <h3 class="card-title m-0">Content</h3>
+                            <a href="https://www.markdownguide.org/basic-syntax/" target="_blank" class="btn btn-ghost-secondary btn-sm" title="Markdown Guide">
+                                <i class="fab fa-markdown me-2"></i>
+                                Markdown Guide
+                            </a>
+                        </div>
+                        <div class="card-body p-0">
+                            <textarea
+                                id="content"
+                                class="form-control border-0"
+                                style="min-height: 60vh; resize: none; font-size: 22px;"
+                                spellcheck="false"
+                            ></textarea>
+                        </div>
+                        <div class="card-footer">
+                            <div class="d-flex justify-content-between align-items-center">
+                                <button id="clearAllBtn" class="btn btn-outline-danger">
+                                    <i class="fas fa-trash me-2"></i>Clear All
+                                </button>
+                                <div>
+                                    <button id="pasteContentBtn" class="btn btn-outline-primary me-2">
+                                        <i class="fas fa-paste me-2"></i>Paste
+                                    </button>
+                                    <button class="btn btn-primary" id="saveNoteBtn">
+                                        <i class="fas fa-save me-2"></i>Save Note
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <%- include('../partials/footer') %>
+    
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const titleInput = document.getElementById('title');
+            const contentTextarea = document.getElementById('content');
+            const clearAllBtn = document.getElementById('clearAllBtn');
+            const pasteContentBtn = document.getElementById('pasteContentBtn');
+            const saveNoteBtn = document.getElementById('saveNoteBtn');
+
+            // Clear all content
+            clearAllBtn.addEventListener('click', () => {
+                if (confirm('Are you sure you want to clear all content?')) {
+                    titleInput.value = '';
+                    contentTextarea.value = '';
+                    localStorage.removeItem('savedNote');
+                }
+            });
+
+            // Paste content from clipboard
+            pasteContentBtn.addEventListener('click', async () => {
+                try {
+                    const text = await navigator.clipboard.readText();
+                    contentTextarea.value += text;
+                } catch (err) {
+                    console.error('Failed to paste:', err);
+                    alert('Failed to paste content. Please make sure to allow clipboard access.');
+                }
+            });
+
+            // Save note to localStorage
+            saveNoteBtn.addEventListener('click', () => {
+                const note = {
+                    title: titleInput.value,
+                    content: contentTextarea.value,
+                    lastSaved: new Date().toISOString()
+                };
+                localStorage.setItem('savedNote', JSON.stringify(note));
+                alert('Note saved successfully!');
+            });
+
+            // Load saved note if exists
+            const savedNote = localStorage.getItem('savedNote');
+            if (savedNote) {
+                const note = JSON.parse(savedNote);
+                titleInput.value = note.title || '';
+                contentTextarea.value = note.content || '';
+            }
+
+            // Auto-resize textarea
+            function adjustTextareaHeight() {
+                contentTextarea.style.height = 'auto';
+                contentTextarea.style.height = Math.min(contentTextarea.scrollHeight, window.innerHeight * 0.7) + 'px';
+            }
+
+            contentTextarea.addEventListener('input', adjustTextareaHeight);
+            window.addEventListener('resize', adjustTextareaHeight);
+            adjustTextareaHeight();
+        });
+    </script>
+</body>
+</html>

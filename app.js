@@ -26,6 +26,7 @@ app.use(express.static(ROOT, { extensions: ['html'] }));
 // Top-level routes rendered via EJS
 app.get('/', (req, res) => res.render('index'));
 app.get('/blog', (req, res) => res.render(path.join('blog', 'index')));
+app.get('/blog/notepad', (req, res) => res.render(path.join('blog', 'notepad')));
 app.get('/visualnovel', (req, res) => res.render(path.join('visualnovel', 'index')));
 app.get('/nihongo', (req, res) => res.render(path.join('nihongo', 'index')));
 app.get('/nihongo/grammar', (req, res) => res.render(path.join('nihongo', 'grammar')));
