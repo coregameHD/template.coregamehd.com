@@ -34,6 +34,15 @@
 }
 
 /* Dark mode styles */
+[data-bs-theme="dark"] {
+    color: #e9ecef;
+}
+
+[data-bs-theme="dark"] body {
+    background-color: #151820;
+    color: #e9ecef;
+}
+
 [data-bs-theme="dark"] .navbar {
     background-color: #1a1d23 !important;
     box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
@@ -42,10 +51,81 @@
 [data-bs-theme="dark"] .card {
     background-color: #1e2229;
     border-color: #2d3139;
+    color: #e9ecef;
+}
+
+[data-bs-theme="dark"] .card-title,
+[data-bs-theme="dark"] .card-text {
+    color: #e9ecef;
 }
 
 [data-bs-theme="dark"] .page {
     background-color: #151820;
+    color: #e9ecef;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary {
+    color: #e9ecef;
+    border-color: #2d3139;
+}
+
+[data-bs-theme="dark"] .btn-outline-primary:hover {
+    background-color: #2d3139;
+    border-color: #3d4149;
+}
+
+[data-bs-theme="dark"] .text-muted {
+    color: #adb5bd !important;
+}
+
+[data-bs-theme="dark"] .form-control,
+[data-bs-theme="dark"] .form-select {
+    background-color: #1e2229;
+    border-color: #2d3139;
+    color: #e9ecef;
+}
+
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus {
+    background-color: #1e2229;
+    border-color: #3d4149;
+    color: #e9ecef;
+}
+
+[data-bs-theme="dark"] .table {
+    --tblr-table-bg: transparent;
+    --tblr-table-striped-bg: rgba(255, 255, 255, 0.02);
+    --tblr-table-hover-bg: rgba(255, 255, 255, 0.05);
+    --tblr-table-border-color: #2d3139;
+    color: #e9ecef;
+}
+
+[data-bs-theme="dark"] .dropdown-menu {
+    background-color: #1e2229;
+    border-color: #2d3139;
+}
+
+[data-bs-theme="dark"] .dropdown-item {
+    color: #e9ecef;
+}
+
+[data-bs-theme="dark"] .dropdown-item:hover,
+[data-bs-theme="dark"] .dropdown-item:focus {
+    background-color: #2d3139;
+    color: #ffffff;
+}
+
+[data-bs-theme="dark"] .modal-content {
+    background-color: #1e2229;
+    border-color: #2d3139;
+}
+
+[data-bs-theme="dark"] .modal-header {
+    border-bottom-color: #2d3139;
+}
+
+[data-bs-theme="dark"] .modal-footer {
+    border-top-color: #2d3139;
 }
 
 /* Theme toggle button styling */

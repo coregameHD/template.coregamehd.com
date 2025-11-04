@@ -9,9 +9,17 @@
     const themeIcon = document.getElementById('theme-icon');
     const htmlElement = document.documentElement;
     
-    // Get saved theme or default to light
+    // Check for system preference
+    function getSystemPreference() {
+        return window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches 
+            ? DARK_THEME 
+            : LIGHT_THEME;
+    }
+    
+    // Get saved theme or use system preference
     function getSavedTheme() {
-        return localStorage.getItem(THEME_KEY) || LIGHT_THEME;
+        const savedTheme = localStorage.getItem(THEME_KEY);
+        return savedTheme || getSystemPreference();
     }
     
     // Save theme to localStorage
@@ -24,30 +32,58 @@
         if (theme === DARK_THEME) {
             themeIcon.classList.remove('fa-moon');
             themeIcon.classList.add('fa-sun');
+            themeToggle.setAttribute('aria-label', 'Switch to light mode');
         } else {
             themeIcon.classList.remove('fa-sun');
             themeIcon.classList.add('fa-moon');
+            themeToggle.setAttribute('aria-label', 'Switch to dark mode');
         }
     }
     
     // Apply theme
     function applyTheme(theme) {
+        // Prevent transitions during initial load
+        document.body.style.transition = 'none';
+        
+        // Apply the theme
         htmlElement.setAttribute('data-bs-theme', theme);
         updateIcon(theme);
         saveTheme(theme);
+        
+        // Re-enable transitions after a short delay
+        setTimeout(() => {
+            document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
+        }, 10);
     }
     
     // Toggle theme
     function toggleTheme() {
-        const currentTheme = htmlElement.getAttribute('data-bs-theme');
+        const currentTheme = htmlElement.getAttribute('data-bs-theme') || getSavedTheme();
         const newTheme = currentTheme === LIGHT_THEME ? DARK_THEME : LIGHT_THEME;
         applyTheme(newTheme);
+    }
+    
+    // Listen for system theme changes
+    function setupSystemThemeListener() {
+        const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)');
+        mediaQuery.addEventListener('change', (e) => {
+            // Only apply system theme if user hasn't explicitly set a preference
+            if (!localStorage.getItem(THEME_KEY)) {
+                applyTheme(e.matches ? DARK_THEME : LIGHT_THEME);
+            }
+        });
     }
     
     // Initialize theme on page load
     function initTheme() {
         const savedTheme = getSavedTheme();
         applyTheme(savedTheme);
+        setupSystemThemeListener();
+        
+        // Show the theme toggle after page loads to prevent FOUC
+        if (themeToggle) {
+            themeToggle.style.visibility = 'visible';
+        }
     }
     
     // Event listener
