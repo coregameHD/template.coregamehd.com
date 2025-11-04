@@ -32,3 +32,35 @@
     height: 2.5rem;
     margin-bottom: 0.5rem;
 }
+
+/* Dark mode styles */
+[data-bs-theme="dark"] .navbar {
+    background-color: #1a1d23 !important;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.3) !important;
+}
+
+[data-bs-theme="dark"] .card {
+    background-color: #1e2229;
+    border-color: #2d3139;
+}
+
+[data-bs-theme="dark"] .page {
+    background-color: #151820;
+}
+
+/* Theme toggle button styling */
+#theme-toggle {
+    transition: all 0.3s ease;
+}
+
+#theme-toggle:hover {
+    transform: scale(1.1);
+}
+
+#theme-icon {
+    transition: transform 0.3s ease;
+}
+
+#theme-toggle:hover #theme-icon {
+    transform: rotate(20deg);
+}
