@@ -11,6 +11,18 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <!-- Flatpickr CSS -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <!-- Shared theme overrides -->
+    <link rel="stylesheet" href="/css/theme.css">
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme) {
+                    document.documentElement.setAttribute('data-bs-theme', savedTheme);
+                }
+            } catch (err) {}
+        })();
+    </script>
     
     <style>
         :root {
@@ -132,6 +144,11 @@
             </h1>
             
             <div class="navbar-nav flex-row order-md-last">
+                <div class="nav-item me-2">
+                    <button class="btn btn-icon" id="theme-toggle" aria-label="Toggle theme">
+                        <i class="fas fa-moon" id="theme-icon"></i>
+                    </button>
+                </div>
                 <div class="nav-item">
                     <button class="btn btn-primary" id="generateFileBtnTop">
                         <i class="fas fa-download me-2"></i>Generate .md File
@@ -300,6 +317,8 @@
     <script src="https://unpkg.com/@tabler/core@latest/dist/js/tabler.min.js"></script>
     <!-- Flatpickr JS -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <!-- Theme Toggle JS -->
+    <script src="/js/theme-toggle.js"></script>
     
     <script>
         document.addEventListener('DOMContentLoaded', () => {

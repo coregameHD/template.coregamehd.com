@@ -10,6 +10,18 @@
     <link href="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/css/tom-select.css" rel="stylesheet">
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Shared theme overrides -->
+    <link rel="stylesheet" href="/css/theme.css">
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme) {
+                    document.documentElement.setAttribute('data-bs-theme', savedTheme);
+                }
+            } catch (err) {}
+        })();
+    </script>
     <style>
         :root {
             --brand-color: #FF4081;
@@ -141,6 +153,11 @@
             </div>
 
             <div class="navbar-nav flex-row order-md-last">
+                <div class="nav-item me-2">
+                    <button class="btn btn-icon" id="theme-toggle" aria-label="Toggle theme">
+                        <i class="fas fa-moon" id="theme-icon"></i>
+                    </button>
+                </div>
                 <div class="nav-item">
                     <button class="btn btn-primary" id="copyButtonTop">
                         <i class="fas fa-copy me-2"></i>Copy to Clipboard
@@ -268,6 +285,8 @@
     <script src="https://unpkg.com/@tabler/core@latest/dist/js/tabler.min.js"></script>
     <!-- Tom Select JS -->
     <script src="https://cdn.jsdelivr.net/npm/tom-select@2.4.3/dist/js/tom-select.complete.min.js"></script>
+    <!-- Theme Toggle JS -->
+    <script src="/js/theme-toggle.js"></script>
 
     <!-- Original script -->
     <script>

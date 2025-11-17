@@ -21,6 +21,22 @@
     
     <!-- Custom CSS -->
     <link rel="stylesheet" href="/css/<%= cssFile %>.css">
+
+    <!-- Shared theme overrides -->
+    <link rel="stylesheet" href="/css/theme.css">
+
+    <script>
+        (function() {
+            try {
+                const savedTheme = localStorage.getItem('theme');
+                if (savedTheme) {
+                    document.documentElement.setAttribute('data-bs-theme', savedTheme);
+                }
+            } catch (err) {
+                // localStorage might be unavailable (privacy mode)
+            }
+        })();
+    </script>
     
     <style>
         :root {
