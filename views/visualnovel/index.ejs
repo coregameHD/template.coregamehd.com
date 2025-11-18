@@ -10,21 +10,18 @@
                     <div class="card h-100">
                         <div class="card-header">
                             <h3 class="card-title mb-1">Snippet Library</h3>
-                            <p class="card-subtitle text-muted mb-0">Click insert to add templates into the editor.</p>
                         </div>
                         <div class="card-body p-0">
                             <div class="list-group list-group-flush">
                                 <div class="list-group-item d-flex justify-content-between align-items-start flex-wrap gap-2">
                                     <div>
-                                        <div class="fw-semibold">Hello</div>
-                                        <small class="text-muted">Quick greeting opener</small>
+                                        <div class="fw-semibold">หัวข้อข่าว</div>
                                         <div class="d-flex align-items-center gap-2 mt-2 flex-wrap">
-                                            <label for="greetingSelect" class="form-label mb-0 small text-muted">Greeting</label>
                                             <select id="greetingSelect" class="form-select form-select-sm w-auto">
-                                                <option value="Hello World!\n\n">Hello</option>
-                                                <option value="Good morning, everyone!\n\n">Good Morning</option>
-                                                <option value="Good afternoon, team!\n\n">Good Afternoon</option>
-                                                <option value="Good evening, friends!\n\n">Good Evening</option>
+                                                <option value="【NEWS】 ⇒ Announcements">【NEWS】 ⇒ Announcements</option>
+                                                <option value="【NEWS】 ⇒ New Releases">【NEWS】 ⇒ New Releases</option>
+                                                <option value="【NEWS】 ⇒ Master Up">【NEWS】 ⇒ Master Up</option>
+                                                <option value="【NEWS】 ⇒ Delays">【NEWS】 ⇒ Delays</option>
                                             </select>
                                         </div>
                                     </div>
@@ -37,10 +34,18 @@
 
                                 <div class="list-group-item d-flex justify-content-between align-items-start flex-wrap gap-2">
                                     <div>
-                                        <div class="fw-semibold">Story Hook</div>
-                                        <small class="text-muted">Tease the latest chapter</small>
+                                        <div class="fw-semibold">Hyperlink</div>
+                                        <div class="d-flex align-items-center gap-2 mt-2 flex-wrap">
+                                            <select id="storyHookSelect" class="form-select form-select-sm w-auto">
+                                                <option value="🔗 Website ⋮ ">Website</option>
+                                                <option value="🔗 X (Twitter) ⋮ ">X (Twitter)</option>
+                                                <option value="🔗 Youtube ⋮ ">Youtube</option>
+                                                <option value="🔗 Steam ⋮ ">Steam</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <button class="btn btn-sm btn-primary insert-snippet"
+                                        data-snippet-select="storyHookSelect"
                                         data-snippet="Chapter Update:\n- Title: [Enter title]\n- Summary: [Add summary here]\n\n">
                                         Insert
                                     </button>
@@ -48,22 +53,29 @@
 
                                 <div class="list-group-item d-flex justify-content-between align-items-start flex-wrap gap-2">
                                     <div>
-                                        <div class="fw-semibold">Character Notes</div>
+                                        <div class="fw-semibold">ข้อมูลเกม</div>
                                         <small class="text-muted">Highlight character moments</small>
                                     </div>
                                     <button class="btn btn-sm btn-primary insert-snippet"
-                                        data-snippet="Character Spotlight:\nName: [Character]\nEmotion: [Feeling]\nScene Notes: [Details]\n\n">
+                                        data-snippet="╔══════════════╗ 
+ℹ️ ข้อมูลเกม
+Developer ⋮ {developer}
+Release Date ⋮ {releasedate}
+Language ⋮ English, Japanese
+╚══════════════╝ 
+">
                                         Insert
                                     </button>
                                 </div>
 
                                 <div class="list-group-item d-flex justify-content-between align-items-start flex-wrap gap-2">
                                     <div>
-                                        <div class="fw-semibold">Call to Action</div>
+                                        <div class="fw-semibold">หมายเหตุ</div>
                                         <small class="text-muted">Encourage readers to comment</small>
                                     </div>
                                     <button class="btn btn-sm btn-primary insert-snippet"
-                                        data-snippet="What do you think happens next? Share your theories below!\n\n">
+                                        data-snippet="————————————
+* หมายเหตุ ⋮ ">
                                         Insert
                                     </button>
                                 </div>
@@ -78,15 +90,13 @@
                         <div class="card-header d-flex justify-content-between align-items-center flex-wrap gap-2">
                             <div>
                                 <h3 class="card-title mb-1">Post Draft</h3>
-                                <p class="card-subtitle text-muted mb-0">Build your visual novel announcement or recap.</p>
                             </div>
                             <button class="btn btn-outline-danger btn-sm" id="clearEditorBtn">
                                 <i class="fas fa-trash me-2"></i>Clear Editor
                             </button>
                         </div>
-                        <div class="card-body">
-                            <label for="visualNovelEditor" class="form-label fw-semibold">Content</label>
-                            <textarea id="visualNovelEditor" class="form-control" spellcheck="false"
+                        <div class="card-body p-0">
+                            <textarea id="visualNovelEditor" class="form-control border-0 rounded-0" spellcheck="false"
                                 placeholder="Start writing or use the snippets on the left..."
                                 style="min-height: 70vh; resize: vertical; font-size: 1.1rem;"></textarea>
                         </div>
