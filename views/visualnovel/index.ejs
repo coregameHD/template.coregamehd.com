@@ -2,7 +2,7 @@
 <body>
     <%- include('../partials/navbar_visualnovel') %>
 
-    <div class="page-wrapper flex-grow-1" style="padding-top: 5rem;">
+    <div class="page-wrapper flex-grow-1" style="padding-top: 2rem;">
         <div class="container-xl">
             <div class="row g-4">
                 <!-- Snippet Library Column -->
@@ -18,8 +18,18 @@
                                     <div>
                                         <div class="fw-semibold">Hello</div>
                                         <small class="text-muted">Quick greeting opener</small>
+                                        <div class="d-flex align-items-center gap-2 mt-2 flex-wrap">
+                                            <label for="greetingSelect" class="form-label mb-0 small text-muted">Greeting</label>
+                                            <select id="greetingSelect" class="form-select form-select-sm w-auto">
+                                                <option value="Hello World!\n\n">Hello</option>
+                                                <option value="Good morning, everyone!\n\n">Good Morning</option>
+                                                <option value="Good afternoon, team!\n\n">Good Afternoon</option>
+                                                <option value="Good evening, friends!\n\n">Good Evening</option>
+                                            </select>
+                                        </div>
                                     </div>
                                     <button class="btn btn-sm btn-primary insert-snippet"
+                                        data-snippet-select="greetingSelect"
                                         data-snippet="Hello World!\n\n">
                                         Insert
                                     </button>
@@ -108,7 +118,16 @@
 
             snippetButtons.forEach((btn) => {
                 btn.addEventListener('click', () => {
-                    const snippet = btn.dataset.snippet || '';
+                    const selectId = btn.dataset.snippetSelect;
+                    let snippet = btn.dataset.snippet || '';
+
+                    if (selectId) {
+                        const selectEl = document.getElementById(selectId);
+                        if (selectEl) {
+                            snippet = selectEl.value || snippet;
+                        }
+                    }
+
                     insertAtCursor(snippet);
                 });
             });
