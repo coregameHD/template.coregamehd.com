@@ -33,6 +33,20 @@ body {
     color: var(--brand-dark);
 }
 
+.snippet-library-templates {
+    background-color: rgba(255, 96, 64, 0.04);
+}
+
+.snippet-library-title {
+    font-size: 1.1rem;
+    font-weight: 600;
+    color: var(--brand-dark);
+}
+
+.snippet-library-subtitle {
+    font-size: 0.9rem;
+}
+
 .preview-output {
     min-height: 400px;
     background-color: #1a1a1a;

@@ -12,49 +12,92 @@
                             <h3 class="card-title mb-1">Snippet Library</h3>
                         </div>
                         <div class="card-body p-0">
-                            <div class="p-3 border-bottom">
+                            <div class="p-3 border-bottom snippet-library-templates">
                                 <div class="d-flex justify-content-between align-items-center flex-wrap gap-2 mb-3">
-                                    <h4 class="h6 m-0">Frequently Used Templates</h4>
-                                    <small class="text-muted">Quick drop-ins for common posts</small>
+                                    <h4 class="fw-semibold">Frequently Used Templates</h4>
                                 </div>
                                 <div class="d-grid gap-2">
                                     <button class="btn btn-outline-primary btn-sm insert-snippet"
-                                        data-snippet="【Template #1】
-Headline: 
-Date: 
-Summary: 
---------------------------------
-">
-                                        Template #1
+                                        data-snippet="【NEWS】 ⇒ Announcements
+
+{developer} เปิดตัวเกมใหม่
+
+{romaji}
+{japanese}
+
+🔗 Website ⋮ 
+
+╔══════════════╗ 
+ℹ️ ข้อมูลเกม
+Developer ⋮ 
+Release Date ⋮ 
+Language ⋮ Japanese
+╚══════════════╝ 
+————————————
+Source ⋮ ">
+                                        เปิดตัวเกมใหม่
                                     </button>
                                     <button class="btn btn-outline-primary btn-sm insert-snippet"
-                                        data-snippet="【Template #2】 New Release
-Title: 
-Platform: 
-Highlights:
-- 
-- 
+                                        data-snippet="【NEWS】 ⇒ Announcements
 
-">
-                                        Template #2
+{localizer} ประกาศลิขสิทธิ์แปลเกม
+
+{romaji}
+{japanese}
+
+🔗 Steam ⋮ 
+
+╔══════════════╗ 
+ℹ️ ข้อมูลเกม
+Developer ⋮ 
+Publisher ⋮ 
+Release Date ⋮ 
+Language ⋮ English, Chinese, Japanese
+Version ⋮ Censored Edition*
+╚══════════════╝ 
+————————————
+Source ⋮ ">
+                                        ประกาศลิขสิทธิ์แปลเกม
                                     </button>
                                     <button class="btn btn-outline-primary btn-sm insert-snippet"
-                                        data-snippet="【Template #3】 Event Reminder
-Event: 
-Start/End: 
-Rewards: 
+                                        data-snippet="【NEWS】 ⇒ New Releases
 
-">
-                                        Template #3
+{romaji}
+{japanese}
+วางจำหน่ายแล้วในวันนี้
+
+🔗 Website ⋮ 
+
+╔══════════════╗ 
+ℹ️ ข้อมูลเกม
+Developer ⋮ 
+Release Date ⋮ 
+Language ⋮ Japanese
+╚══════════════╝ ">
+                                        เกมวางจำหน่ายใหม่ (ญี่ปุ่น)
                                     </button>
                                     <button class="btn btn-outline-primary btn-sm insert-snippet"
-                                        data-snippet="【Template #4】 Quick Recap
-Yesterday: 
-Today: 
-Next Up: 
+                                        data-snippet="【NEWS】 ⇒ New Releases
 
-">
-                                        Template #4
+{romaji}
+{japanese}
+(ชื่ออังกฤษ: )
+วางจำหน่ายแล้วในวันนี้
+
+🔗 Website ⋮ 
+🔗 Steam ⋮ 
+
+╔══════════════╗ 
+ℹ️ ข้อมูลเกม
+Developer ⋮ 
+Publisher ⋮ 
+Release Date ⋮ 
+Language ⋮ English, Chinese, Japanese
+Version ⋮ Censored Edition*
+╚══════════════╝ 
+————————————
+* Download Patch เพื่อเรียกคืนเนื้อหาที่หายไปได้ที่เว็บ ">
+                                        เกมวางจำหน่ายใหม่ (Steam)
                                     </button>
                                 </div>
                             </div>
@@ -111,7 +154,6 @@ Next Up:
                                 <div class="list-group-item d-flex justify-content-between align-items-start flex-wrap gap-2">
                                     <div>
                                         <div class="fw-semibold">ข้อมูลเกม</div>
-                                        <small class="text-muted">Highlight character moments</small>
                                     </div>
                                     <button class="btn btn-sm btn-primary insert-snippet"
                                         data-snippet="╔══════════════╗ 
@@ -130,7 +172,6 @@ Version ⋮ Censored Edition*
                                 <div class="list-group-item d-flex justify-content-between align-items-start flex-wrap gap-2">
                                     <div>
                                         <div class="fw-semibold">หมายเหตุ</div>
-                                        <small class="text-muted">Encourage readers to comment</small>
                                     </div>
                                     <button class="btn btn-sm btn-primary insert-snippet"
                                         data-snippet="————————————
@@ -150,9 +191,14 @@ Version ⋮ Censored Edition*
                             <div>
                                 <h3 class="card-title mb-1">Post Draft</h3>
                             </div>
-                            <button class="btn btn-outline-danger btn-sm" id="clearEditorBtn">
-                                <i class="fas fa-trash me-2"></i>Clear Editor
-                            </button>
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-outline-danger btn-sm" id="clearEditorBtn">
+                                    <i class="fas fa-trash me-2"></i>Clear Editor
+                                </button>
+                                <button class="btn btn-outline-secondary btn-sm" id="copyEditorBtn">
+                                    <i class="fas fa-copy me-2"></i>Copy Draft
+                                </button>
+                            </div>
                         </div>
                         <div class="card-body p-0">
                             <textarea id="visualNovelEditor" class="form-control border-0 rounded-0" spellcheck="false"
@@ -172,6 +218,7 @@ Version ⋮ Censored Edition*
             const editor = document.getElementById('visualNovelEditor');
             const snippetButtons = document.querySelectorAll('.insert-snippet');
             const clearBtn = document.getElementById('clearEditorBtn');
+            const copyBtn = document.getElementById('copyEditorBtn');
 
             const insertAtCursor = (text) => {
                 const start = editor.selectionStart ?? editor.value.length;
@@ -205,6 +252,59 @@ Version ⋮ Censored Edition*
                 if (confirm('Clear the entire editor content?')) {
                     editor.value = '';
                     editor.focus();
+                }
+            });
+
+            const showCopyFeedback = (success) => {
+                if (!copyBtn) return;
+                const originalHtml = copyBtn.dataset.originalHtml ?? copyBtn.innerHTML;
+                copyBtn.dataset.originalHtml = originalHtml;
+                copyBtn.disabled = true;
+                copyBtn.innerHTML = success
+                    ? '<i class="fas fa-check me-2"></i>Copied!'
+                    : '<i class="fas fa-exclamation-triangle me-2"></i>Copy failed';
+                setTimeout(() => {
+                    copyBtn.innerHTML = copyBtn.dataset.originalHtml;
+                    copyBtn.disabled = false;
+                }, 2000);
+            };
+
+            const fallbackCopy = (text) => {
+                const tempTextarea = document.createElement('textarea');
+                tempTextarea.value = text;
+                tempTextarea.style.position = 'fixed';
+                tempTextarea.style.top = '-9999px';
+                document.body.appendChild(tempTextarea);
+                tempTextarea.focus();
+                tempTextarea.select();
+                let successful = false;
+                try {
+                    successful = document.execCommand('copy');
+                } catch (err) {
+                    successful = false;
+                }
+                document.body.removeChild(tempTextarea);
+                return successful;
+            };
+
+            copyBtn?.addEventListener('click', async () => {
+                const text = editor.value;
+                if (!text) {
+                    showCopyFeedback(true);
+                    return;
+                }
+
+                try {
+                    if (navigator.clipboard?.writeText) {
+                        await navigator.clipboard.writeText(text);
+                        showCopyFeedback(true);
+                    } else {
+                        const fallbackSuccess = fallbackCopy(text);
+                        showCopyFeedback(fallbackSuccess);
+                    }
+                } catch (err) {
+                    const fallbackSuccess = fallbackCopy(text);
+                    showCopyFeedback(fallbackSuccess);
                 }
             });
         });
