@@ -4,6 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title><%= title %></title>
+    <% if (typeof faviconPath !== 'undefined' && faviconPath) { %>
+    <link rel="icon" type="image/png" href="<%= faviconPath %>">
+    <% } %>
     
     <!-- Google Fonts - Noto Sans Thai Looped and Noto Sans -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
