@@ -1,190 +1,186 @@
-<%- include('../partials/head', { title:"Kagami Blog Post Generator", cssFile:"blog", faviconPath: "/img/favicon_kagamiblog.png" }) %>
-<%- include('../partials/navbar_blog') %>
-<body>
-    <div class="page-wrapper flex-grow-1" style="padding-top: 5rem;">
-        <div class="container-xl">
-            <div class="row g-4">
-                <!-- Left Column: All Form Cards -->
-                <div class="col-lg-8">
-                    <!-- Post Details Card -->
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="card-title">Post Details</h3>
-                        </div>
-                        <div class="card-body">
-                            <!-- Title Input -->
-                            <div class="mb-3">
-                                <label class="form-label">Title</label>
-                                <div class="input-group">
-                                    <span class="input-group-text"><i class="fas fa-heading"></i></span>
-                                    <input type="text" id="title" class="form-control">
-                                </div>
-                            </div>
+<%- include('../partials/head', { title:"Kagami Blog Post Generator", cssFile:"blog",
+    faviconPath: "/img/favicon_kagamiblog.png" }) %>
+    <%- include('../partials/navbar_blog') %>
 
-                            <!-- Featured Image URL -->
-                            <div class="mb-3">
-                                <label class="form-label">Featured Image</label>
-                                <div class="input-group mb-2">
-                                    <span class="input-group-text"><i class="fas fa-image"></i></span>
-                                    <input type="text" id="featuredImage" class="form-control" placeholder="https://example.com/image.jpg">
-                                    <button type="button" id="uploadWidget" class="btn btn-primary">
-                                        <i class="fas fa-cloud-upload-alt me-1"></i> Upload Image
-                                    </button>
+        <body>
+            <div class="page-wrapper flex-grow-1" style="padding-top: 5rem;">
+                <div class="container-xl">
+                    <div class="row g-4">
+                        <!-- Left Column: All Form Cards -->
+                        <div class="col-lg-8">
+                            <!-- Post Details Card -->
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h3 class="card-title">Post Details</h3>
                                 </div>
-                                <div id="uploadedImagePreview" class="mt-2" style="display: none;">
-                                    <img id="imagePreview" src="" alt="Preview" class="img-thumbnail" style="max-height: 150px;">
-                                </div>
-                            </div>
-
-                            <!-- Publish Date Input -->
-                            <div class="row g-3">
-                                <div class="col-md-6">
-                                    <label class="form-label">Publish Date</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="far fa-calendar-alt"></i></span>
-                                        <input type="text" id="publishDate" class="form-control" placeholder="Select date" data-input>
+                                <div class="card-body">
+                                    <!-- Title Input -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Title</label>
+                                        <div class="input-group">
+                                            <span class="input-group-text"><i class="fas fa-heading"></i></span>
+                                            <input type="text" id="title" class="form-control">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="col-md-6 d-flex align-items-end">
-                                    <label class="form-check form-switch">
-                                        <input type="checkbox" class="form-check-input" id="publish" checked>
-                                        <span class="form-check-label">Publish this post</span>
-                                    </label>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
 
-                    <!-- Categories & Slug Card -->
-                    <div class="card mb-4">
-                        <div class="card-header">
-                            <h3 class="card-title">Post Settings</h3>
-                        </div>
-                        <div class="card-body">
-                            <div class="row g-3">
-                                <!-- Categories -->
-                                <div class="col-md-6">
-                                    <label class="form-label" for="blog-categories">Categories</label>
-                                    <select id="blog-categories" name="blog-categories" multiple>
-                                        <option value="General">General</option>
-                                        <option value="Language">Language</option>
-                                        <option value="Thoughts">Thoughts</option>
-                                        <option value="Visual Novel">Visual Novel</option>
-                                    </select>
-                                </div>
-                                
-                                <!-- Slug -->
-                                <div class="col-md-6">
-                                    <label class="form-label">URL Slug</label>
-                                    <div class="input-group">
-                                        <span class="input-group-text"><i class="fas fa-link"></i></span>
-                                        <input type="text" id="slug" class="form-control font-monospace" placeholder="my-awesome-post">
+                                    <!-- Featured Image URL -->
+                                    <div class="mb-3">
+                                        <label class="form-label">Featured Image</label>
+                                        <div class="input-group mb-2">
+                                            <span class="input-group-text"><i class="fas fa-image"></i></span>
+                                            <input type="text" id="featuredImage" class="form-control"
+                                                placeholder="https://example.com/image.jpg">
+                                        </div>
+                                    </div>
+
+                                    <!-- Publish Date Input -->
+                                    <div class="row g-3">
+                                        <div class="col-md-6">
+                                            <label class="form-label">Publish Date</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i
+                                                        class="far fa-calendar-alt"></i></span>
+                                                <input type="text" id="publishDate" class="form-control"
+                                                    placeholder="Select date" data-input>
+                                            </div>
+                                        </div>
+                                        <div class="col-md-6 d-flex align-items-end">
+                                            <label class="form-check form-switch">
+                                                <input type="checkbox" class="form-check-input" id="publish" checked>
+                                                <span class="form-check-label">Publish this post</span>
+                                            </label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                    </div>
 
-                    <!-- Content Card -->
-                    <div class="card">
-                        <div class="card-header">
-                            <h3 class="card-title">Content</h3>
-                            <div class="card-actions">
-                                <a href="https://www.markdownguide.org/basic-syntax/" target="_blank" class="btn btn-ghost-secondary btn-sm" title="Markdown Guide">
-                                    <i class="fab fa-markdown me-2"></i>
-                                    Markdown Guide
-                                </a>
+                            <!-- Categories & Slug Card -->
+                            <div class="card mb-4">
+                                <div class="card-header">
+                                    <h3 class="card-title">Post Settings</h3>
+                                </div>
+                                <div class="card-body">
+                                    <div class="row g-3">
+                                        <!-- Categories -->
+                                        <div class="col-md-6">
+                                            <label class="form-label" for="blog-categories">Categories</label>
+                                            <select id="blog-categories" name="blog-categories" multiple>
+                                                <option value="General">General</option>
+                                                <option value="Language">Language</option>
+                                                <option value="Thoughts">Thoughts</option>
+                                                <option value="Visual Novel">Visual Novel</option>
+                                            </select>
+                                        </div>
+
+                                        <!-- Slug -->
+                                        <div class="col-md-6">
+                                            <label class="form-label">URL Slug</label>
+                                            <div class="input-group">
+                                                <span class="input-group-text"><i class="fas fa-link"></i></span>
+                                                <input type="text" id="slug" class="form-control font-monospace"
+                                                    placeholder="my-awesome-post">
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="card-body p-0">
-                            <textarea
-                                id="content"
-                                class="form-control border-0"
-                                placeholder="Start writing your Markdown content here..."
-                                style="min-height: 400px; resize: none;"
-                                spellcheck="false"
-                            ></textarea>
-                        </div>
-                        <div class="card-footer">
-                            <div class="d-flex justify-content-between align-items-center">
-                                <button id="clearAllBtn" class="btn btn-outline-danger">
-                                    <i class="fas fa-trash me-2"></i>Clear All
-                                </button>
-                                <div>
-                                    <button id="pasteContentBtn" class="btn btn-outline-primary me-2">
-                                        <i class="fas fa-paste me-2"></i>Paste
-                                    </button>
-                                    <button class="btn btn-primary" id="generateFileBtnBottom">
-                                        <i class="fas fa-download me-2"></i>Generate .md File
-                                    </button>
+
+                            <!-- Content Card -->
+                            <div class="card">
+                                <div class="card-header">
+                                    <h3 class="card-title">Content</h3>
+                                    <div class="card-actions">
+                                        <a href="https://www.markdownguide.org/basic-syntax/" target="_blank"
+                                            class="btn btn-ghost-secondary btn-sm" title="Markdown Guide">
+                                            <i class="fab fa-markdown me-2"></i>
+                                            Markdown Guide
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="card-body p-0">
+                                    <textarea id="content" class="form-control border-0"
+                                        placeholder="Start writing your Markdown content here..."
+                                        style="min-height: 400px; resize: none;" spellcheck="false"></textarea>
+                                </div>
+                                <div class="card-footer">
+                                    <div class="d-flex justify-content-between align-items-center">
+                                        <button id="clearAllBtn" class="btn btn-outline-danger">
+                                            <i class="fas fa-trash me-2"></i>Clear All
+                                        </button>
+                                        <div>
+                                            <button id="pasteContentBtn" class="btn btn-outline-primary me-2">
+                                                <i class="fas fa-paste me-2"></i>Paste
+                                            </button>
+                                            <button class="btn btn-primary" id="generateFileBtnBottom">
+                                                <i class="fas fa-download me-2"></i>Generate .md File
+                                            </button>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
-                </div>
-                
-                <!-- Right Column: Markdown Preview -->
-                <div class="col-lg-4">
-                    <div class="sticky-top" style="top: 5rem; margin-bottom: 2rem;">
-                        <div class="card h-100">
-                            <div class="card-header">
-                                <h3 class="card-title">Preview</h3>
-                                <div class="card-actions">
-                                    <button class="btn btn-ghost-secondary btn-sm" id="copyPreviewBtn" title="Copy to Clipboard">
-                                        <i class="far fa-copy me-2"></i>
-                                        Copy
-                                    </button>
+
+                        <!-- Right Column: Markdown Preview -->
+                        <div class="col-lg-4">
+                            <div class="sticky-top" style="top: 5rem; margin-bottom: 2rem;">
+                                <div class="card h-100">
+                                    <div class="card-header">
+                                        <h3 class="card-title">Preview</h3>
+                                        <div class="card-actions">
+                                            <button class="btn btn-ghost-secondary btn-sm" id="copyPreviewBtn"
+                                                title="Copy to Clipboard">
+                                                <i class="far fa-copy me-2"></i>
+                                                Copy
+                                            </button>
+                                        </div>
+                                    </div>
+                                    <div class="card-body p-0">
+                                        <pre id="markdownPreview" class="markdown-preview m-0"><code></code></pre>
+                                    </div>
                                 </div>
-                            </div>
-                            <div class="card-body p-0">
-                                <pre id="markdownPreview" class="markdown-preview m-0"><code></code></pre>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
 
-    <%- include('../partials/footer') %>
-    
-    <!-- Configuration -->
-    <script src="/config.js" type="text/javascript"></script>
-    
-    <!-- Cloudinary Upload Widget -->
-    <script src="https://upload-widget.cloudinary.com/global/all.js" type="text/javascript"></script>
-    
-    <!-- Add Tom Select JS -->
-    <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            // Get references to DOM elements first
-            const titleInput = document.getElementById('title');
-            const featuredImageInput = document.getElementById('featuredImage');
-            const publishDateInput = document.getElementById('publishDate');
-            const publishCheckbox = document.getElementById('publish');
-            const slugInput = document.getElementById('slug');
-            const contentTextarea = document.getElementById('content');
-            const generateFileBtn = document.getElementById('generateFileBtn');
-            const copyPreviewBtn = document.getElementById('copyPreviewBtn');
-            const markdownPreviewCode = document.querySelector('#markdownPreview code');
-            const clearAllBtn = document.getElementById('clearAllBtn');
-            
-            // Function to generate the Markdown string with YAML front matter
-            const generateMarkdown = () => {
-                const title = titleInput.value;
-                const featuredImage = featuredImageInput.value;
-                const publishDate = publishDateInput.value;
-                const publish = publishCheckbox.checked;
-                // Get selected categories from Tom Select
-                const tomSelect = document.querySelector('#blog-categories').tomselect;
-                const selectedCategories = tomSelect ? tomSelect.items : [];
-                const slug = slugInput.value;
-                const content = contentTextarea.value;
+            <%- include('../partials/footer') %>
 
-                const categoriesFormatted = selectedCategories.map(cat => `"${cat}"`).join(', ');
 
-                const yamlFrontMatter = `---
+
+
+
+                <!-- Add Tom Select JS -->
+                <script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+                <script>
+                    document.addEventListener('DOMContentLoaded', () => {
+                        // Get references to DOM elements first
+                        const titleInput = document.getElementById('title');
+                        const featuredImageInput = document.getElementById('featuredImage');
+                        const publishDateInput = document.getElementById('publishDate');
+                        const publishCheckbox = document.getElementById('publish');
+                        const slugInput = document.getElementById('slug');
+                        const contentTextarea = document.getElementById('content');
+                        const generateFileBtn = document.getElementById('generateFileBtn');
+                        const copyPreviewBtn = document.getElementById('copyPreviewBtn');
+                        const markdownPreviewCode = document.querySelector('#markdownPreview code');
+                        const clearAllBtn = document.getElementById('clearAllBtn');
+
+                        // Function to generate the Markdown string with YAML front matter
+                        const generateMarkdown = () => {
+                            const title = titleInput.value;
+                            const featuredImage = featuredImageInput.value;
+                            const publishDate = publishDateInput.value;
+                            const publish = publishCheckbox.checked;
+                            // Get selected categories from Tom Select
+                            const tomSelect = document.querySelector('#blog-categories').tomselect;
+                            const selectedCategories = tomSelect ? tomSelect.items : [];
+                            const slug = slugInput.value;
+                            const content = contentTextarea.value;
+
+                            const categoriesFormatted = selectedCategories.map(cat => `"${cat}"`).join(', ');
+
+                            const yamlFrontMatter = `---
 title: "${title}"
 featuredImage: "${featuredImage}"
 publishDate: "${publishDate}"
@@ -193,309 +189,172 @@ categories: [${categoriesFormatted}]
 slug: "${slug}"
 ---`;
 
-                // Combine YAML front matter and content
-                const fullMarkdown = `${yamlFrontMatter}\n\n${content}`;
-                markdownPreviewCode.textContent = fullMarkdown; // Update preview
-            };
+                            // Combine YAML front matter and content
+                            const fullMarkdown = `${yamlFrontMatter}\n\n${content}`;
+                            markdownPreviewCode.textContent = fullMarkdown; // Update preview
+                        };
 
-            // Function to handle the "Generate .md File" button click
-            const handleGenerateFile = () => {
-                // Get publish date, fallback to today if empty
-                let publishDate = publishDateInput.value;
-                if (!publishDate) {
-                    const today = new Date();
-                    const year = today.getFullYear();
-                    const month = String(today.getMonth() + 1).padStart(2, '0');
-                    const day = String(today.getDate()).padStart(2, '0');
-                    publishDate = `${year}-${month}-${day}`;
-                }
-                const filename = `${publishDate}-${slugInput.value || 'untitled'}.md`;
-                const blob = new Blob([markdownPreviewCode.textContent], { type: 'text/markdown' });
-                const url = URL.createObjectURL(blob);
-                const a = document.createElement('a');
-                a.href = url;
-                a.download = filename;
-                document.body.appendChild(a);
-                a.click();
-                document.body.removeChild(a);
-                URL.revokeObjectURL(url);
-            };
+                        // Function to handle the "Generate .md File" button click
+                        const handleGenerateFile = () => {
+                            // Get publish date, fallback to today if empty
+                            let publishDate = publishDateInput.value;
+                            if (!publishDate) {
+                                const today = new Date();
+                                const year = today.getFullYear();
+                                const month = String(today.getMonth() + 1).padStart(2, '0');
+                                const day = String(today.getDate()).padStart(2, '0');
+                                publishDate = `${year}-${month}-${day}`;
+                            }
+                            const filename = `${publishDate}-${slugInput.value || 'untitled'}.md`;
+                            const blob = new Blob([markdownPreviewCode.textContent], { type: 'text/markdown' });
+                            const url = URL.createObjectURL(blob);
+                            const a = document.createElement('a');
+                            a.href = url;
+                            a.download = filename;
+                            document.body.appendChild(a);
+                            a.click();
+                            document.body.removeChild(a);
+                            URL.revokeObjectURL(url);
+                        };
 
-            // Function to handle the "Clear All" button click
-            const handleClearAll = () => {
-                // Clear input fields
-                titleInput.value = '';
-                featuredImageInput.value = '';
-                slugInput.value = '';
-                contentTextarea.value = '';
+                        // Function to handle the "Clear All" button click
+                        const handleClearAll = () => {
+                            // Clear input fields
+                            titleInput.value = '';
+                            featuredImageInput.value = '';
+                            slugInput.value = '';
+                            contentTextarea.value = '';
 
-                // Reset checkbox
-                publishCheckbox.checked = true;
+                            // Reset checkbox
+                            publishCheckbox.checked = true;
 
-                // Reset Tom Select
-                const tomSelect = document.querySelector('#blog-categories').tomselect;
-                if (tomSelect) {
-                    tomSelect.clear();
-                    tomSelect.setValue(['General']);
-                }
+                            // Reset Tom Select
+                            const tomSelect = document.querySelector('#blog-categories').tomselect;
+                            if (tomSelect) {
+                                tomSelect.clear();
+                                tomSelect.setValue(['General']);
+                            }
 
-                // Reset publish date to today
-                setTodayAsPublishDate();
+                            // Reset publish date to today
+                            setTodayAsPublishDate();
 
-                generateMarkdown(); // Update preview after clearing
-            };
+                            generateMarkdown(); // Update preview after clearing
+                        };
 
-            // Function to set default publish date to today on page load
-            const setTodayAsPublishDate = () => {
-                const today = new Date();
-                const year = today.getFullYear();
-                const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
-                const day = String(today.getDate()).padStart(2, '0');
-                publishDateInput.value = `${year}-${month}-${day}`;
-                
-                // Auto-generate slug from title
-                titleInput.addEventListener('input', () => {
-                    if (!slugInput.dataset.manuallyEdited) {
-                        const slug = titleInput.value
-                            .toLowerCase()
-                            .replace(/[^\w\s-]/g, '') // Remove special chars
-                            .replace(/\s+/g, '-')      // Replace spaces with -
-                            .replace(/--+/g, '-');      // Replace multiple - with single -
-                        slugInput.value = slug;
-                    }
-                });
-                
-                // Mark slug as manually edited when user types in it
-                slugInput.addEventListener('input', function() {
-                    this.dataset.manuallyEdited = 'true';
-                });
-            };
+                        // Function to set default publish date to today on page load
+                        const setTodayAsPublishDate = () => {
+                            const today = new Date();
+                            const year = today.getFullYear();
+                            const month = String(today.getMonth() + 1).padStart(2, '0'); // Months are 0-indexed
+                            const day = String(today.getDate()).padStart(2, '0');
+                            publishDateInput.value = `${year}-${month}-${day}`;
 
-            // Initialize Tom Select for blog-categories
-            const wordTypesSelect = new TomSelect('#blog-categories', {
-                plugins: ['remove_button', 'clear_button'],
-                create: false,
-                maxItems: 4,
-                onInitialize: function() {
-                    // Set initial values if needed
-                    this.setValue(['General']);
-                    // Trigger initial preview update
-                    generateMarkdown();
-                },
-                onChange: function(value) {
-                    // Update preview when categories change
-                    generateMarkdown();
-                }
-            });
+                            // Auto-generate slug from title
+                            titleInput.addEventListener('input', () => {
+                                if (!slugInput.dataset.manuallyEdited) {
+                                    const slug = titleInput.value
+                                        .toLowerCase()
+                                        .replace(/[^\w\s-]/g, '') // Remove special chars
+                                        .replace(/\s+/g, '-')      // Replace spaces with -
+                                        .replace(/--+/g, '-');      // Replace multiple - with single -
+                                    slugInput.value = slug;
+                                }
+                            });
 
-            // Add copy preview button functionality
-            copyPreviewBtn.addEventListener('click', () => {
-                const textToCopy = markdownPreviewCode.textContent;
-                navigator.clipboard.writeText(textToCopy).then(() => {
-                    const originalTitle = copyPreviewBtn.title;
-                    copyPreviewBtn.innerHTML = '<i class="fas fa-check"></i>';
-                    copyPreviewBtn.title = 'Copied!';
-                    setTimeout(() => {
-                        copyPreviewBtn.innerHTML = '<i class="far fa-copy"></i>';
-                        copyPreviewBtn.title = originalTitle;
-                    }, 2000);
-                });
-            });
+                            // Mark slug as manually edited when user types in it
+                            slugInput.addEventListener('input', function () {
+                                this.dataset.manuallyEdited = 'true';
+                            });
+                        };
 
-            // Cloudinary Upload Widget
-            const cloudName = 'kagamiweb'; // Replace with your Cloudinary cloud name
-            const uploadPreset = 'coregamehdblog'; // Replace with your upload preset
-            
-            const myWidget = cloudinary.createUploadWidget({
-                cloudName: cloudName,
-                uploadPreset: uploadPreset,
-                sources: ['local', 'url', 'camera'],
-                multiple: false,
-                maxFiles: 1,
-                clientAllowedFormats: ['jpg', 'jpeg', 'png', 'webp'],
-                maxFileSize: 5000000, // 5MB
-                showAdvancedOptions: false,
-                styles: {
-                    palette: {
-                        window: "#FFFFFF",
-                        windowBorder: "#90A0B3",
-                        tabIcon: "#0078FF",
-                        menuIcons: "#5A616A",
-                        textDark: "#000000",
-                        textLight: "#FFFFFF",
-                        link: "#0078FF",
-                        action: "#FF620C",
-                        inactiveTabIcon: "#0E2F5A",
-                        error: "#F44235",
-                        inProgress: "#0078FF",
-                        complete: "#20B832",
-                        sourceBg: "#E4EBF1"
-                    },
-                    fonts: {
-                        default: {
-                            active: true
-                        }
-                    }
-                }
-            }, (error, result) => {
-                if (!error && result && result.event === "success") {
-                    const secureUrl = result.info.secure_url;
-                    document.getElementById('featuredImage').value = secureUrl;
-                    
-                    // Show preview
-                    const preview = document.getElementById('imagePreview');
-                    const previewContainer = document.getElementById('uploadedImagePreview');
-                    preview.src = secureUrl;
-                    previewContainer.style.display = 'block';
-                    
-                    // Update markdown preview
-                    updateMarkdownPreview();
-                }
-            });
-            
-            // Password protection for upload
-            document.getElementById("uploadWidget").addEventListener("click", function(e) {
-                e.preventDefault();
-                e.stopPropagation();
-                
-                // Create and show password modal
-                const modal = document.createElement('div');
-                modal.style.position = 'fixed';
-                modal.style.top = '0';
-                modal.style.left = '0';
-                modal.style.width = '100%';
-                modal.style.height = '100%';
-                modal.style.backgroundColor = 'rgba(0,0,0,0.5)';
-                modal.style.display = 'flex';
-                modal.style.justifyContent = 'center';
-                modal.style.alignItems = 'center';
-                modal.style.zIndex = '9999';
-                
-                // Modal content
-                const modalContent = document.createElement('div');
-                modalContent.style.background = 'white';
-                modalContent.style.padding = '20px';
-                modalContent.style.borderRadius = '8px';
-                modalContent.style.width = '300px';
-                modalContent.style.maxWidth = '90%';
-                
-                // Password input
-                const passwordInput = document.createElement('input');
-                passwordInput.type = 'password';
-                passwordInput.className = 'form-control mb-3';
-                passwordInput.placeholder = 'Enter password';
-                passwordInput.style.width = '100%';
-                
-                // Buttons container
-                const buttonContainer = document.createElement('div');
-                buttonContainer.style.display = 'flex';
-                buttonContainer.style.justifyContent = 'flex-end';
-                buttonContainer.style.gap = '10px';
-                
-                // Cancel button
-                const cancelBtn = document.createElement('button');
-                cancelBtn.className = 'btn btn-secondary';
-                cancelBtn.textContent = 'Cancel';
-                cancelBtn.onclick = function() {
-                    document.body.removeChild(modal);
-                };
-                
-                // Submit button
-                const submitBtn = document.createElement('button');
-                submitBtn.className = 'btn btn-primary';
-                submitBtn.textContent = 'Submit';
-                submitBtn.onclick = function() {
-                    if (passwordInput.value === config.uploadPassword) {
-                        document.body.removeChild(modal);
-                        // Use a small timeout to ensure the modal is fully removed
-                        setTimeout(() => {
-                            myWidget.open();
-                        }, 50);
-                    } else {
-                        alert('Incorrect password. Please try again.');
-                        passwordInput.value = '';
-                        passwordInput.focus();
-                    }
-                };
-                
-                // Handle Enter key
-                passwordInput.addEventListener('keypress', function(e) {
-                    if (e.key === 'Enter') {
-                        submitBtn.click();
-                    }
-                });
-                
-                // Assemble modal
-                buttonContainer.appendChild(cancelBtn);
-                buttonContainer.appendChild(submitBtn);
-                
-                modalContent.innerHTML = `
-                    <h5 class="mb-3">Enter Upload Password</h5>
-                `;
-                
-                modalContent.appendChild(passwordInput);
-                modalContent.appendChild(buttonContainer);
-                modal.appendChild(modalContent);
-                
-                // Add to body and focus input
-                document.body.appendChild(modal);
-                passwordInput.focus();
-                
-            }, false);
-            
-            // Initialize date picker
-            flatpickr("#publishDate", {
-                dateFormat: "Y-m-d",
-                defaultDate: "today",
-                allowInput: true,
-                onChange: function(selectedDates, dateStr, instance) {
-                    generateMarkdown();
-                }
-            });
-            
-            // Initialize publish date
-            setTodayAsPublishDate();
+                        // Initialize Tom Select for blog-categories
+                        const wordTypesSelect = new TomSelect('#blog-categories', {
+                            plugins: ['remove_button', 'clear_button'],
+                            create: false,
+                            maxItems: 4,
+                            onInitialize: function () {
+                                // Set initial values if needed
+                                this.setValue(['General']);
+                                // Trigger initial preview update
+                                generateMarkdown();
+                            },
+                            onChange: function (value) {
+                                // Update preview when categories change
+                                generateMarkdown();
+                            }
+                        });
 
-            // Attach event listeners to all input fields to trigger Markdown generation
-            titleInput.addEventListener('input', generateMarkdown);
-            featuredImageInput.addEventListener('input', generateMarkdown);
-            publishDateInput.addEventListener('input', generateMarkdown);
-            publishCheckbox.addEventListener('change', generateMarkdown); // 'change' for checkbox
-            slugInput.addEventListener('input', generateMarkdown);
-            contentTextarea.addEventListener('input', generateMarkdown);
+                        // Add copy preview button functionality
+                        copyPreviewBtn.addEventListener('click', () => {
+                            const textToCopy = markdownPreviewCode.textContent;
+                            navigator.clipboard.writeText(textToCopy).then(() => {
+                                const originalTitle = copyPreviewBtn.title;
+                                copyPreviewBtn.innerHTML = '<i class="fas fa-check"></i>';
+                                copyPreviewBtn.title = 'Copied!';
+                                setTimeout(() => {
+                                    copyPreviewBtn.innerHTML = '<i class="far fa-copy"></i>';
+                                    copyPreviewBtn.title = originalTitle;
+                                }, 2000);
+                            });
+                        });
 
-            // Handle paste from clipboard
-            const handlePasteContent = async () => {
-                try {
-                    const text = await navigator.clipboard.readText();
-                    if (text) {
-                        contentTextarea.value = text;
+
+
+
+
+                        // Initialize date picker
+                        flatpickr("#publishDate", {
+                            dateFormat: "Y-m-d",
+                            defaultDate: "today",
+                            allowInput: true,
+                            onChange: function (selectedDates, dateStr, instance) {
+                                generateMarkdown();
+                            }
+                        });
+
+                        // Initialize publish date
+                        setTodayAsPublishDate();
+
+                        // Attach event listeners to all input fields to trigger Markdown generation
+                        titleInput.addEventListener('input', generateMarkdown);
+                        featuredImageInput.addEventListener('input', generateMarkdown);
+                        publishDateInput.addEventListener('input', generateMarkdown);
+                        publishCheckbox.addEventListener('change', generateMarkdown); // 'change' for checkbox
+                        slugInput.addEventListener('input', generateMarkdown);
+                        contentTextarea.addEventListener('input', generateMarkdown);
+
+                        // Handle paste from clipboard
+                        const handlePasteContent = async () => {
+                            try {
+                                const text = await navigator.clipboard.readText();
+                                if (text) {
+                                    contentTextarea.value = text;
+                                    generateMarkdown();
+                                    // Show success feedback
+                                    const btn = document.getElementById('pasteContentBtn');
+                                    const originalHtml = btn.innerHTML;
+                                    btn.innerHTML = '<i class="fas fa-check me-2"></i>Pasted!';
+                                    btn.disabled = true;
+                                    setTimeout(() => {
+                                        btn.innerHTML = originalHtml;
+                                        btn.disabled = false;
+                                    }, 2000);
+                                }
+                            } catch (err) {
+                                console.error('Failed to read clipboard contents: ', err);
+                                alert('Failed to access clipboard. Please check browser permissions.');
+                            }
+                        };
+
+                        // Attach event listeners for the generate file buttons
+                        document.getElementById('generateFileBtnTop').addEventListener('click', handleGenerateFile);
+                        document.getElementById('generateFileBtnBottom').addEventListener('click', handleGenerateFile);
+                        document.getElementById('pasteContentBtn').addEventListener('click', handlePasteContent);
+
+                        // Attach event listener for the clear all button
+                        clearAllBtn.addEventListener('click', handleClearAll);
+
+                        // Initial generation of Markdown on page load
                         generateMarkdown();
-                        // Show success feedback
-                        const btn = document.getElementById('pasteContentBtn');
-                        const originalHtml = btn.innerHTML;
-                        btn.innerHTML = '<i class="fas fa-check me-2"></i>Pasted!';
-                        btn.disabled = true;
-                        setTimeout(() => {
-                            btn.innerHTML = originalHtml;
-                            btn.disabled = false;
-                        }, 2000);
-                    }
-                } catch (err) {
-                    console.error('Failed to read clipboard contents: ', err);
-                    alert('Failed to access clipboard. Please check browser permissions.');
-                }
-            };
-
-            // Attach event listeners for the generate file buttons
-            document.getElementById('generateFileBtnTop').addEventListener('click', handleGenerateFile);
-            document.getElementById('generateFileBtnBottom').addEventListener('click', handleGenerateFile);
-            document.getElementById('pasteContentBtn').addEventListener('click', handlePasteContent);
-
-            // Attach event listener for the clear all button
-            clearAllBtn.addEventListener('click', handleClearAll);
-
-            // Initial generation of Markdown on page load
-            generateMarkdown();
-        });
-    </script>
+                    });
+                </script>
