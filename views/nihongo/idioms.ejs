@@ -62,9 +62,6 @@
                     <div class="card h-100">
                         <div class="card-header">
                             <h3 class="card-title">Preview</h3>
-                            <div class="card-actions">
-                                <button class="btn btn-ghost-secondary btn-sm" id="exampleButton"><i class="fas fa-lightbulb me-2"></i>Example</button>
-                            </div>
                         </div>
                         <div class="card-body p-0 d-flex flex-column">
                             <div class="preview-output flex-grow-1" id="preview"></div>
@@ -72,7 +69,7 @@
                         <div class="card-footer">
                             <div class="d-flex justify-content-between align-items-center">
                                 <button id="clearAllBtn" class="btn btn-outline-danger">
-                                    <i class="fas fa-trash-alt me-2"></i>Clear All
+                                    <i class="fas fa-trash-alt me-2"></i>Clear Draft
                                 </button>
                                 <button class="btn btn-primary" id="copyButtonBottom">
                                     <i class="fas fa-copy me-2"></i>Copy to Clipboard
@@ -100,7 +97,6 @@
         // Get both copy buttons
         const copyButtonTop = document.getElementById('copyButtonTop');
         const copyButtonBottom = document.getElementById('copyButtonBottom');
-        const exampleButton = document.getElementById('exampleButton');
 
         // Initialize the preview
         function updatePreview() {
@@ -237,39 +233,20 @@
         const clearAllBtn = document.getElementById('clearAllBtn');
         if (clearAllBtn) {
             clearAllBtn.addEventListener('click', function() {
-                // Clear text inputs
-                textInputs.forEach(input => {
-                    if (input && (input.type === 'text' || input.type === 'textarea')) {
-                        input.value = '';
-                        // Trigger input event to update preview
-                        input.dispatchEvent(new Event('input'));
-                    }
-                });
-                
-                // Update the preview
-                updatePreview();
-            });
-        }
-
-        // Example button handler to set preview text
-        if (exampleButton) {
-            exampleButton.addEventListener('click', () => {
-                const exampleText = `【สุภาษิต - สำนวนญี่ปุ่น】
-
-青天の霹靂
-seiten no hekireki
-ฟ้าผ่าในวันฟ้าใส
-
-————————————
-➡️ คำอธิบาย
-
-青天の霹靂 (せいてんのへきれき) แปลตรงตัวว่าเกิดเหตุฟ้าผ่าในวันที่ท้องฟ้าปลอดโปร่ง ซึ่งเปรียบเปรยเหมือนกับเรื่องที่ไม่คาดคิด
-
-ใช้เพื่อบ่งบอกว่าเป็นเหตุการณ์ที่เกิดขึ้นอย่างกะทันหันโดยไม่ทันตั้งตัว อยู่ดีๆ ก็เกิดขึ้นโดยที่ไม่มีวี่แววมาก่อน
-
-————————————
-▍ภาพจากเกม Hatsukoi Master Up (初恋マスターアップ)`;
-                previewOutput.textContent = exampleText;
+                // Show confirmation popup
+                if (confirm('Are you sure you want to clear all draft content? This action cannot be undone.')) {
+                    // Clear text inputs
+                    textInputs.forEach(input => {
+                        if (input && (input.type === 'text' || input.type === 'textarea')) {
+                            input.value = '';
+                            // Trigger input event to update preview
+                            input.dispatchEvent(new Event('input'));
+                        }
+                    });
+                    
+                    // Update the preview
+                    updatePreview();
+                }
             });
         }
 

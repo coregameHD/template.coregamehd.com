@@ -1,12 +1,12 @@
 :root {
-    --brand-color: #FF6040;
-    --brand-light: #FF8F73;
-    --brand-dark: #CC4D33;
-    --brand-bg: #FFF3EE;
-    --brand-header: #FFE3D9; /* light orange header */
+    --brand-color: #E84A4A;
+    --brand-light: #F07373;
+    --brand-dark: #B93B3B;
+    --brand-bg: #FEF0F0;
+    --brand-header: #FDD7D7; /* light red header */
     /* Map Tabler variables to brand */
     --tblr-primary: var(--brand-color);
-    --tblr-primary-rgb: 255, 96, 64;
+    --tblr-primary-rgb: 232, 74, 74;
     --tblr-link-color: var(--brand-color);
     --tblr-link-hover-color: var(--brand-dark);
     --tblr-btn-active-bg: var(--brand-dark);
@@ -21,9 +21,9 @@ body {
 
 .card {
     border: none;
-    box-shadow: 0 1px 2px 0 rgba(255, 96, 64, 0.1);
+    box-shadow: 0 1px 2px 0 rgba(232, 74, 74, 0.1);
     margin-bottom: 1.5rem;
-    border: 1px solid rgba(255, 96, 64, 0.1);
+    border: 1px solid rgba(232, 74, 74, 0.1);
 }
 
 .card-header {
@@ -34,7 +34,7 @@ body {
 }
 
 .snippet-library-templates {
-    background-color: rgba(255, 96, 64, 0.08);
+    background-color: rgba(232, 74, 74, 0.08);
 }
 
 .snippet-library-title {
@@ -73,7 +73,7 @@ body {
 }
 
 .ts-control {
-    border: 1px solid rgba(255, 96, 64, 0.3);
+    border: 1px solid rgba(232, 74, 74, 0.3);
     padding: 0.375rem 0.75rem;
     min-height: 42px;
 }
@@ -85,7 +85,7 @@ body {
 
 .form-control:focus, .form-select:focus, .ts-control.focus {
     border-color: var(--brand-light);
-    box-shadow: 0 0 0 0.25rem rgba(255, 96, 64, 0.25);
+    box-shadow: 0 0 0 0.25rem rgba(232, 74, 74, 0.25);
 }
 
 .ts-wrapper.multi .ts-control > div {
@@ -125,4 +125,84 @@ body {
         margin-left: 1rem;
         width: auto;
     }
+}
+
+/* Arrow Process Diagram Dark Mode */
+.process-diagram {
+    background-color: #f8f9fa;
+    /* Transition removed for immediate color change */
+}
+
+[data-bs-theme="dark"] .process-diagram {
+    background-color: var(--bs-tertiary-bg);
+    border-color: var(--bs-border-color);
+}
+
+[data-bs-theme="dark"] .process-btn {
+    background-color: var(--bs-secondary-bg);
+    border-color: var(--bs-border-color);
+    color: var(--bs-body-color);
+}
+
+[data-bs-theme="dark"] .process-btn:hover {
+    background-color: var(--bs-tertiary-bg-subtle);
+    border-color: var(--brand-color);
+    color: var(--brand-color);
+}
+
+[data-bs-theme="dark"] .process-btn:focus {
+    background-color: var(--bs-secondary-bg);
+    border-color: var(--brand-color);
+    box-shadow: 0 0 0 0.2rem rgba(232, 74, 74, 0.25);
+}
+
+/* Override blue colors with orange in dark mode */
+[data-bs-theme="dark"] {
+    --bs-link-color: var(--brand-color);
+    --bs-link-hover-color: var(--brand-light);
+}
+
+[data-bs-theme="dark"] .btn-outline-primary {
+    color: var(--brand-color);
+    border-color: var(--brand-color);
+}
+
+[data-bs-theme="dark"] .btn-outline-primary:hover {
+    background-color: var(--brand-color);
+    border-color: var(--brand-color);
+    color: #fff;
+}
+
+[data-bs-theme="dark"] .btn-primary {
+    background-color: var(--brand-color);
+    border-color: var(--brand-color);
+}
+
+[data-bs-theme="dark"] .btn-primary:hover {
+    background-color: var(--brand-dark);
+    border-color: var(--brand-dark);
+}
+
+[data-bs-theme="dark"] a:not(.btn) {
+    color: var(--brand-color);
+}
+
+[data-bs-theme="dark"] .form-control:focus,
+[data-bs-theme="dark"] .form-select:focus {
+    border-color: var(--brand-color);
+    box-shadow: 0 0 0 0.25rem rgba(232, 74, 74, 0.25);
+}
+
+[data-bs-theme="dark"] .page-item.active .page-link {
+    background-color: var(--brand-color);
+    border-color: var(--brand-color);
+}
+
+[data-bs-theme="dark"] .nav-tabs {
+    --bs-nav-tabs-link-active-color: var(--brand-color);
+}
+
+[data-bs-theme="dark"] .ts-control.focus {
+    border-color: var(--brand-color);
+    box-shadow: 0 0 0 0.2rem rgba(232, 74, 74, 0.25);
 }

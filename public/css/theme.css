@@ -33,7 +33,7 @@
 .navbar {
     background-color: var(--navbar-bg-light) !important;
     box-shadow: var(--navbar-shadow-light) !important;
-    transition: background-color 0.3s ease, box-shadow 0.3s ease;
+    /* Transition removed for immediate color change */
 }
 
 [data-bs-theme="dark"] .navbar,
@@ -64,10 +64,7 @@
     filter: invert(1);
 }
 
-/* Cards */
-.card {
-    transition: background-color 0.3s ease, color 0.3s ease, border-color 0.3s ease;
-}
+/* Cards - transitions removed for immediate color change */
 
 [data-bs-theme="dark"] .card {
     background-color: var(--bs-card-bg);
@@ -178,20 +175,4 @@
     color: var(--bs-body-color);
 }
 
-/* Theme toggle */
-#theme-toggle {
-    visibility: hidden;
-    transition: all 0.3s ease;
-}
-
-#theme-toggle:hover {
-    transform: scale(1.1);
-}
-
-#theme-icon {
-    transition: transform 0.3s ease;
-}
-
-#theme-toggle:hover #theme-icon {
-    transform: rotate(20deg);
-}
+/* Theme toggle - animations removed for immediate color change */

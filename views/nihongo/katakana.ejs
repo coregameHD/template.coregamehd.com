@@ -145,9 +145,6 @@
                     <div class="card h-100">
                         <div class="card-header">
                             <h3 class="card-title">Preview</h3>
-                            <div class="card-actions">
-                                <button class="btn btn-ghost-secondary btn-sm" id="exampleButton"><i class="fas fa-lightbulb me-2"></i>Example</button>
-                            </div>
                         </div>
                         <div class="card-body p-0 d-flex flex-column">
                             <div class="preview-output flex-grow-1" id="preview"></div>
@@ -155,7 +152,7 @@
                         <div class="card-footer">
                             <div class="d-flex justify-content-between align-items-center">
                                 <button id="clearAllBtn" class="btn btn-outline-danger">
-                                    <i class="fas fa-trash-alt me-2"></i>Clear All
+                                    <i class="fas fa-trash-alt me-2"></i>Clear Draft
                                 </button>
                                 <button class="btn btn-primary" id="copyButtonBottom">
                                     <i class="fas fa-copy me-2"></i>Copy to Clipboard
@@ -200,7 +197,6 @@
         const jlptExamCheckbox = document.getElementById('jlpt-exam');
         const jtestExamCheckbox = document.getElementById('jtest-exam');
         const jtestNoInput = document.getElementById('jtest-no');
-        const exampleButton = document.getElementById('exampleButton');
 
         // Initialize jtest-no input as disabled
         jtestNoInput.disabled = true;
@@ -413,62 +409,42 @@
         const clearAllBtn = document.getElementById('clearAllBtn');
         if (clearAllBtn) {
             clearAllBtn.addEventListener('click', function() {
-                // Clear text inputs
-                textInputs.forEach(input => {
-                    if (input && (input.type === 'text' || input.type === 'textarea')) {
-                        input.value = '';
-                        // Trigger input event to update preview
-                        input.dispatchEvent(new Event('input'));
+                // Show confirmation popup
+                if (confirm('Are you sure you want to clear all draft content? This action cannot be undone.')) {
+                    // Clear text inputs
+                    textInputs.forEach(input => {
+                        if (input && (input.type === 'text' || input.type === 'textarea')) {
+                            input.value = '';
+                            // Trigger input event to update preview
+                            input.dispatchEvent(new Event('input'));
+                        }
+                    });
+                    
+                    // Clear regular select inputs
+                    selectInputs.forEach(select => {
+                        if (select) {
+                            select.selectedIndex = 0;
+                            select.dispatchEvent(new Event('change'));
+                        }
+                    });
+                    
+                    // Clear Tom Select
+                    if (wordTypesSelect) {
+                        wordTypesSelect.clear(true);
                     }
-                });
-                
-                // Clear regular select inputs
-                selectInputs.forEach(select => {
-                    if (select) {
-                        select.selectedIndex = 0;
-                        select.dispatchEvent(new Event('change'));
-                    }
-                });
-                
-                // Clear Tom Select
-                if (wordTypesSelect) {
-                    wordTypesSelect.clear(true);
+                    
+                    // Uncheck checkboxes
+                    checkboxInputs.forEach(checkbox => {
+                        if (checkbox) {
+                            checkbox.checked = false;
+                            // Trigger change event to update dependent fields
+                            checkbox.dispatchEvent(new Event('change'));
+                        }
+                    });
+                    
+                    // Update the preview
+                    updatePreview();
                 }
-                
-                // Uncheck checkboxes
-                checkboxInputs.forEach(checkbox => {
-                    if (checkbox) {
-                        checkbox.checked = false;
-                        // Trigger change event to update dependent fields
-                        checkbox.dispatchEvent(new Event('change'));
-                    }
-                });
-                
-                // Update the preview
-                updatePreview();
-            });
-        }
-
-        // Example button handler to set preview text
-        if (exampleButton) {
-            exampleButton.addEventListener('click', () => {
-                const exampleText = `【คำศัพท์คาตาคานะ】
-
-ハプニング
-English : happening
-เหตุการณ์ไม่คาดฝันที่เกิดขึ้น
-
-※ คำนาม / คำกริยากลุ่ม 3 (する) / อกรรมกริยา (自動詞)
-※ คำศัพท์ JLPT N1
-
-————————————
-ハプニング (happening) หมายถึง เหตุการณ์ไม่คาดฝัน เรื่องที่ไม่คาดคิด ได้เกิดขึ้น
-
-ความหมายเหมือนกับ 意外な出来事
-
-————————————
-▍ภาพจากเกม Meikei no Lupercalia (冥契のルペルカリア)`;
-                previewOutput.textContent = exampleText;
             });
         }
 

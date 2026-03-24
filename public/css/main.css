@@ -391,19 +391,4 @@
     background: #3d4149;
 }
 
-/* Theme toggle button styling */
-#theme-toggle {
-    transition: all 0.3s ease;
-}
-
-#theme-toggle:hover {
-    transform: scale(1.1);
-}
-
-#theme-icon {
-    transition: transform 0.3s ease;
-}
-
-#theme-toggle:hover #theme-icon {
-    transform: rotate(20deg);
-}
+/* Theme toggle button styling - animations removed for immediate color change */

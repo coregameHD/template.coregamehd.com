@@ -50,30 +50,22 @@
             
             // Update icon classes and aria-label
             if (theme === DARK_THEME) {
-                themeIcon.classList.remove('fa-moon');
-                themeIcon.classList.add('fa-sun');
-                themeToggle.setAttribute('aria-label', 'Switch to light mode');
-            } else {
                 themeIcon.classList.remove('fa-sun');
                 themeIcon.classList.add('fa-moon');
+                themeToggle.setAttribute('aria-label', 'Switch to light mode');
+            } else {
+                themeIcon.classList.remove('fa-moon');
+                themeIcon.classList.add('fa-sun');
                 themeToggle.setAttribute('aria-label', 'Switch to dark mode');
             }
         }
         
         // Apply theme
         function applyTheme(theme) {
-            // Prevent transitions during initial load
-            document.body.style.transition = 'none';
-            
-            // Apply the theme
+            // Apply the theme immediately without transitions
             htmlElement.setAttribute('data-bs-theme', theme);
             updateIcon(theme);
             saveTheme(theme);
-            
-            // Re-enable transitions after a short delay
-            setTimeout(() => {
-                document.body.style.transition = 'background-color 0.3s ease, color 0.3s ease';
-            }, 10);
         }
         
         // Toggle theme
