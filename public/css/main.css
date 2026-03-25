@@ -391,4 +391,52 @@
     background: #3d4149;
 }
 
+/* Custom button colors for homepage */
+.btn-pink {
+    background-color: #FF4081;
+    border-color: #FF4081;
+    color: #fff;
+}
+
+.btn-pink:hover {
+    background-color: #ff6699;
+    border-color: #ff6699;
+    color: #fff;
+}
+
+.btn-pink:focus {
+    background-color: #FF4081;
+    border-color: #FF4081;
+    color: #fff;
+}
+
+.btn-purple {
+    background-color: #5C2D8C;
+    border-color: #5C2D8C;
+    color: #fff;
+}
+
+.btn-purple:hover {
+    background-color: #7a3bb3;
+    border-color: #7a3bb3;
+    color: #fff;
+}
+
+.btn-purple:focus {
+    background-color: #5C2D8C;
+    border-color: #5C2D8C;
+    color: #fff;
+}
+
+/* Dark mode styles for custom buttons */
+[data-bs-theme="dark"] .btn-pink:hover {
+    background-color: #ff6699;
+    border-color: #ff6699;
+}
+
+[data-bs-theme="dark"] .btn-purple:hover {
+    background-color: #7a3bb3;
+    border-color: #7a3bb3;
+}
+
 /* Theme toggle button styling - animations removed for immediate color change */
